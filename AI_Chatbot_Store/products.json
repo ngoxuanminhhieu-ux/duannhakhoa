@@ -1,0 +1,50 @@
+[
+  {
+    "id": "P01",
+    "name": "Laptop Lenovo LOQ 15",
+    "price": 18500000,
+    "stock": 10,
+    "gpu": "RTX 3050",
+    "discount": "Giảm 5% cho sinh viên"
+  },
+  {
+    "id": "P02",
+    "name": "Laptop ASUS TUF Gaming A15",
+    "price": 22900000,
+    "stock": 5,
+    "gpu": "RTX 4060",
+    "discount": "Tặng balo cao cấp"
+  },
+  {
+    "id": "P03",
+    "name": "Laptop Acer Nitro 5",
+    "price": 19200000,
+    "stock": 0,
+    "gpu": "RTX 3050Ti",
+    "discount": "Không có"
+  },
+  {
+    "id": "P04",
+    "name": "Chuột Gaming Logitech G102",
+    "price": 450000,
+    "stock": 50,
+    "gpu": "N/A",
+    "discount": "Giảm 10%"
+  },
+  {
+    "id": "P05",
+    "name": "Laptop MSI Gaming GF63",
+    "price": 15990000,
+    "stock": 8,
+    "gpu": "GTX 1650",
+    "discount": "Tặng chuột không dây"
+  },
+  {
+    "id": "P06",
+    "name": "Bàn phím cơ AKKO 3087",
+    "price": 1250000,
+    "stock": 25,
+    "gpu": "N/A",
+    "discount": "Giảm 15%"
+  }
+]

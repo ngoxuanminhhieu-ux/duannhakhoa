@@ -1,0 +1,47 @@
+[
+  {
+    "id": "NK-849201",
+    "name": "Nguyễn Văn Hùng",
+    "phone": "0912345678",
+    "email": "hung.nguyen@gmail.com",
+    "service_id": "DV08",
+    "service_name": "Cấy Ghép Implant Straumann / Osstem",
+    "doctor_id": "BS01",
+    "doctor_name": "ThS. Bác sĩ Nguyễn Văn An",
+    "date": "2026-09-05",
+    "time": "09:30",
+    "notes": "Tư vấn cấy Implant răng hàm dưới bên trái.",
+    "status": "Đã xác nhận",
+    "created_at": "2026-09-04 10:15:00"
+  },
+  {
+    "id": "NK-712390",
+    "name": "Lê Thị Thu",
+    "phone": "0987654321",
+    "email": "thule@gmail.com",
+    "service_id": "DV07",
+    "service_name": "Niềng Răng Trong Suốt Invisalign USA",
+    "doctor_id": "BS02",
+    "doctor_name": "BS.CKI Trần Thị Mai",
+    "date": "2026-09-05",
+    "time": "14:00",
+    "notes": "Muốn tư vấn khay niềng tháo lắp Invisalign.",
+    "status": "Chờ xác nhận",
+    "created_at": "2026-09-04 11:30:00"
+  },
+  {
+    "id": "NK-556102",
+    "name": "Trần Quang Minh",
+    "phone": "0909123456",
+    "email": "minhtran@yahoo.com",
+    "service_id": "DV04",
+    "service_name": "Nhổ Răng Khôn Không Đau Piezotome",
+    "doctor_id": "BS04",
+    "doctor_name": "BS. Phạm Minh Tuấn",
+    "date": "2026-09-06",
+    "time": "10:00",
+    "notes": "Răng số 8 hàm dưới đang bị sưng nhẹ.",
+    "status": "Chờ xác nhận",
+    "created_at": "2026-09-04 13:45:00"
+  }
+]

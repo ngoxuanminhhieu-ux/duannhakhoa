@@ -1,0 +1,192 @@
+[
+  {
+    "id": "DV01",
+    "name": "Khám Răng Tổng Quát & Tư Vấn AI",
+    "category": "Khám tổng quát",
+    "category_slug": "general",
+    "price_range": "Miễn phí - 200.000 VNĐ",
+    "min_price": 0,
+    "max_price": 200000,
+    "image": "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=600&auto=format&fit=crop&q=80",
+    "description": "Kiểm tra toàn diện sức khỏe răng miệng, chụp X-quang Panorama và lập kế hoạch điều trị cá nhân hóa.",
+    "duration": "30 - 45 phút",
+    "warranty": "Tư vấn miễn phí tái khám",
+    "procedure": [
+      "Thăm khám lâm sàng và kiểm tra nướu",
+      "Chụp X-quang Panorama 3D toàn cảnh",
+      "Phân tích phim và tư vấn tình trạng răng",
+      "Lập phác đồ điều trị và báo giá minh bạch"
+    ]
+  },
+  {
+    "id": "DV02",
+    "name": "Lấy Cao Răng & Đánh Bóng Thạch Anh",
+    "category": "Khám tổng quát",
+    "category_slug": "general",
+    "price_range": "150.000 - 300.000 VNĐ",
+    "min_price": 150000,
+    "max_price": 300000,
+    "image": "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=600&auto=format&fit=crop&q=80",
+    "description": "Làm sạch mảng bám vi khuẩn bằng sóng siêu âm Cavitron Gentle, đánh bóng bề mặt răng ngăn ngừa mảng bám.",
+    "duration": "30 phút",
+    "warranty": "Khuyên dùng định kỳ 6 tháng/lần",
+    "procedure": [
+      "Vệ sinh khoang miệng ban đầu",
+      "Làm sạch cao răng bằng đầu siêu âm không đau",
+      "Đánh bóng bề mặt răng bằng chổi chuyên dụng",
+      "Thoa gel nha khoa bảo vệ men răng"
+    ]
+  },
+  {
+    "id": "DV03",
+    "name": "Trám Răng Thẩm Mỹ Composite 3M",
+    "category": "Điều trị",
+    "category_slug": "treatment",
+    "price_range": "300.000 - 600.000 VNĐ / răng",
+    "min_price": 300000,
+    "max_price": 600000,
+    "image": "https://images.unsplash.com/photo-1606811841689-23dfddce3e95?w=600&auto=format&fit=crop&q=80",
+    "description": "Tái tạo hình dáng răng sâu, nứt vỡ bằng vật liệu Composite Nano 3M USA trùng màu răng tự nhiên.",
+    "duration": "30 - 40 phút / răng",
+    "warranty": "Bảo hành 2 năm",
+    "procedure": [
+      "Làm sạch tổ chức mô răng sâu",
+      "Sửa sửa bề mặt răng và thoa keo kết dính",
+      "Đắp từng lớp vật liệu Composite thẩm mỹ",
+      "Chiếu đèn quang hóa và đánh bóng tự nhiên"
+    ]
+  },
+  {
+    "id": "DV04",
+    "name": "Nhổ Răng Khôn Không Đau Piezotome",
+    "category": "Điều trị",
+    "category_slug": "treatment",
+    "price_range": "1.200.000 - 3.500.000 VNĐ / răng",
+    "min_price": 1200000,
+    "max_price": 3500000,
+    "image": "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=600&auto=format&fit=crop&q=80",
+    "description": "Ứng dụng công nghệ sóng siêu âm Piezotome bóc tách mô êm ái, nhổ răng khôn mọc lệch, mọc ngầm an toàn.",
+    "duration": "20 - 45 phút / răng",
+    "warranty": "Theo dõi lành thương miễn phí",
+    "procedure": [
+      "Chụp phim CT Cone Beam 3D xác định dây thần kinh",
+      "Gây tê cục bộ không đau",
+      "Sử dụng máy siêu âm Piezotome chia chân răng",
+      "Gắp răng êm ái và khâu vết thương với chỉ tự tiêu"
+    ]
+  },
+  {
+    "id": "DV05",
+    "name": "Điều Trị Tủy Răng Vi Phẫu",
+    "category": "Điều trị",
+    "category_slug": "treatment",
+    "price_range": "800.000 - 2.000.000 VNĐ / răng",
+    "min_price": 800000,
+    "max_price": 2000000,
+    "image": "https://images.unsplash.com/photo-1609840114035-3c981b782dfe?w=600&auto=format&fit=crop&q=80",
+    "description": "Làm sạch và hàn kín hệ thống ống tủy nhiễm trùng bằng kính vi phẫu và máy đo chiều dài ống tủy định vị.",
+    "duration": "2 - 3 buổi hẹn",
+    "warranty": "Bảo hành 3 năm",
+    "procedure": [
+      "Mở tủy và định vị chiều dài ống tủy chuẩn xác",
+      "Làm sạch, tạo hình và bơm rửa sát khuẩn ống tủy",
+      "Hàn kín ống tủy bằng Gutta-percha nóng chảy",
+      "Hàn khôi phục thân răng hoặc chỉ định bọc sứ"
+    ]
+  },
+  {
+    "id": "DV06",
+    "name": "Niềng Răng Mắc Cài Kim Loại / Sứ Thẩm Mỹ",
+    "category": "Chỉnh nha",
+    "category_slug": "orthodontics",
+    "price_range": "25.000.000 - 45.000.000 VNĐ / 2 hàm",
+    "min_price": 25000000,
+    "max_price": 45000000,
+    "image": "https://images.unsplash.com/photo-1598256989800-fe5f95da9787?w=600&auto=format&fit=crop&q=80",
+    "description": "Nắn chỉnh răng hô, móm, lệch lạc bằng mắc cài kim loại tự buộc hoặc mắc cài sứ trong suốt cao cấp.",
+    "duration": "18 - 24 tháng",
+    "warranty": "Cam kết kết quả chuẩn phác đồ",
+    "procedure": [
+      "Lấy dấu hàm 3D và lập phác đồ dịch chuyển răng ClinCheck",
+      "Gắn mắc cài chuẩn khớp cắn",
+      "Tái khám định kỳ 4 - 6 tuần/lần để siết dây cung",
+      "Tháo mắc cài và đeo hàm duy trì"
+    ]
+  },
+  {
+    "id": "DV07",
+    "name": "Niềng Răng Trong Suốt Invisalign USA",
+    "category": "Chỉnh nha",
+    "category_slug": "orthodontics",
+    "price_range": "60.000.000 - 100.000.000 VNĐ / trọn gói",
+    "min_price": 60000000,
+    "max_price": 100000000,
+    "image": "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=600&auto=format&fit=crop&q=80",
+    "description": "Công nghệ niềng răng vô hình hiện đại nhất thế giới từ Mỹ, khay niềng tháo lắp linh hoạt, thẩm mỹ tuyệt đối.",
+    "duration": "12 - 20 tháng",
+    "warranty": "Bảo hành kết quả trọn đời",
+    "procedure": [
+      "Scan răng 3D iTero Element 5D xem trước kết quả",
+      "Lập kế hoạch 3D số hóa bởi Bác sĩ Chuyên gia",
+      "Nhận chuỗi khay niềng Invisalign độc quyền từ Mỹ",
+      "Thay khay mỗi 2 tuần tại nhà và tái khám 2 tháng/lần"
+    ]
+  },
+  {
+    "id": "DV08",
+    "name": "Cấy Ghép Implant Straumann / Osstem",
+    "category": "Implant",
+    "category_slug": "implant",
+    "price_range": "13.000.000 - 32.000.000 VNĐ / trụ",
+    "min_price": 13000000,
+    "max_price": 32000000,
+    "image": "https://images.unsplash.com/photo-1629909615184-74f495363b67?w=600&auto=format&fit=crop&q=80",
+    "description": "Phục hình răng mất hoàn hảo bằng trụ Implant Thụy Sĩ/Hàn Quốc cắm trực tiếp vào xương hàm, khôi phục 99% sức ăn nhai.",
+    "duration": "20 - 30 phút cắm trụ",
+    "warranty": "Bảo hành trụ Implant trọn đời",
+    "procedure": [
+      "Chụp phim CT Cone Beam khảo sát mật độ xương",
+      "Cấy trụ Implant an toàn chuẩn y khoa",
+      "Đặt khớp nối Abutment và gắn răng tạm",
+      "Gắn mão răng sứ cố định sau khi tích hợp xương"
+    ]
+  },
+  {
+    "id": "DV09",
+    "name": "Bọc Răng Sứ Thẩm Mỹ Cercon / Emax",
+    "category": "Thẩm mỹ",
+    "category_slug": "cosmetic",
+    "price_range": "3.500.000 - 8.000.000 VNĐ / răng",
+    "min_price": 3500000,
+    "max_price": 8000000,
+    "image": "https://images.unsplash.com/photo-1606811841689-23dfddce3e95?w=600&auto=format&fit=crop&q=80",
+    "description": "Khắc phục răng ố vàng, mẻ, xấu bằng mão toàn sứ Cercon HT / Emax Đức sang trọng, chịu lực gấp 5 lần răng thật.",
+    "duration": "2 - 3 ngày hoàn thiện",
+    "warranty": "Bảo hành chính hãng 10 - 15 năm",
+    "procedure": [
+      "Thăm khám và thiết kế nụ cười Smile Design 3D",
+      "Sửa soạn cùi răng cực ít bảo tồn răng thật",
+      "Scan mẫu răng lấy dấu kỹ thuật số",
+      "Gắn mão sứ thẩm mỹ tinh xảo"
+    ]
+  },
+  {
+    "id": "DV10",
+    "name": "Tẩy Trắng Răng Laser Flash Công Nghệ Đức",
+    "category": "Thẩm mỹ",
+    "category_slug": "cosmetic",
+    "price_range": "1.800.000 - 3.500.000 VNĐ / liệu trình",
+    "min_price": 1800000,
+    "max_price": 3500000,
+    "image": "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=600&auto=format&fit=crop&q=80",
+    "description": "Bật 3 - 5 tông răng sáng bóng chỉ sau 45 phút nhờ ánh sáng Laser lạnh kết hợp gel tẩy trắng chính hãng, không ê buốt.",
+    "duration": "45 - 60 phút",
+    "warranty": "Giữ màu trắng sáng 2 - 3 năm",
+    "procedure": [
+      "Cách ly nướu và môi an toàn",
+      "Thoa thuốc tẩy trắng Laser cao cấp",
+      "Chiếu chùm ánh sáng Laser Flash 30 phút",
+      "Vệ sinh và thoa kem chống ê buốt"
+    ]
+  }
+]

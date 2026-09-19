@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dental_web
+    restart: always
+    ports:
+      - "8090:80"
+    volumes:
+      - ./web:/var/www/html
+    environment:
+      - DB_HOST=db
+      - DB_NAME=dental_clinic
+      - DB_USER=dental_user
+      - DB_PASSWORD=dental_password
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    depends_on:
+      - db
+    networks:
+      - dental-network
+
+  db:
+    image: mysql:8.0
+    container_name: dental_db
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: dental_clinic
+      MYSQL_USER: dental_user
+      MYSQL_PASSWORD: dental_password
+    volumes:
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - db_data:/var/lib/mysql
+    networks:
+      - dental-network
+
+networks:
+  dental-network:
+    driver: bridge
+
+volumes:
+  db_data:

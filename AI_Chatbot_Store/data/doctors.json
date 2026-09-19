@@ -1,0 +1,46 @@
+[
+  {
+    "id": "BS01",
+    "name": "ThS. Bác sĩ Nguyễn Văn An",
+    "title": "Trưởng Khoa Cấy Ghép Implant & Phục Hình",
+    "specialty": "Implant & Phục Hình Răng Sứ",
+    "experience": "15+ năm kinh nghiệm",
+    "degree": "Thạc sĩ Răng Hàm Mặt - Đại học Y Dược TP.HCM",
+    "image": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=600&auto=format&fit=crop&q=80",
+    "description": "Chuyên gia hàng đầu về cấy ghép Implant toàn hàm All-on-4 / All-on-6. Đã thực hiện thành công hơn 3.000 ca Implant phức tạp.",
+    "schedule": "Thứ 2 - Thứ 6 (08:00 - 17:00)"
+  },
+  {
+    "id": "BS02",
+    "name": "BS.CKI Trần Thị Mai",
+    "title": "Chuyên Gia Chỉnh Nha & Invisalign",
+    "specialty": "Niềng Răng Mắc Cài & Invisalign",
+    "experience": "12 năm kinh nghiệm",
+    "degree": "Bác sĩ CKI Chỉnh Nha - Chứng chỉ Invisalign Platinum",
+    "image": "https://images.unsplash.com/photo-1594824813571-24a69c100d3d?w=600&auto=format&fit=crop&q=80",
+    "description": "Tu nghiệp chuyên sâu Chỉnh nha tại Pháp và Mỹ. Đã đem lại nụ cười chuẩn tỷ lệ vàng cho hơn 2.500 khách hàng.",
+    "schedule": "Thứ 3 - Chủ Nhật (08:30 - 18:00)"
+  },
+  {
+    "id": "BS03",
+    "name": "BS. Lê Hoàng Nam",
+    "title": "Chuyên Gia Thẩm Mỹ Răng Sứ & Smile Design",
+    "specialty": "Răng Sứ Thẩm Mỹ & Tẩy Trắng Răng",
+    "experience": "10 năm kinh nghiệm",
+    "degree": "Bác sĩ Răng Hàm Mặt - Tu nghiệp Smile Design Đức",
+    "image": "https://images.unsplash.com/photo-1537368910025-700350fe46c7?w=600&auto=format&fit=crop&q=80",
+    "description": "Kỹ thuật dán sứ Veneer bảo tồn răng thật tối đa. Thiết kế dáng răng phong thủy và sang trọng.",
+    "schedule": "Thứ 2 - Thứ 7 (08:00 - 19:00)"
+  },
+  {
+    "id": "BS04",
+    "name": "BS. Phạm Minh Tuấn",
+    "title": "Chuyên Khoa Nha Khoa Trẻ Em & Tiểu Phẫu",
+    "specialty": "Nha Khoa Trẻ Em & Nhổ Răng Khôn",
+    "experience": "8 năm kinh nghiệm",
+    "degree": "Bác sĩ Chuyên Khoa Răng Hàm Mặt",
+    "image": "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=600&auto=format&fit=crop&q=80",
+    "description": "Thân thiện, ân cần với trẻ em. Làm chủ kỹ thuật nhổ răng siêu âm Piezotome không đau.",
+    "schedule": "Tất cả các ngày trong tuần (08:00 - 20:00)"
+  }
+]
