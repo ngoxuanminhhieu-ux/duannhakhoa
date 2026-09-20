@@ -395,5 +395,6 @@ async def serve_frontend(full_path: str):
 
 if __name__ == "__main__":
     import uvicorn
-    print("[Server] Dang khoi chay Nha Khoa Premier Web Server tai http://localhost:8000 ...")
-    uvicorn.run("server:app", host="0.0.0.0", port=8000, reload=True)
+    port = int(os.getenv("PORT", 8000))
+    print(f"[Server] Dang khoi chay Nha Khoa Premier Web Server tai http://0.0.0.0:{port} ...")
+    uvicorn.run("server:app", host="0.0.0.0", port=port)
