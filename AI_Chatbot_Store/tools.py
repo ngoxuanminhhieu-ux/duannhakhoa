@@ -83,18 +83,31 @@ def search_doctors(specialty="", name=""):
     doctors = load_doctors()
     results = []
 
-    sp = str(specialty).strip().lower() if specialty and str(specialty).lower() not in ["none", "null"] else ""
-    nm = str(name).strip().lower() if name and str(name).lower() not in ["none", "null"] else ""
+    query_str = (str(specialty) + " " + str(name)).strip().lower()
+    
+    # Extract specialty keywords if full sentence provided
+    spec_kw = ""
+    for kw in ["chỉnh nha", "niềng răng", "implant", "tổng quát", "thẩm mỹ", "nhổ răng", "trẻ em"]:
+        if kw in query_str:
+            spec_kw = kw
+            break
 
     for d in doctors:
         d_name = d.get("name", "").lower()
         d_spec = d.get("specialty", "").lower()
         d_title = d.get("title", "").lower()
 
-        match_sp = (sp in d_spec or sp in d_title) if sp else True
-        match_nm = (nm in d_name) if nm else True
+        match = False
+        if spec_kw:
+            if spec_kw in d_spec or spec_kw in d_title or spec_kw in d_name:
+                match = True
+        elif query_str:
+            if any(w in d_name or w in d_spec or w in d_title for w in query_str.split() if len(w) > 2):
+                match = True
+        else:
+            match = True
 
-        if match_sp and match_nm:
+        if match:
             results.append({
                 "id": d["id"],
                 "name": d["name"],
@@ -103,6 +116,17 @@ def search_doctors(specialty="", name=""):
                 "experience": d["experience"],
                 "schedule": d.get("schedule", "")
             })
+
+    # Fallback to returning all doctors if no specific match was found
+    if not results:
+        results = [{
+            "id": d["id"],
+            "name": d["name"],
+            "title": d["title"],
+            "specialty": d["specialty"],
+            "experience": d["experience"],
+            "schedule": d.get("schedule", "")
+        } for d in doctors]
 
     return json.dumps(results, ensure_ascii=False, indent=2)
 
@@ -172,42 +196,62 @@ def book_appointment_tool(name="", phone="", service_id="", doctor_id="", date="
     }, ensure_ascii=False, indent=2)
 
 def search_policies(query):
-    """Tra cứu quy định khám, bảo hành, vô trùng, trả góp 0% từ CSDL chính sách phòng khám."""
-    try:
-        import chromadb
-        from chromadb.utils import embedding_functions
-
-        if os.path.exists(VECTOR_DB_DIR):
-            chroma_client = chromadb.PersistentClient(path=VECTOR_DB_DIR)
-            embedding_func = embedding_functions.SentenceTransformerEmbeddingFunction(model_name="all-MiniLM-L6-v2")
-            collection = chroma_client.get_collection(
-                name="dental_policies",
-                embedding_function=embedding_func
-            )
-            results = collection.query(
-                query_texts=[query],
-                n_results=2
-            )
-            if results and "documents" in results and results["documents"]:
-                retrieved_docs = results["documents"][0]
-                return json.dumps({"retrieved_policies": retrieved_docs}, ensure_ascii=False, indent=2)
-    except Exception:
-        pass
+    """Tra cứu quy định khám, bảo hành, vô trùng, trả góp 0%, địa chỉ, giờ làm việc từ CSDL chính sách phòng khám."""
+    query_lower = query.lower()
 
     if os.path.exists(POLICY_FILE):
-        with open(POLICY_FILE, "r", encoding="utf-8") as f:
-            lines = [l.strip() for l in f.readlines() if l.strip()]
+        try:
+            with open(POLICY_FILE, "r", encoding="utf-8") as f:
+                content = f.read()
+                lines = [l.strip() for l in content.split("\n") if l.strip() and not l.startswith("=")]
 
-        matched_lines = []
-        q_words = query.lower().split()
-        for line in lines:
-            if any(term in line.lower() for term in q_words if len(term) > 2):
-                matched_lines.append(line)
+            # Topic-based Section Matching
+            matched_lines = []
 
-        if not matched_lines:
-            matched_lines = lines[:15]
+            # Address & Operating Hours
+            if any(term in query_lower for term in ["địa chỉ", "ở đâu", "giờ làm", "mấy giờ", "mở cửa", "đóng cửa", "hotline", "sđt", "điện thoại", "liên hệ", "vị trí"]):
+                matched_lines.extend([l for l in lines if any(k in l.lower() for k in ["địa chỉ", "hotline", "giờ làm việc", "thứ 2", "chủ nhật", "đặt lịch"])])
 
-        return json.dumps({"retrieved_policies": matched_lines}, ensure_ascii=False, indent=2)
+            # Payment & 0% Installment
+            if any(term in query_lower for term in ["trả góp", "thanh toán", "thẻ", "bảo hiểm", "vat", "hóa đơn", "tiền mặt", "chuyển khoản"]):
+                matched_lines.extend([l for l in lines if any(k in l.lower() for k in ["trả góp", "thanh toán", "bảo hiểm", "thẻ tín dụng", "trả trước"])])
+
+            # Warranty Policies
+            if any(term in query_lower for term in ["bảo hành", "trọn đời", "thẻ bảo hành", "qr code"]):
+                matched_lines.extend([l for l in lines if any(k in l.lower() for k in ["bảo hành", "bọc răng sứ", "implant", "trám răng", "niềng răng"])])
+
+            # Sterilization & Safety
+            if any(term in query_lower for term in ["vô trùng", "an toàn", "dụng cụ", "iso", "lò hấp", "lây nhiễm"]):
+                matched_lines.extend([l for l in lines if any(k in l.lower() for k in ["vô trùng", "dụng cụ", "iso", "ghế nha khoa"])])
+
+            # Consultation & X-ray
+            if any(term in query_lower for term in ["miễn phí", "x-quang", "panorama", "phác đồ"]):
+                matched_lines.extend([l for l in lines if any(k in l.lower() for k in ["miễn phí", "x-quang", "phác đồ", "tư vấn"])])
+
+            # Generic Scoring Fallback if specific section match wasn't triggered or gave few results
+            if len(matched_lines) < 2:
+                stop_words = {"phòng", "khám", "nha", "khoa", "cho", "tôi", "hỏi", "về", "là", "gì", "được", "không", "thế", "nào", "có", "này", "của"}
+                q_words = [w for w in query_lower.replace("?", "").replace(",", "").split() if len(w) > 2 and w not in stop_words]
+
+                scored_lines = []
+                for line in lines:
+                    line_l = line.lower()
+                    score = sum(1 for w in q_words if w in line_l)
+                    if score > 0:
+                        scored_lines.append((score, line))
+
+                scored_lines.sort(key=lambda x: x[0], reverse=True)
+                matched_lines = [item[1] for item in scored_lines[:5]]
+
+            if matched_lines:
+                # Deduplicate preserving order
+                seen = set()
+                unique_matched = [x for x in matched_lines if not (x in seen or seen.add(x))]
+                return json.dumps({"retrieved_policies": unique_matched[:6]}, ensure_ascii=False, indent=2)
+
+            return json.dumps({"retrieved_policies": lines[4:12]}, ensure_ascii=False, indent=2)
+        except Exception:
+            pass
 
     return json.dumps({"error": "Không tìm thấy CSDL chính sách phòng khám"}, ensure_ascii=False)
 

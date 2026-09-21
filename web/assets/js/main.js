@@ -37,12 +37,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
       // Append Loading indicator
       const loadingId = 'loading-' + Date.now();
-      appendMessage('bot', '<i class="fas fa-ellipsis-h fa-pulse me-2"></i> AI đang suy nghĩ...', loadingId);
+      appendMessage('bot', '<i class="fas fa-spinner fa-spin me-2"></i> AI đang suy nghĩ...', loadingId);
 
-      // Determine Chatbot API path based on location
-      const chatApiPath = window.location.pathname.includes('/pages/') 
-        ? '../chatbot/chat.php' 
-        : (window.location.pathname.includes('/admin/') ? '../chatbot/chat.php' : 'chatbot/chat.php');
+      // Determine Chatbot API path based on location or global config
+      let chatApiPath = window.CHAT_API_PATH || 'chatbot/chat.php';
+      const pathname = window.location.pathname;
+      if (!window.CHAT_API_PATH) {
+        if (pathname.includes('/pages/') || pathname.includes('/admin/')) {
+          chatApiPath = '../chatbot/chat.php';
+        } else if (pathname.endsWith('/') || pathname.endsWith('/index.php')) {
+          chatApiPath = 'chatbot/chat.php';
+        }
+      }
 
       fetch(chatApiPath, {
         method: 'POST',
@@ -51,22 +57,29 @@ document.addEventListener('DOMContentLoaded', function () {
         },
         body: JSON.stringify({ message: message })
       })
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
       .then(data => {
         // Remove loading message
         const loadingElement = document.getElementById(loadingId);
         if (loadingElement) loadingElement.remove();
 
-        if (data.success && data.reply) {
+        if (data && data.reply) {
           appendMessage('bot', data.reply);
+        } else if (data && data.error) {
+          appendMessage('bot', '⚠️ ' + data.error);
         } else {
-          appendMessage('bot', data.error || 'Xin lỗi, không thể kết nối đến AI. Vui lòng thử lại sau.');
+          appendMessage('bot', 'Xin lỗi, không nhận được phản hồi từ trợ lý AI. Vui lòng thử lại sau.');
         }
       })
       .catch(err => {
         const loadingElement = document.getElementById(loadingId);
         if (loadingElement) loadingElement.remove();
-        appendMessage('bot', 'Đã xảy ra lỗi kết nối. Vui lòng thử lại sau!');
+        appendMessage('bot', '⚠️ Đã xảy ra lỗi kết nối. Vui lòng kiểm tra lại mạng hoặc thử lại sau!');
       });
     }
 
@@ -88,8 +101,19 @@ document.addEventListener('DOMContentLoaded', function () {
       msgDiv.classList.add('chat-msg', sender);
       if (customId) msgDiv.id = customId;
 
-      // Format line breaks
-      msgDiv.innerHTML = text.replace(/\n/g, '<br>');
+      if (customId && text.includes('fa-spinner')) {
+        msgDiv.innerHTML = text;
+      } else {
+        // Format markdown bold, italic, code, bullets & line breaks
+        let formattedText = text
+          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+          .replace(/\*(.*?)\*/g, '<em>$1</em>')
+          .replace(/`([^`]+)`/g, '<code>$1</code>')
+          .replace(/^[•\-*]\s+(.*)$/gm, '• $1')
+          .replace(/\n/g, '<br>');
+
+        msgDiv.innerHTML = formattedText;
+      }
 
       chatbotMessages.appendChild(msgDiv);
       chatbotMessages.scrollTop = chatbotMessages.scrollHeight;

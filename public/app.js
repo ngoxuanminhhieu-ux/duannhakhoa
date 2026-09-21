@@ -642,13 +642,17 @@ async function sendChatMessage() {
 
 function appendMessage(text, role) {
     const messagesContainer = document.getElementById('chatMessages');
+    if (!messagesContainer) return;
+
     const bubble = document.createElement('div');
     bubble.className = `message-bubble ${role}`;
 
-    // Format markdown bold & linebreaks
+    // Format markdown bold, italic, code, bullets & linebreaks
     let formattedText = text
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
         .replace(/`([^`]+)`/g, '<code>$1</code>')
+        .replace(/^[•\-*]\s+(.*)$/gm, '• $1')
         .replace(/\n/g, '<br>');
 
     bubble.innerHTML = `

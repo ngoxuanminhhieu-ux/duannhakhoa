@@ -17,9 +17,11 @@ def run_tests():
     pipeline = CustomerServicePipeline()
 
     test_queries = [
-        "Cho tôi xem laptop card RTX dưới 20 triệu",
-        "Tôi muốn mua 2 chiếc Lenovo LOQ P01 thì hết bao nhiêu tiền?",
-        "Chính sách đổi trả và bảo hành sản phẩm của cửa hàng như thế nào?"
+        "Xin chào, phòng khám tư vấn giúp tôi",
+        "Giá cạo vôi răng và trám răng bao nhiêu tiền?",
+        "Bác sĩ Chỉnh nha niềng răng tại phòng khám là ai?",
+        "Tôi là Nguyễn Văn A, SĐT 0912345678 muốn đặt lịch hẹn niềng răng vào sáng mai",
+        "Địa chỉ phòng khám ở đâu và làm việc đến mấy giờ?"
     ]
 
     for i, q in enumerate(test_queries, 1):

@@ -14,12 +14,13 @@ $options = [
     PDO::ATTR_EMULATE_PREPARES   => false,
 ];
 
+$pdo = null;
 try {
     $pdo = new PDO($dsn, $user, $pass, $options);
     $pdo->exec("SET NAMES utf8mb4");
 } catch (\PDOException $e) {
-    // Return friendly error if database is not reachable yet
-    die("Lỗi kết nối cơ sở dữ liệu: " . $e->getMessage());
+    // Soft error handling: set $pdo = null so API/Chatbot can still function without database
+    $pdo = null;
 }
 
 /**
