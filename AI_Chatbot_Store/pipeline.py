@@ -201,6 +201,18 @@ Không thêm giải thích.
         ):
             intent = "POLICY"
 
+        elif any(w in query_lower for w in ["ictu", "đại học thái nguyên", "trường nào", "cntt", "tnut", "tump", "tueba"]):
+            intent = "UNIVERSITY"
+
+        elif any(w in query_lower for w in ["bạn là ai", "mày là ai", "tên gì", "giới thiệu", "chatbot là gì", "ai tạo ra", "em là ai"]):
+            intent = "IDENTITY"
+
+        elif any(w in query_lower for w in ["thời tiết", "mưa", "nắng", "nhiệt độ", "hôm nay thế nào"]):
+            intent = "WEATHER"
+
+        elif any(w in query_lower for w in ["cảm ơn", "thanks", "thank you", "tạm biệt", "bye"]):
+            intent = "GRATITUDE"
+
         elif any(w in query_lower for w in ["chào", "hi", "hello", "xin chào", "tư vấn"]):
             intent = "GREETING"
 
@@ -220,6 +232,58 @@ Không thêm giải thích.
         """Step 2: Python gọi trực tiếp các Tool / RAG."""
 
         query_lower = query.lower()
+
+        # =====================================================
+        # IDENTITY & UNIVERSITY & OUTSIDE TOPICS
+        # =====================================================
+        if intent == "UNIVERSITY":
+            self.logs.append("[Step 2 - Tool]: University / ICTU intent detected")
+            return json.dumps({
+                "type": "direct_reply",
+                "message": (
+                    "🎓 **ICTU là Trường Đại học Công nghệ Thông tin & Truyền thông** (thuộc Đại học Thái Nguyên).\n\n"
+                    "Đây là trường đại học công lập trọng điểm hàng đầu tại khu vực Trung du và Miền núi phía Bắc về đào tạo Công nghệ Thông tin, Kỹ thuật Phần mềm và Trí tuệ Nhân tạo.\n\n"
+                    "📌 Dự án **Hệ Thống Website & AI Chatbot Nha Khoa Quốc Tế Premier** là đề án ứng dụng thực tiễn được nghiên cứu và phát triển bởi sinh viên ICTU, tích hợp công nghệ AI tư vấn 24/7, RAG tri thức y khoa và sàng lọc nha khoa số!"
+                )
+            }, ensure_ascii=False)
+
+        if intent == "IDENTITY":
+            self.logs.append("[Step 2 - Tool]: Identity intent detected")
+            return json.dumps({
+                "type": "direct_reply",
+                "message": (
+                    "👋 Xin chào bạn! Tôi là **Chuyên gia Tư vấn AI Toàn năng của Nha Khoa Quốc Tế Premier Dental Clinic**.\n\n"
+                    "Tôi được phát triển bởi nhóm sinh viên **Trường Đại học Công nghệ Thông tin & Truyền thông (ICTU) - Đại học Thái Nguyên**, ứng dụng mô hình RAG kết hợp Tri thức Y khoa Nha khoa chuyên sâu.\n\n"
+                    "🌟 **Tôi có thể hỗ trợ bạn:**\n"
+                    "• 🩺 Tư vấn chẩn đoán ban đầu mọi triệu chứng răng miệng (đau nhức, sâu răng, ê buốt, viêm nướu...)\n"
+                    "• 🦷 Hướng dẫn chi tiết các dịch vụ: Trồng răng Implant, Niềng răng Chỉnh nha, Bọc răng sứ, Nhổ răng khôn Piezotome, Lấy tủy vi phẫu...\n"
+                    "• 💰 Tra cứu Bảng giá niêm yết chính thức & Chính sách Trả góp 0% lãi suất\n"
+                    "• 👨‍⚕️ Cung cấp hồ sơ đội ngũ Bác sĩ chuyên khoa\n"
+                    "• 📅 Hỗ trợ đặt lịch khám ưu tiên miễn phí 100% chụp X-quang 3D CT ConeBeam.\n\n"
+                    "Bạn cần tôi giải đáp thắc mắc gì hôm nay?"
+                )
+            }, ensure_ascii=False)
+
+        if intent == "WEATHER":
+            self.logs.append("[Step 2 - Tool]: Weather intent detected")
+            return json.dumps({
+                "type": "direct_reply",
+                "message": (
+                    "🌤️ Thời tiết có thể thay đổi thất thường theo mùa, bạn nhớ chú ý giữ gìn sức khỏe, uống đủ nước và giữ ấm cổ họng nhé!\n\n"
+                    "💡 *Mẹo chăm sóc răng miệng khi giao mùa:* Khi trời trở lạnh, những răng bị mòn men hoặc sâu ngà rất dễ bị ê buốt. Bạn nên dùng nước ấm và kem đánh răng chuyên dụng chống ê buốt.\n\n"
+                    "Tôi là Trợ lý AI Nha Khoa Premier, bạn cần tư vấn vấn đề gì về răng miệng hôm nay không ạ?"
+                )
+            }, ensure_ascii=False)
+
+        if intent == "GRATITUDE":
+            self.logs.append("[Step 2 - Tool]: Gratitude intent detected")
+            return json.dumps({
+                "type": "direct_reply",
+                "message": (
+                    "Dạ không có gì ạ! Rất vui được hỗ trợ và đồng hành cùng bạn chăm sóc nụ cười sáng khỏe! 😊\n\n"
+                    "Nếu cần thêm bất kỳ thông tin nào về chăm sóc răng miệng hay đặt lịch khám, bạn cứ nhắn tin cho em bất cứ lúc nào nhé. Chúc bạn một ngày thật nhiều niềm vui và luôn tự tin với nụ cười của mình! ✨"
+                )
+            }, ensure_ascii=False)
 
         # =====================================================
         # GREETING
@@ -450,7 +514,7 @@ Hãy tạo câu trả lời cuối cùng cho khách hàng.
             data = raw_data
 
         if isinstance(data, dict):
-            if data.get("type") == "greeting" or data.get("message") and "Xin chào" in data.get("message", ""):
+            if data.get("type") in ["greeting", "direct_reply"] or (data.get("message") and "Xin chào" in data.get("message", "")):
                 return data["message"]
 
             elif data.get("need_info"):

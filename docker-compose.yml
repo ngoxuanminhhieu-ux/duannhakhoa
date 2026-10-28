@@ -8,6 +8,7 @@ services:
     container_name: dental_web
     restart: always
     ports:
+      - "8080:80"
       - "8090:80"
     volumes:
       - ./web:/var/www/html
@@ -34,7 +35,7 @@ services:
       MYSQL_USER: dental_user
       MYSQL_PASSWORD: dental_password
     volumes:
-      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./database/backup_demo.sql:/docker-entrypoint-initdb.d/init.sql
       - db_data:/var/lib/mysql
     networks:
       - dental-network

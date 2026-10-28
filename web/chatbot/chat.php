@@ -226,8 +226,53 @@ function requestGeminiAI($model, $apiKey, $systemPrompt, $userMessage, $temp, $t
     return null;
 }
 
-// 5. GỌI GEMINI API
-if ($aiEnabled && !empty($geminiApiKey) && strlen($geminiApiKey) > 10) {
+// 5. GỌI GEMINI API HOẶC PYTHON FASTAPI BACKEND
+$pythonApiUrl = (getenv('PYTHON_API_URL') ?: 'http://host.docker.internal:8000') . '/api/chat';
+
+function requestPythonAiBackend($url, $userMessage) {
+    $payload = json_encode(['message' => $userMessage], JSON_UNESCAPED_UNICODE);
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json; charset=utf-8']);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 4);
+
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    if ($response && $httpCode === 200) {
+        $resData = json_decode($response, true);
+        $reply = $resData['reply'] ?? '';
+        if (!empty($reply)) {
+            return trim($reply);
+        }
+    }
+    return null;
+}
+
+// 5.1 Thử gọi Python FastAPI Backend (có RAG ChromaDB & Pipeline chuyên sâu)
+if (empty($aiResponse)) {
+    try {
+        $pyReply = requestPythonAiBackend($pythonApiUrl, $userMessage);
+        // Chỉ dùng kết quả từ Python nếu nó không phải là danh sách dịch vụ dump mặc định cho câu hỏi chào hỏi/ngoài lề
+        if (!empty($pyReply)) {
+            $isDumpList = (strpos($pyReply, 'DANH SÁCH DỊCH VỤ NHA KHOA PREMIER (10 dịch vụ') !== false);
+            $msgLowerCheck = mb_strtolower($userMessage, 'UTF-8');
+            $isGeneralQuestion = preg_match('/\b(chào|hi|hello|bạn là ai|thời tiết|ictu|thái nguyên|đau răng|ê buốt|trẻ em|mang thai|bà bầu|nghiến răng|thuốc lá|ăn gì|kiêng gì)\b/u', $msgLowerCheck);
+            
+            if (!$isDumpList || !$isGeneralQuestion) {
+                $aiResponse = $pyReply;
+                $isApiSuccess = true;
+            }
+        }
+    } catch (\Throwable $e) {}
+}
+
+// 5.2 Thử gọi Google Gemini API nếu có API key hợp lệ
+if (!$isApiSuccess && $aiEnabled && !empty($geminiApiKey) && strlen($geminiApiKey) > 20 && strpos($geminiApiKey, 'AIza') === 0) {
     try {
         $reply = requestGeminiAI($geminiModel, $geminiApiKey, $systemPrompt, $userMessage, $geminiTemp, $geminiTokens);
         if (!empty($reply)) {
@@ -250,12 +295,57 @@ if (!function_exists('formatServiceAiDetail')) {
     }
 }
 
-// 6. CƠ CHẾ FALLBACK THÔNG MINH TRUY XUẤT TRỰC TIẾP CƠ SỞ DỮ LIỆU
+// 6. CƠ CHẾ HYBRID KNOWLEDGE & CHUYÊN GIA NHA KHOA TOÀN NĂNG (TUYỆT ĐỐI KHÔNG TỪ CHỐI)
 if (!$isApiSuccess || empty($aiResponse)) {
     $msgLower = mb_strtolower($userMessage, 'UTF-8');
 
-    // 6.1. HỎI ĐỊA CHỈ PHÒNG KHÁM / VỊ TRÍ / Ở ĐÂU
-    if (preg_match('/\b(địa chỉ|ở đâu|chỗ nào|nơi nào|vị trí|chi nhánh|tới đâu|đường nào|sơ đồ|chỉ đường)\b/u', $msgLower)) {
+    // 6.1. TRƯỜNG ĐẠI HỌC CNTT & TRUYỀN THÔNG (ICTU) / ĐẠI HỌC THÁI NGUYÊN / ĐỀ ÁN
+    if (preg_match('/\b(ictu|trường nào|đại học thái nguyên|cntt|cntt & tt|công nghệ thông tin và truyền thông|thái nguyên|tnut|tump|tueba)\b/u', $msgLower)) {
+        $aiResponse = "🎓 **ICTU là Trường Đại học Công nghệ Thông tin & Truyền thông** (thuộc Đại học Thái Nguyên).\n\n"
+            . "Đây là trường đại học công lập trọng điểm hàng đầu tại khu vực Trung du và Miền núi phía Bắc về đào tạo Công nghệ Thông tin, Kỹ thuật Phần mềm và Trí tuệ Nhân tạo.\n\n"
+            . "📌 Dự án **Hệ Thống Quản Trị Website & AI Chatbot Nha Khoa Quốc Tế Premier** là đề án ứng dụng thực tiễn được nghiên cứu và phát triển bởi sinh viên ICTU, tích hợp công nghệ AI tư vấn 24/7, RAG tri thức y khoa và sàng lọc nha khoa số!";
+    }
+    // 6.2. GIỚI THIỆU CHATBOT / BẠN LÀ AI
+    elseif (preg_match('/\b(bạn là ai|mày là ai|tên gì|giới thiệu|ai tạo ra|chatbot là gì|em là ai)\b/u', $msgLower)) {
+        $aiResponse = "👋 Xin chào bạn! Tôi là **Chuyên gia Tư vấn AI Toàn năng của Nha Khoa Quốc Tế Premier Dental Clinic**.\n\n"
+            . "Tôi được phát triển bởi nhóm sinh viên **Trường Đại học Công nghệ Thông tin & Truyền thông (ICTU) - Đại học Thái Nguyên**, ứng dụng mô hình RAG kết hợp Tri thức Y khoa Nha khoa chuyên sâu.\n\n"
+            . "🌟 **Tôi có thể hỗ trợ bạn:**\n"
+            . "• 🩺 Tư vấn chẩn đoán ban đầu mọi triệu chứng răng miệng (đau nhức, sâu răng, ê buốt, viêm nướu...)\n"
+            . "• 🦷 Hướng dẫn chi tiết các dịch vụ: Trồng răng Implant, Niềng răng Chỉnh nha, Bọc răng sứ, Nhổ răng khôn Piezotome, Lấy tủy vi phẫu...\n"
+            . "• 💰 Tra cứu Bảng giá niêm yết chính thức & Chính sách Trả góp 0% lãi suất\n"
+            . "• 👨‍⚕️ Cung cấp hồ sơ đội ngũ Bác sĩ chuyên khoa\n"
+            . "• 📅 Hỗ trợ đặt lịch khám ưu tiên miễn phí 100% chụp X-quang 3D CT ConeBeam.\n\n"
+            . "Bạn cần tôi giải đáp thắc mắc gì hôm nay?";
+    }
+    // 6.3. CHÀO HỎI & GIAO TIẾP
+    elseif (preg_match('/^(chào|xin chào|hi|hello|alo|ê|bạn ơi|cho tôi hỏi|tư vấn giùm|ad ơi)/u', $msgLower) && !preg_match('/\b(giá|chi phí|đau|sưng|nhổ|niềng|implant|bác sĩ)\b/u', $msgLower)) {
+        $aiResponse = "👋 **Xin chào bạn! Tôi là Trợ Lý AI của Nha Khoa Quốc Tế Premier Clinic.**\n\n"
+            . "Tôi có thể hỗ trợ bạn:\n"
+            . "• 🦷 **Tư vấn dịch vụ nha khoa:** Niềng răng, Trồng răng Implant, Bọc răng sứ, Nhổ răng khôn, Trám răng, Lấy tủy...\n"
+            . "• 💰 **Bảng giá niêm yết CSDL:** Xem chi phí chi tiết từng dịch vụ\n"
+            . "• 👨‍⚕️ **Đội ngũ Bác sĩ:** Thông tin bác sĩ chuyên khoa phụ trách\n"
+            . "• 📍 **Địa chỉ & Giờ làm việc:** " . $clinicInfo['address'] . " (08:00 - 20:00)\n"
+            . "• 💳 **Chính sách:** Trả góp 0% lãi suất, bảo hành trọn đời Implant\n"
+            . "• 📅 **Đặt lịch khám:** Miễn phí 100% khám & chụp X-quang 3D\n\n"
+            . "Bạn đang quan tâm dịch vụ nào hoặc cần tư vấn vấn đề gì về răng miệng ạ?";
+    }
+    // 6.4. TRIỆU CHỨNG ĐAU RĂNG / NHỨC RĂNG / Ê BUỐT / SƯNG NƯỚU / CHẢY MÁU
+    elseif (preg_match('/\b(đau răng|nhức răng|ê buốt|buốt răng|sưng nướu|sưng lợi|chảy máu|chảy máu chân răng|áp xe|viêm tủy|nhức buốt|mưng mủ|lung lay|đau nhức)\b/u', $msgLower)) {
+        $aiResponse = "⚠️ **TƯ VẤN Y KHOA KHẨN: HƯỚNG DẪN XỬ LÝ TRIỆU CHỨNG ĐAU NHỨC RĂNG MIỆNG**\n\n"
+            . "Cơn đau nhức, ê buốt hoặc sưng nướu thường do các nguyên nhân chính sau:\n"
+            . "1. **Sâu răng tiến triển / Viêm tủy:** Lỗ sâu ăn sâu vào ngà răng hoặc tủy gây đau nhức giật theo nhịp mạch đập, đau dữ dội về đêm.\n"
+            . "2. **Viêm nướu / Viêm nha chu:** Vi khuẩn mảng bám tích tụ dưới nướu gây sưng đỏ, chảy máu khi đánh răng, có thể dẫn đến tiêu xương và răng lung lay.\n"
+            . "3. **Răng khôn mọc lệch / mọc ngầm:** Chèn ép răng số 7 lân cận, gây viêm lợi trùm, sưng má và khó há miệng.\n\n"
+            . "🧊 **Biện pháp sơ cứu giảm đau an toàn tại nhà:**\n"
+            . "• Súc miệng nhẹ nhàng bằng nước muối sinh lý ấm (0.9%) 3-4 lần/ngày để kháng khuẩn.\n"
+            . "• Chườm đá lạnh ngoài má tại vị trí đau khoảng 10-15 phút/lần giúp co mạch, giảm sưng và ức chế cảm giác đau.\n"
+            . "• Có thể dùng thuốc giảm đau không kê đơn như Paracetamol 500mg (nếu không có tiền sử dị ứng hoặc bệnh gan).\n"
+            . "• Tuyệt đối KHÔNG tự ý ngậm cồn, bôi thuốc lá hoặc chọc vật nhọn vào lỗ sâu.\n\n"
+            . "🏥 **Khuyến cáo:** Các biện pháp tại nhà chỉ mang tính tạm thời. Bạn nên đến phòng khám ngay để được Bác sĩ kiểm tra và **chụp phim 3D CT ConeBeam hoàn toàn MIỄN PHÍ** để điều trị triệt để căn nguyên bệnh lý nhé!\n\n"
+            . "📞 Hotline Cấp cứu 24/7: **" . $clinicInfo['emergency_phone'] . "** | Tổng đài đặt hẹn: **" . $clinicInfo['hotline'] . "**";
+    }
+    // 6.5. ĐỊA CHỈ PHÒNG KHÁM / VỊ TRÍ / Ở ĐÂU
+    elseif (preg_match('/\b(địa chỉ|ở đâu|chỗ nào|nơi nào|vị trí|chi nhánh|tới đâu|đường nào|sơ đồ|chỉ đường)\b/u', $msgLower)) {
         $aiResponse = "Chào bạn! **" . $clinicInfo['name'] . "** rất hân hạnh được đón tiếp bạn tại phòng khám:\n\n"
             . "📍 **Địa chỉ phòng khám:** " . $clinicInfo['address'] . "\n"
             . "⏰ **Thời gian làm việc:**\n"
@@ -265,7 +355,7 @@ if (!$isApiSuccess || empty($aiResponse)) {
             . "🎁 **Ưu đãi đặc biệt:** Khi đặt lịch hẹn trước qua website hoặc AI Chatbot, bạn sẽ được **MIỄN PHÍ 100% chi phí khám lâm sàng và chụp phim X-quang 3D toàn cảnh**.\n"
             . "👉 Bạn có muốn đặt lịch hẹn khám cùng Bác sĩ chuyên khoa ngay hôm nay không ạ?";
     }
-    // 6.2. HỎI GIỜ LÀM VIỆC / THỜI GIAN MỞ CỬA
+    // 6.6. GIỜ LÀM VIỆC / THỜI GIAN MỞ CỬA
     elseif (preg_match('/\b(mấy giờ|giờ làm|mở cửa|đóng cửa|lịch làm|thời gian làm|chủ nhật|thứ 7)\b/u', $msgLower)) {
         $aiResponse = "Chào bạn! Thời gian làm việc chính thức tại **" . $clinicInfo['name'] . "** như sau:\n\n"
             . "⏰ **Khung giờ phục vụ:**\n"
@@ -274,7 +364,7 @@ if (!$isApiSuccess || empty($aiResponse)) {
             . "📞 **Tổng đài CSKH:** " . $clinicInfo['hotline'] . "\n\n"
             . "Phòng khám làm việc thông trưa tất cả các ngày trong tuần để thuận tiện cho quý khách đến thăm khám!";
     }
-    // 6.3. HỎI ĐỘI NGŨ BÁC SĨ CHUYÊN GIA
+    // 6.7. ĐỘI NGŨ BÁC SĨ CHUYÊN GIA
     elseif (preg_match('/\b(bác sĩ|chuyên gia|ai khám|bác sỹ|đội ngũ)\b/u', $msgLower)) {
         $aiResponse = "Chào bạn! **" . $clinicInfo['name'] . "** quy tụ đội ngũ Bác sĩ Chuyên khoa Răng Hàm Mặt giàu kinh nghiệm:\n\n";
         if (!empty($dbDoctors)) {
@@ -293,7 +383,7 @@ if (!$isApiSuccess || empty($aiResponse)) {
         }
         $aiResponse .= "👉 Bạn muốn đặt lịch hẹn khám trực tiếp với Bác sĩ nào, hãy nhắn lại để em hỗ trợ nhé!";
     }
-    // 6.4. HỎI CHÍNH SÁCH BẢO HÀNH & TRẢ GÓP 0%
+    // 6.8. CHÍNH SÁCH BẢO HÀNH & TRẢ GÓP 0%
     elseif (preg_match('/\b(bảo hành|trả góp|thanh toán|bảo hiểm|thẻ tín dụng|0%)\b/u', $msgLower)) {
         $aiResponse = "Chào bạn! Về **Chính sách & Quyền lợi Khách hàng** tại Premier Dental Clinic:\n\n"
             . "💳 **1. Chương trình Trả góp 0% Lãi suất:**\n"
@@ -305,7 +395,79 @@ if (!$isApiSuccess || empty($aiResponse)) {
             . "• **Trám răng Composite:** Bảo hành 2 năm.\n\n"
             . "🎁 **Khám & Chụp phim X-quang 3D:** Miễn phí 100% khi đặt hẹn trước qua hotline " . $clinicInfo['hotline'] . "!";
     }
-    // 6.5. HỎI TỪNG DỊCH VỤ CỤ THỂ
+    // 6.9. TRẺ EM / RĂNG SỮA / THAY RĂNG
+    elseif (preg_match('/\b(trẻ em|răng sữa|bé|mấy tuổi|thay răng|trẻ con|sún răng|sâu răng sữa)\b/u', $msgLower)) {
+        $aiResponse = "👶 **TƯ VẤN NHA KHOA TRẺ EM & RĂNG SỮA:**\n\n"
+            . "• **Độ tuổi khám răng đầu tiên:** Hiệp hội Nha khoa khuyến nghị nên cho bé đi khám răng ngay từ khi mọc chiếc răng đầu tiên (khoảng 6-12 tháng tuổi).\n"
+            . "• **Tầm quan trọng của răng sữa:** Răng sữa giúp bé ăn nhai, phát âm chuẩn và đặc biệt là 'giữ chỗ' cho mầm răng vĩnh viễn mọc đúng vị trí sau này.\n"
+            . "• **Dịch vụ nha khoa trẻ em tại Premier:**\n"
+            . "  + Trám bít hố rãnh ngừa sâu răng cho trẻ: 150.000đ / răng\n"
+            . "  + Bôi Vecni Fluor ngừa sâu răng tăng cường men răng: 200.000đ / hàm\n"
+            . "  + Nhổ răng sữa không đau: 50.000 - 100.000đ / răng\n"
+            . "  + Tiền chỉnh nha can thiệp thói quen xấu (mút ngón tay, đẩy lưỡi): Giúp cung hàm phát triển đều đặn.\n"
+            . "👉 Các bác sĩ tại Premier rất thấu hiểu tâm lý trẻ nhỏ, nhẹ nhàng và tạo môi trường thân thiện cho bé!";
+    }
+    // 6.10. PHỤ NỮ MANG THAI & CHO CON BÚ
+    elseif (preg_match('/\b(mang thai|bà bầu|có bầu|cho con bú|thai kỳ|sinh em bé)\b/u', $msgLower)) {
+        $aiResponse = "🤰 **TƯ VẤN NHA KHOA CHO PHỤ NỮ MANG THAI & CHO CON BÚ:**\n\n"
+            . "• **Thời điểm vàng điều trị răng:** **Tam cá nguyệt thứ 2 (Tháng thứ 4 đến tháng thứ 6 của thai kỳ)** là thời điểm an toàn và thích hợp nhất để can thiệp các thủ thuật nha khoa như cạo vôi răng, trám răng hoặc điều trị tủy.\n"
+            . "• **3 tháng đầu và 3 tháng cuối:** Hạn chế can thiệp xâm lấn như nhổ răng khôn hay chụp X-quang, trừ trường hợp cấp cứu đau nhức dữ dội.\n"
+            . "• **Viêm nướu thai nghén:** Do thay đổi nội tiết tố estrogen và progesterone, nướu răng rất dễ sưng đỏ và chảy máu. Mẹ bầu nên cạo vôi răng định kỳ nhẹ nhàng để phòng ngừa.\n"
+            . "• **An toàn thuốc:** Phòng khám sử dụng các loại thuốc tê và kháng sinh an toàn nhóm B cho thai kỳ theo hướng dẫn của Bộ Y Tế.";
+    }
+    // 6.11. DINH DƯỠNG / ĂN GÌ & KIÊNG GÌ
+    elseif (preg_match('/\b(ăn gì|kiêng gì|ăn uống|thực phẩm|dinh dưỡng|mới nhổ răng ăn|sau khi nhổ)\b/u', $msgLower)) {
+        $aiResponse = "🥗 **HƯỚNG DẪN DINH DƯỠNG & CHẾ ĐỘ ĂN UỐNG NHA KHOA:**\n\n"
+            . "• **Sau khi nhổ răng / cấy Implant / tiểu phẫu:**\n"
+            . "  + **NÊN ĂN:** Thức ăn mềm, nguội, lỏng dễ nuốt như cháo dinh dưỡng, súp, sữa chua, sinh tố bơ, trứng mềm trong 2-3 ngày đầu.\n"
+            . "  + **KIÊNG:** Đồ ăn quá nóng, cay, cứng, giòn (dễ lọt vụn vào ổ răng), không dùng ống hút (áp lực hút có thể làm bật cục máu đông gây chảy máu).\n"
+            . "• **Sau khi tẩy trắng răng:**\n"
+            . "  + Kiêng thực phẩm có màu sẫm trong 48h đầu (cà phê, trà đặc, nước tương, nghệ, tương cà, sốt vang).\n"
+            . "• **Người niềng răng:**\n"
+            . "  + Cắt nhỏ thức ăn, tránh cắn trực tiếp đồ cứng bằng răng cửa để tránh bong mắc cài.";
+    }
+    // 6.12. THUỐC LÁ, RƯỢU BIA & TÁC HẠI
+    elseif (preg_match('/\b(thuốc lá|hút thuốc|rượu bia|cà phê|ố vàng|khói thuốc)\b/u', $msgLower)) {
+        $aiResponse = "🚬 **ẢNH HƯỞNG CỦA THUỐC LÁ & CHẤT KÍCH THÍCH LÊN RĂNG MIỆNG:**\n\n"
+            . "• **Nguy cơ tiêu xương & tụt nướu:** Nicotine trong khói thuốc làm co mạch máu, giảm lưu lượng máu nuôi dưỡng nướu, tăng nguy cơ viêm nha chu gấp 3-5 lần.\n"
+            . "• **Ảnh hưởng cấy ghép Implant:** Tỷ lệ thất bại của Implant ở người hút thuốc cao gấp đôi do trụ khó tích hợp với xương hàm. Khuyến cáo ngừng hút thuốc ít nhất 2 tuần trước và 8 tuần sau phẫu thuật cấy trụ.\n"
+            . "• **Ố vàng men răng:** Hắc ín và nicotine bám chặt vào men răng gây ố vàng sẫm màu và hôi miệng dai dẳng.";
+    }
+    // 6.13. NGHIẾN RĂNG / ĐAU KHỚP THÁI DƯƠNG HÀM (TMJ)
+    elseif (preg_match('/\b(nghiến răng|khớp thái dương hàm|tmj|mỏi hàm|kêu lục cục|cắn chặt)\b/u', $msgLower)) {
+        $aiResponse = "🦷 **CHỨNG NGHIẾN RĂNG KHI NGỦ & RỐI LOẠN KHỚP THÁI DƯƠNG HÀM (TMJ):**\n\n"
+            . "• **Nguyên nhân:** Thường do căng thẳng (stress), sai lệch khớp cắn, răng chen chúc hoặc thói quen cơ hàm hoạt động quá mức trong giấc ngủ.\n"
+            . "• **Hậu quả nếu không điều trị:** Răng bị mòn vẹt men răng, lộ ngà gây ê buốt dữ dội, mỏi hàm khi nhai, đau nửa đầu và phát ra tiếng 'lục cục' ở khớp gần tai.\n"
+            . "• **Giải pháp điều trị tại Premier:**\n"
+            . "  + **Máng chống nghiến cá nhân hóa (Nightguard):** Đeo ban đêm để bảo vệ bề mặt răng không bị cọ xát.\n"
+            . "  + **Điều chỉnh khớp cắn / Chỉnh nha:** Nắn chỉnh răng về đúng vị trí chuẩn khớp nhai cân bằng.";
+    }
+    // 6.14. BỆNH TOÀN THÂN (TIỂU ĐƯỜNG, HUYẾT ÁP, TIM MẠCH)
+    elseif (preg_match('/\b(tiểu đường|huyết áp|tim mạch|đông máu|uống thuốc chống đông)\b/u', $msgLower)) {
+        $aiResponse = "🩺 **LƯU Ý ĐIỀU TRỊ NHA KHOA CHO BỆNH NHÂN CÓ BỆNH LÝ TOÀN THÂN:**\n\n"
+            . "• **Bệnh Tiểu đường (Đái tháo đường):** Khi chỉ số đường huyết ổn định (HbA1c < 7%, đường huyết đói < 8 mmol/L), bạn hoàn toàn có thể nhổ răng hoặc cấy ghép Implant bình thường.\n"
+            . "• **Huyết áp cao / Tim mạch:** Cần uống thuốc kiểm soát huyết áp đều đặn. Trước mọi thủ thuật, bác sĩ sẽ đo huyết áp và sử dụng thuốc tê chuyên dụng không chứa adrenaline (hoặc nồng độ co mạch cực thấp).\n"
+            . "• **Đang dùng thuốc chống đông máu:** Cần thông báo rõ với bác sĩ để có phác đồ phối hợp cùng bác sĩ tim mạch tạm ngưng thuốc đúng quy trình trước khi can thiệp tiểu phẫu.";
+    }
+    // 6.15. SỢ ĐAU / TÂM LÝ SỢ NHA SĨ
+    elseif (preg_match('/\b(sợ đau|có đau không|đau không|sợ nha sĩ|sợ tiêm|gây tê)\b/u', $msgLower)) {
+        $aiResponse = "🌿 **BẠN HOÀN TOÀN CÓ THỂ YÊN TÂM: ĐIỀU TRỊ ÊM ÁI KHÔNG ĐAU TẠI PREMIER:**\n\n"
+            . "• **Công nghệ Gây tê đa tầng:** Bác sĩ bôi gel tê bề mặt trước khi tiêm thuốc tê bằng kim siêu vi điểm nano, giúp bạn gần như không có cảm giác châm chích.\n"
+            . "• **Thiết bị siêu âm Piezotome:** Nhổ răng bằng năng lượng sóng rung siêu âm bóc tách mô êm ái, hoàn toàn không dùng kìm bẩy thô bạo.\n"
+            . "• **Đội ngũ y bác sĩ tận tâm:** Luôn lắng nghe, thao tác nhẹ nhàng và sẵn sàng tạm dừng bất cứ khi nào bạn cảm thấy chưa thoải mái!";
+    }
+    // 6.16. CÂU HỎI VỀ THỜI TIẾT / NGOÀI LỀ / ĐỜI SỐNG
+    elseif (preg_match('/\b(thời tiết|mưa|nắng|nhiệt độ|trời hôm nay|hôm nay thế nào)\b/u', $msgLower)) {
+        $aiResponse = "🌤️ Hôm nay thời tiết có thể thay đổi thất thường theo mùa, bạn nhớ chú ý giữ gìn sức khỏe, mang theo áo ấm hoặc ô che khi ra ngoài nhé!\n\n"
+            . "💡 *Mẹo sức khỏe răng miệng khi thời tiết thay đổi:* Khi trời trở lạnh, các răng có vết sâu ngà hoặc mòn men răng rất dễ bị ê buốt. Bạn nên uống nước ấm và chải răng bằng kem đánh răng chuyên dụng chống ê buốt.\n\n"
+            . "Tôi là Trợ lý AI Nha Khoa Premier, bạn cần tôi hỗ trợ tư vấn dịch vụ hay kiểm tra sức khỏe răng miệng nào hôm nay không ạ?";
+    }
+    // 6.17. CẢM ƠN / TẠM BIỆT
+    elseif (preg_match('/\b(cảm ơn|thanks|thank you|tạm biệt|bye|tuyệt vời|tốt quá)\b/u', $msgLower)) {
+        $aiResponse = "Dạ không có gì ạ! Rất vui được hỗ trợ và đồng hành cùng bạn chăm sóc nụ cười sáng khỏe! 😊\n\n"
+            . "Nếu cần thêm bất kỳ thông tin nào về chăm sóc răng miệng hay đặt lịch khám, bạn cứ nhắn tin cho em bất cứ lúc nào nhé. Chúc bạn một ngày thật nhiều niềm vui và luôn tự tin với nụ cười của mình! ✨";
+    }
+    // 6.18. HỎI TỪNG DỊCH VỤ CỤ THỂ
     elseif (strpos($msgLower, 'niềng răng') !== false || strpos($msgLower, 'chỉnh nha') !== false || strpos($msgLower, 'invisalign') !== false || strpos($msgLower, 'mắc cài') !== false) {
         $aiResponse = formatServiceAiDetail(9);
     } elseif (strpos($msgLower, 'implant') !== false || strpos($msgLower, 'trồng răng') !== false || strpos($msgLower, 'cấy ghép') !== false) {
@@ -327,7 +489,7 @@ if (!$isApiSuccess || empty($aiResponse)) {
     } elseif (strpos($msgLower, 'khám') !== false || strpos($msgLower, 'tư vấn') !== false) {
         $aiResponse = formatServiceAiDetail(1);
     }
-    // 6.6. HỎI CHUNG VỀ DANH MỤC / BẢNG GIÁ DỊCH VỤ TỪ CSDL
+    // 6.19. HỎI CHUNG VỀ DANH MỤC / BẢNG GIÁ DỊCH VỤ TỪ CSDL
     elseif (preg_match('/\b(danh mục|bảng giá|giá|chi phí|dịch vụ|bao nhiêu)\b/u', $msgLower)) {
         $aiResponse = "Xin chào bạn! Dưới đây là **Bảng giá dịch vụ niêm yết chính thức** từ CSDL của " . $clinicInfo['name'] . ":\n\n";
         if (!empty($dbServices)) {
@@ -351,16 +513,14 @@ if (!$isApiSuccess || empty($aiResponse)) {
             . "📞 **Hotline hỗ trợ:** " . $clinicInfo['hotline'] . "\n"
             . "👉 Bạn đang quan tâm dịch vụ nào, hãy nhắn lại để em tư vấn chi tiết quy trình nhé!";
     }
-    // 6.7. MẶC ĐỊNH
+    // 6.20. SEMANTIC FALLBACK CHO MỌI CÂU HỎI KHÁC (TUYỆT ĐỐI KHÔNG TỪ CHỐI)
     else {
-        $aiResponse = "Xin chào bạn! Tôi là **Trợ lý AI của " . $clinicInfo['name'] . "**.\n\n"
-            . "Tôi có thể hỗ trợ bạn:\n"
-            . "• 📍 **Địa chỉ & Giờ làm việc:** " . $clinicInfo['address'] . " (08:00 - 20:00)\n"
-            . "• 🦷 **Tư vấn dịch vụ:** Trám răng, Nhổ răng khôn, Lấy tủy, Niềng răng, Trồng răng Implant, Bọc sứ...\n"
-            . "• 💰 **Bảng giá niêm yết CSDL:** Xem chi phí từng dịch vụ\n"
-            . "• 👨‍⚕️ **Đội ngũ Bác sĩ:** Thông tin bác sĩ chuyên khoa phụ trách\n"
-            . "• 💳 **Chính sách:** Hỗ trợ trả góp 0%, bảo hành trọn đời Implant\n\n"
-            . "Bạn cần tư vấn dịch vụ nào hoặc đang gặp triệu chứng gì ở răng miệng ạ?";
+        $aiResponse = "Dạ cảm ơn câu hỏi của bạn! Với vai trò là **Chuyên gia Trợ lý AI của Nha Khoa Quốc Tế Premier**, tôi luôn sẵn sàng hỗ trợ giải đáp mọi băn khoăn về sức khỏe, nha khoa và các dịch vụ chăm sóc nụ cười toàn diện.\n\n"
+            . "Đối với vấn đề bạn vừa chia sẻ: *" . htmlspecialchars($userMessage) . "*:\n"
+            . "• Để có đánh giá chính xác và lời khuyên y khoa phù hợp nhất, bạn có thể chia sẻ thêm chi tiết về tình trạng hiện tại của mình (ví dụ: đã xuất hiện bao lâu, có kèm cảm giác đau nhức hay khó chịu nào không)?\n"
+            . "• Hoặc bạn có thể để lại Số điện thoại hoặc bấm nút **'Đặt Lịch Khám'** để được Bác sĩ Chuyên khoa thăm khám lâm sàng và chụp phim X-quang 3D toàn diện **hoàn toàn MIỄN PHÍ (0đ)**.\n\n"
+            . "📍 **Địa chỉ:** " . $clinicInfo['address'] . " (08:00 - 20:00 hàng ngày)\n"
+            . "📞 **Hotline hỗ trợ 24/7:** " . $clinicInfo['hotline'] . " (Cấp cứu: " . $clinicInfo['emergency_phone'] . ")";
     }
 }
 
