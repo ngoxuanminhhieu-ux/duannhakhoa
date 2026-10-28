@@ -12,9 +12,17 @@ require_once __DIR__ . '/../data/services_detail_data.php';
 
 // 1. Đọc dữ liệu đầu vào
 $inputRaw = file_get_contents('php://input');
-$data     = json_decode($inputRaw, true);
+$inputRaw = preg_replace('/^\xEF\xBB\xBF/', '', trim((string)$inputRaw));
+$data     = !empty($inputRaw) ? json_decode($inputRaw, true) : null;
 
-if (!isset($data['message']) || empty(trim($data['message']))) {
+$userMessage = '';
+if (is_array($data) && !empty($data['message'])) {
+    $userMessage = trim($data['message']);
+} elseif (!empty($_POST['message'])) {
+    $userMessage = trim($_POST['message']);
+}
+
+if (empty($userMessage)) {
     echo json_encode([
         'success' => false,
         'error'   => 'Tin nhắn không được để trống.'
@@ -22,7 +30,6 @@ if (!isset($data['message']) || empty(trim($data['message']))) {
     exit;
 }
 
-$userMessage = trim($data['message']);
 $sessionId   = session_id() ?: 'default_session';
 session_write_close();
 
@@ -292,18 +299,39 @@ if (!function_exists('formatServiceAiDetail')) {
     }
 }
 
+// Hàm chuyển đổi tiếng Việt có dấu sang không dấu
+if (!function_exists('vn_to_plain')) {
+    function vn_to_plain($str) {
+        $unicode = [
+            'a' => 'á|à|ả|ã|ạ|ă|ắ|ặ|ằ|ẳ|ẵ|â|ấ|ầ|ẩ|ẫ|ậ',
+            'd' => 'đ',
+            'e' => 'é|è|ẻ|ẽ|ẹ|ê|ế|ề|ể|ễ|ệ',
+            'i' => 'í|ì|ỉ|ĩ|ị',
+            'o' => 'ó|ò|ỏ|õ|ọ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ở|ỡ|ợ',
+            'u' => 'ú|ù|ủ|ũ|ụ|ư|ứ|ừ|ử|ữ|ự',
+            'y' => 'ý|ỳ|ỷ|ỹ|ỵ'
+        ];
+        foreach ($unicode as $non => $uni) {
+            $str = preg_replace("/($uni)/iu", $non, $str);
+        }
+        return $str;
+    }
+}
+
 // 6. CƠ CHẾ HYBRID KNOWLEDGE & CHUYÊN GIA NHA KHOA TOÀN NĂNG (TUYỆT ĐỐI KHÔNG TỪ CHỐI)
 if (!$isApiSuccess || empty($aiResponse)) {
     $msgLower = mb_strtolower($userMessage, 'UTF-8');
+    $msgPlain = vn_to_plain($msgLower);
+    $msgSearch = $msgLower . ' ' . $msgPlain;
 
     // 6.1. TRƯỜNG ĐẠI HỌC CNTT & TRUYỀN THÔNG (ICTU) / ĐẠI HỌC THÁI NGUYÊN / ĐỀ ÁN
-    if (preg_match('/\b(ictu|trường nào|đại học thái nguyên|cntt|cntt & tt|công nghệ thông tin và truyền thông|thái nguyên|tnut|tump|tueba)\b/u', $msgLower)) {
+    if (preg_match('/\b(ictu|trường nào|truong nao|đại học thái nguyên|dai hoc thai nguyen|cntt|cntt & tt|thái nguyên|thai nguyen)\b/u', $msgSearch)) {
         $aiResponse = "🎓 **ICTU là Trường Đại học Công nghệ Thông tin & Truyền thông** (thuộc Đại học Thái Nguyên).\n\n"
             . "Đây là trường đại học công lập trọng điểm hàng đầu tại khu vực Trung du và Miền núi phía Bắc về đào tạo Công nghệ Thông tin, Kỹ thuật Phần mềm và Trí tuệ Nhân tạo.\n\n"
             . "📌 Dự án **Hệ Thống Quản Trị Website & AI Chatbot Nha Khoa Quốc Tế Premier** là đề án ứng dụng thực tiễn được nghiên cứu và phát triển bởi sinh viên ICTU, tích hợp công nghệ AI tư vấn 24/7, RAG tri thức y khoa và sàng lọc nha khoa số!";
     }
     // 6.2. GIỚI THIỆU CHATBOT / BẠN LÀ AI
-    elseif (preg_match('/\b(bạn là ai|mày là ai|tên gì|giới thiệu|ai tạo ra|chatbot là gì|em là ai)\b/u', $msgLower)) {
+    elseif (preg_match('/\b(bạn là ai|ban la ai|mày là ai|may la ai|tên gì|ten gi|giới thiệu|gioi thieu|ai tạo ra|ai tao ra|chatbot là gì|chatbot la gi|em là ai|em la ai)\b/u', $msgSearch)) {
         $aiResponse = "👋 Xin chào bạn! Tôi là **Chuyên gia Tư vấn AI Toàn năng của Nha Khoa Quốc Tế Premier Dental Clinic**.\n\n"
             . "Tôi được phát triển bởi nhóm sinh viên **Trường Đại học Công nghệ Thông tin & Truyền thông (ICTU) - Đại học Thái Nguyên**, ứng dụng mô hình RAG kết hợp Tri thức Y khoa Nha khoa chuyên sâu.\n\n"
             . "🌟 **Tôi có thể hỗ trợ bạn:**\n"
@@ -315,7 +343,7 @@ if (!$isApiSuccess || empty($aiResponse)) {
             . "Bạn cần tôi giải đáp thắc mắc gì hôm nay?";
     }
     // 6.3. CHÀO HỎI & GIAO TIẾP
-    elseif (preg_match('/^(chào|xin chào|hi|hello|alo|ê|bạn ơi|cho tôi hỏi|tư vấn giùm|ad ơi)/u', $msgLower) && !preg_match('/\b(giá|chi phí|đau|sưng|nhổ|niềng|implant|bác sĩ)\b/u', $msgLower)) {
+    elseif (preg_match('/^(chào|chao|xin chào|xin chao|hi|hello|alo|ê|bạn ơi|ban oi|cho tôi hỏi|cho toi hoi|tư vấn giùm|tu van gium|ad ơi|ad oi)/u', $msgSearch) && !preg_match('/\b(giá|gia|chi phí|chi phi|đau|dau|sưng|sung|nhổ|nho|niềng|nieng|implant|bác sĩ|bac si)\b/u', $msgSearch)) {
         $aiResponse = "👋 **Xin chào bạn! Tôi là Trợ Lý AI của Nha Khoa Quốc Tế Premier Clinic.**\n\n"
             . "Tôi có thể hỗ trợ bạn:\n"
             . "• 🦷 **Tư vấn dịch vụ nha khoa:** Niềng răng, Trồng răng Implant, Bọc răng sứ, Nhổ răng khôn, Trám răng, Lấy tủy...\n"
@@ -327,7 +355,7 @@ if (!$isApiSuccess || empty($aiResponse)) {
             . "Bạn đang quan tâm dịch vụ nào hoặc cần tư vấn vấn đề gì về răng miệng ạ?";
     }
     // 6.4. TRIỆU CHỨNG ĐAU RĂNG / NHỨC RĂNG / Ê BUỐT / SƯNG NƯỚU / CHẢY MÁU
-    elseif (preg_match('/\b(đau răng|nhức răng|ê buốt|buốt răng|sưng nướu|sưng lợi|chảy máu|chảy máu chân răng|áp xe|viêm tủy|nhức buốt|mưng mủ|lung lay|đau nhức)\b/u', $msgLower)) {
+    elseif (preg_match('/\b(đau răng|dau rang|nhức răng|nhuc rang|ê buốt|e buot|buốt răng|buot rang|sưng nướu|sung nuou|sưng lợi|sung loi|chảy máu|chay mau|áp xe|ap xe|viêm tủy|viem tuy|nhức buốt|mưng mủ|lung lay|đau nhức|dau nhuc)\b/u', $msgSearch)) {
         $aiResponse = "⚠️ **TƯ VẤN Y KHOA KHẨN: HƯỚNG DẪN XỬ LÝ TRIỆU CHỨNG ĐAU NHỨC RĂNG MIỆNG**\n\n"
             . "Cơn đau nhức, ê buốt hoặc sưng nướu thường do các nguyên nhân chính sau:\n"
             . "1. **Sâu răng tiến triển / Viêm tủy:** Lỗ sâu ăn sâu vào ngà răng hoặc tủy gây đau nhức giật theo nhịp mạch đập, đau dữ dội về đêm.\n"
@@ -342,7 +370,7 @@ if (!$isApiSuccess || empty($aiResponse)) {
             . "📞 Hotline Cấp cứu 24/7: **" . $clinicInfo['emergency_phone'] . "** | Tổng đài đặt hẹn: **" . $clinicInfo['hotline'] . "**";
     }
     // 6.5. ĐỊA CHỈ PHÒNG KHÁM / VỊ TRÍ / Ở ĐÂU
-    elseif (preg_match('/\b(địa chỉ|ở đâu|chỗ nào|nơi nào|vị trí|chi nhánh|tới đâu|đường nào|sơ đồ|chỉ đường)\b/u', $msgLower)) {
+    elseif (preg_match('/\b(địa chỉ|dia chi|ở đâu|o dau|chỗ nào|cho nao|nơi nào|noi nao|vị trí|vi tri|chi nhánh|chi nhanh|tới đâu|toi dau|đường nào|duong nao|sơ đồ|chi duong|chỉ đường)\b/u', $msgSearch)) {
         $aiResponse = "Chào bạn! **" . $clinicInfo['name'] . "** rất hân hạnh được đón tiếp bạn tại phòng khám:\n\n"
             . "📍 **Địa chỉ phòng khám:** " . $clinicInfo['address'] . "\n"
             . "⏰ **Thời gian làm việc:**\n"
@@ -353,7 +381,7 @@ if (!$isApiSuccess || empty($aiResponse)) {
             . "👉 Bạn có muốn đặt lịch hẹn khám cùng Bác sĩ chuyên khoa ngay hôm nay không ạ?";
     }
     // 6.6. GIỜ LÀM VIỆC / THỜI GIAN MỞ CỬA
-    elseif (preg_match('/\b(mấy giờ|giờ làm|mở cửa|đóng cửa|lịch làm|thời gian làm|chủ nhật|thứ 7)\b/u', $msgLower)) {
+    elseif (preg_match('/\b(mấy giờ|may gio|giờ làm|gio lam|mở cửa|mo cua|đóng cửa|dong cua|lịch làm|lich lam|thời gian làm|thoi gian lam|chủ nhật|chu nhat|thứ 7|thu 7)\b/u', $msgSearch)) {
         $aiResponse = "Chào bạn! Thời gian làm việc chính thức tại **" . $clinicInfo['name'] . "** như sau:\n\n"
             . "⏰ **Khung giờ phục vụ:**\n"
             . $clinicInfo['working_hours'] . "\n\n"
@@ -362,7 +390,7 @@ if (!$isApiSuccess || empty($aiResponse)) {
             . "Phòng khám làm việc thông trưa tất cả các ngày trong tuần để thuận tiện cho quý khách đến thăm khám!";
     }
     // 6.7. ĐỘI NGŨ BÁC SĨ CHUYÊN GIA
-    elseif (preg_match('/\b(bác sĩ|chuyên gia|ai khám|bác sỹ|đội ngũ)\b/u', $msgLower)) {
+    elseif (preg_match('/\b(bác sĩ|bac si|chuyên gia|chuyen gia|ai khám|ai kham|bác sỹ|bac sy|đội ngũ|doi ngu)\b/u', $msgSearch)) {
         $aiResponse = "Chào bạn! **" . $clinicInfo['name'] . "** quy tụ đội ngũ Bác sĩ Chuyên khoa Răng Hàm Mặt giàu kinh nghiệm:\n\n";
         if (!empty($dbDoctors)) {
             foreach ($dbDoctors as $doc) {
@@ -465,29 +493,35 @@ if (!$isApiSuccess || empty($aiResponse)) {
             . "Nếu cần thêm bất kỳ thông tin nào về chăm sóc răng miệng hay đặt lịch khám, bạn cứ nhắn tin cho em bất cứ lúc nào nhé. Chúc bạn một ngày thật nhiều niềm vui và luôn tự tin với nụ cười của mình! ✨";
     }
     // 6.18. HỎI TỪNG DỊCH VỤ CỤ THỂ
-    elseif (strpos($msgLower, 'niềng răng') !== false || strpos($msgLower, 'chỉnh nha') !== false || strpos($msgLower, 'invisalign') !== false || strpos($msgLower, 'mắc cài') !== false) {
+    elseif (strpos($msgSearch, 'niềng răng') !== false || strpos($msgSearch, 'nieng rang') !== false || strpos($msgSearch, 'chỉnh nha') !== false || strpos($msgSearch, 'chinh nha') !== false || strpos($msgSearch, 'invisalign') !== false || strpos($msgSearch, 'mắc cài') !== false || strpos($msgSearch, 'mac cai') !== false) {
         $aiResponse = formatServiceAiDetail(9);
-    } elseif (strpos($msgLower, 'implant') !== false || strpos($msgLower, 'trồng răng') !== false || strpos($msgLower, 'cấy ghép') !== false) {
+    } elseif (strpos($msgSearch, 'implant') !== false || strpos($msgSearch, 'trồng răng') !== false || strpos($msgSearch, 'trong rang') !== false || strpos($msgSearch, 'cấy ghép') !== false || strpos($msgSearch, 'cay ghep') !== false) {
         $aiResponse = formatServiceAiDetail(10);
-    } elseif (strpos($msgLower, 'bọc sứ') !== false || strpos($msgLower, 'răng sứ') !== false) {
+    } elseif (strpos($msgSearch, 'bọc sứ') !== false || strpos($msgSearch, 'boc su') !== false || strpos($msgSearch, 'răng sứ') !== false || strpos($msgSearch, 'rang su') !== false) {
         $aiResponse = formatServiceAiDetail(7);
-    } elseif (strpos($msgLower, 'veneer') !== false || strpos($msgLower, 'dán sứ') !== false) {
+    } elseif (strpos($msgSearch, 'veneer') !== false || strpos($msgSearch, 'dán sứ') !== false || strpos($msgSearch, 'dan su') !== false) {
         $aiResponse = formatServiceAiDetail(8);
-    } elseif (strpos($msgLower, 'tẩy trắng') !== false || strpos($msgLower, 'trắng răng') !== false) {
+    } elseif (strpos($msgSearch, 'tẩy trắng') !== false || strpos($msgSearch, 'tay trang') !== false || strpos($msgSearch, 'trắng răng') !== false || strpos($msgSearch, 'trang rang') !== false) {
         $aiResponse = formatServiceAiDetail(6);
-    } elseif (strpos($msgLower, 'trám răng') !== false || strpos($msgLower, 'hàn răng') !== false) {
+    } elseif (strpos($msgSearch, 'trám răng') !== false || strpos($msgSearch, 'tram rang') !== false || strpos($msgSearch, 'hàn răng') !== false || strpos($msgSearch, 'han rang') !== false) {
         $aiResponse = formatServiceAiDetail(3);
-    } elseif (strpos($msgLower, 'nhổ răng') !== false || strpos($msgLower, 'răng khôn') !== false) {
+    } elseif (strpos($msgSearch, 'nhổ răng') !== false || strpos($msgSearch, 'nho rang') !== false || strpos($msgSearch, 'răng khôn') !== false || strpos($msgSearch, 'rang khon') !== false || strpos($msgSearch, 'nhổ') !== false || strpos($msgSearch, 'nho') !== false) {
         $aiResponse = formatServiceAiDetail(4);
-    } elseif (strpos($msgLower, 'tủy') !== false || strpos($msgLower, 'chữa tủy') !== false) {
+    } elseif (strpos($msgSearch, 'tủy') !== false || strpos($msgSearch, 'tuy') !== false || strpos($msgSearch, 'chữa tủy') !== false || strpos($msgSearch, 'chua tuy') !== false) {
         $aiResponse = formatServiceAiDetail(5);
-    } elseif (strpos($msgLower, 'cạo vôi') !== false || strpos($msgLower, 'cao răng') !== false) {
+    } elseif (strpos($msgSearch, 'cạo vôi') !== false || strpos($msgSearch, 'cao voi') !== false || strpos($msgSearch, 'cao răng') !== false || strpos($msgSearch, 'cao rang') !== false) {
         $aiResponse = formatServiceAiDetail(2);
-    } elseif (strpos($msgLower, 'khám') !== false || strpos($msgLower, 'tư vấn') !== false) {
+    } elseif (strpos($msgSearch, 'khám') !== false || strpos($msgSearch, 'kham') !== false) {
         $aiResponse = formatServiceAiDetail(1);
     }
+    // 6.18.5. HỎI NĂM NAY / THỜI GIAN / NGÀY THÁNG
+    elseif (preg_match('/(năm nay|nam nay|hôm nay là|hom nay la|năm bao nhiêu|nam bao nhieu|năm nào|nam nao|ngày mấy|ngay may|tháng mấy|thang may)/iu', $msgSearch)) {
+        $curYear = date('Y');
+        $curDate = date('d/m/Y');
+        $aiResponse = "Dạ hôm nay là ngày **{$curDate}**, năm nay là năm **{$curYear}** ạ! 😊\n\nChúc bạn một ngày tràn đầy năng lượng và luôn tự tin với nụ cười rạng rỡ! Bạn cần em hỗ trợ thêm thông tin gì về chăm sóc răng miệng hay đặt lịch khám không ạ?";
+    }
     // 6.19. HỎI CHUNG VỀ DANH MỤC / BẢNG GIÁ DỊCH VỤ TỪ CSDL
-    elseif (preg_match('/\b(danh mục|bảng giá|giá|chi phí|dịch vụ|bao nhiêu)\b/u', $msgLower)) {
+    elseif (preg_match('/\b(danh mục|danh muc|bảng giá|bang gia|giá|gia|chi phí|chi phi|dịch vụ|dich vu|bao nhiêu|bao nhieu|báo giá|bao gia)\b/u', $msgSearch) && !preg_match('/(năm|tháng|ngày|tuổi)/iu', $msgSearch)) {
         $aiResponse = "Xin chào bạn! Dưới đây là **Bảng giá dịch vụ niêm yết chính thức** từ CSDL của " . $clinicInfo['name'] . ":\n\n";
         if (!empty($dbServices)) {
             foreach ($dbServices as $s) {

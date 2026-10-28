@@ -52,7 +52,10 @@ class CustomerServicePipeline:
         query_lower = query.lower().strip()
 
         # Quick Greeting Filter before model or complex rules
-        if any(w in query_lower for w in ["chào", "xin chào", "hi", "hello", "alo", "bạn ơi", "cho tôi hỏi"]) and not any(k in query_lower for k in ["giá", "chi phí", "bao nhiêu", "bác sĩ", "đặt lịch", "địa chỉ", "niềng", "implant", "sứ", "nhổ"]):
+        greeting_words = ["chào", "chao", "xin chào", "xin chao", "hello", "alo", "bạn ơi", "ban oi"]
+        is_greeting = any(w in query_lower for w in greeting_words) or bool(re.search(r"\bhi\b", query_lower, re.IGNORECASE))
+        has_dental_or_service = any(k in query_lower for k in ["giá", "gia", "chi phí", "chi phi", "bao nhiêu", "bao nhieu", "tiền", "tien", "bác sĩ", "bac si", "đặt lịch", "dat lich", "địa chỉ", "dia chi", "niềng", "nieng", "implant", "sứ", "su", "nhổ", "nho", "trám", "tram", "tủy", "tuy"])
+        if is_greeting and not has_dental_or_service:
             self.logs.append("[Step 1 - Rule Engine]: Detected intent = GREETING")
             return "GREETING"
 
@@ -144,89 +147,92 @@ Không thêm giải thích.
                 )
 
         # =====================================================
-        # FALLBACK: RULE ENGINE
+        # FALLBACK: RULE ENGINE (HỖ TRỢ CẢ CÓ DẤU & KHÔNG DẤU)
         # =====================================================
+        import unicodedata
+        query_plain = "".join(c for c in unicodedata.normalize('NFKD', query_lower) if not unicodedata.combining(c)).replace('đ', 'd').replace('Đ', 'D')
+        query_search = f"{query_lower} {query_plain}"
 
         if any(
-            term in query_lower
+            term in query_search
             for term in [
-                "đặt lịch",
-                "hẹn khám",
-                "đăng ký khám",
-                "tư vấn trực tiếp",
-                "đặt chỗ",
-                "muốn khám"
+                "đặt lịch", "dat lich",
+                "hẹn khám", "hen kham",
+                "đăng ký khám", "dang ky kham",
+                "tư vấn trực tiếp", "tu van truc tiep",
+                "đặt chỗ", "dat cho",
+                "muốn khám", "muon kham"
             ]
         ):
             intent = "BOOKING"
 
         elif any(
-            term in query_lower
+            term in query_search
             for term in [
-                "bao nhiêu",
-                "giá",
-                "chi phí",
-                "bảng giá",
-                "tổng tiền",
-                "nhiêu tiền",
-                "trả góp"
-            ]
-        ):
-            intent = "PRICE"
-
-        elif any(
-            term in query_lower
-            for term in [
-                "bác sĩ",
-                "chuyên gia",
-                "bác sỹ",
-                "học vị",
-                "kinh nghiệm",
-                "ai khám"
+                "bác sĩ", "bac si",
+                "chuyên gia", "chuyen gia",
+                "bác sỹ", "bac sy",
+                "học vị", "hoc vi",
+                "kinh nghiệm", "kinh nghiem",
+                "ai khám", "ai kham"
             ]
         ):
             intent = "DOCTOR"
 
         elif any(
-            term in query_lower
+            term in query_search
             for term in [
-                "địa chỉ",
-                "chính sách",
-                "bảo hành",
-                "giờ làm",
-                "vô trùng",
-                "mấy giờ",
-                "ở đâu",
-                "mở cửa",
-                "liên hệ",
+                "bao nhiêu", "bao nhieu",
+                "giá", "gia",
+                "chi phí", "chi phi",
+                "bảng giá", "bang gia",
+                "tổng tiền", "tong tien",
+                "nhiêu tiền", "nhieu tien",
+                "trả góp", "tra gop"
+            ]
+        ):
+            intent = "PRICE"
+
+        elif any(
+            term in query_search
+            for term in [
+                "địa chỉ", "dia chi",
+                "chính sách", "chinh sach",
+                "bảo hành", "bao hanh",
+                "giờ làm", "gio lam",
+                "vô trùng", "vo trung",
+                "mấy giờ", "may gio",
+                "ở đâu", "o dau",
+                "mở cửa", "mo cua",
+                "liên hệ", "lien he",
                 "hotline"
             ]
         ):
             intent = "POLICY"
 
-        elif any(w in query_lower for w in ["ictu", "đại học thái nguyên", "trường nào", "cntt", "tnut", "tump", "tueba"]):
+        elif any(w in query_search for w in ["ictu", "đại học thái nguyên", "dai hoc thai nguyen", "trường nào", "truong nao", "cntt", "tnut", "tump", "tueba"]):
             intent = "UNIVERSITY"
 
-        elif any(w in query_lower for w in ["bạn là ai", "mày là ai", "tên gì", "giới thiệu", "chatbot là gì", "ai tạo ra", "em là ai"]):
+        elif any(w in query_search for w in ["bạn là ai", "ban la ai", "mày là ai", "may la ai", "tên gì", "ten gi", "giới thiệu", "gioi thieu", "chatbot là gì", "chatbot la gi", "ai tạo ra", "ai tao ra", "em là ai", "em la ai"]):
             intent = "IDENTITY"
 
-        elif any(w in query_lower for w in ["thời tiết", "mưa", "nắng", "nhiệt độ", "hôm nay thế nào"]):
+        elif any(w in query_search for w in ["thời tiết", "thoi tiet", "mưa", "mua", "nắng", "nang", "nhiệt độ", "nhiet do", "hôm nay thế nào", "hom nay the nao"]):
             intent = "WEATHER"
 
-        elif any(w in query_lower for w in ["cảm ơn", "thanks", "thank you", "tạm biệt", "bye"]):
+        elif any(w in query_search for w in ["cảm ơn", "cam on", "thanks", "thank you", "tạm biệt", "tam biet", "bye"]):
             intent = "GRATITUDE"
 
-        elif any(w in query_lower for w in ["chào", "hi", "hello", "xin chào", "tư vấn"]):
+        elif any(re.search(rf"\b{re.escape(w)}\b", query_search, re.IGNORECASE) for w in ["chào", "chao", "hi", "hello", "xin chào", "xin chao", "alo", "hey"]) and not any(k in query_search for k in ["giá", "gia", "tiền", "tien", "chi phí", "chi phi", "nhổ", "nho", "trám", "tram", "sứ", "su", "niềng", "nieng", "implant", "bác sĩ", "bac si"]):
             intent = "GREETING"
 
         else:
             dental_keywords = [
-                "răng", "nướu", "lợi", "tủy", "implant", "niềng", "mắc cài", "invisalign",
-                "nhổ", "trám", "hàn", "sứ", "veneer", "tẩy trắng", "cạo vôi", "cao răng",
-                "khám", "bác sĩ", "bác sỹ", "khôn", "áp xe", "ê buốt", "lung lay", "sâu",
-                "chỉnh nha", "nội nha", "dịch vụ", "chi phí", "giá", "bảng giá", "tiền"
+                "răng", "rang", "nướu", "nuou", "lợi", "loi", "tủy", "tuy", "implant", "niềng", "nieng", "mắc cài", "mac cai", "invisalign",
+                "nhổ", "nho", "trám", "tram", "hàn", "han", "sứ", "su", "veneer", "tẩy trắng", "tay trang", "cạo vôi", "cao voi", "cao răng", "cao rang",
+                "khám", "kham", "bác sĩ", "bac si", "bác sỹ", "bac sy", "khôn", "khon", "áp xe", "ap xe", "ê buốt", "e buot", "lung lay", "sâu", "sau",
+                "chỉnh nha", "chinh nha", "nội nha", "noi nha", "dịch vụ", "dich vu", "chi phí", "chi phi", "giá", "gia", "bảng giá", "bang gia", "tiền", "tien"
             ]
-            if any(k in query_lower for k in dental_keywords):
+            if any(k in query_search for k in dental_keywords):
                 intent = "SERVICE"
             else:
                 intent = "GENERAL_CHAT"
