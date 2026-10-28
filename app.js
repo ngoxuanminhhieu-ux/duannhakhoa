@@ -2040,190 +2040,281 @@ function appendFallbackVisionResponse() {
 function generateSmartClientResponse(query) {
     const q = (query || '').toLowerCase().trim();
 
-    // 1. CÂU HỎI VỀ TRƯỜNG ICTU / ĐỀ ÁN NGHIÊN CỨU
-    if (q.includes('ictu') || q.includes('trường nào') || q.includes('đại học thái nguyên') || q.includes('dai hoc thai nguyen') || q.includes('cntt & tt') || q.includes('công nghệ thông tin và truyền thông')) {
+    // =========================================================================
+    // 1. CÂU HỎI VỀ CÁC TRƯỜNG ĐẠI HỌC (TNUT, ICTU, TUMP, TUE, TUEBA, TNU...)
+    // =========================================================================
+    // TNUT - Trường ĐH Kỹ thuật Công nghiệp Thái Nguyên
+    if (q.includes('tnut') || q.includes('kỹ thuật công nghiệp') || q.includes('ky thuat cong nghiep')) {
+        return "🎓 **TNUT là Trường Đại học Kỹ thuật Công nghiệp** (thuộc Đại học Thái Nguyên - Thai Nguyen University of Technology).\n\n" +
+               "• **Vị thế & Truyền thống:** Thành lập từ năm 1965, TNUT là một trong những trung tâm đào tạo kỹ sư công nghệ, kỹ thuật hàng đầu miền Bắc (chuyên sâu về Cơ khí, Kỹ thuật Điện - Điện tử, Tự động hóa, Kỹ thuật Ô tô, Kỹ thuật Xây dựng...).\n" +
+               "• **Địa chỉ:** Số 666 Đường 3/2, Phường Tích Lương, TP. Thái Nguyên, Tỉnh Thái Nguyên.\n" +
+               "• **Mối liên hệ:** TNUT là trường đại học thành viên anh em trong khối **Đại học Thái Nguyên**, cùng hệ thống với **ICTU** (Trường ĐH Công nghệ Thông tin & Truyền thông - nơi nhóm sinh viên phát triển dự án Hệ Thống Nha Khoa AI Premier này)!";
+    }
+
+    // ICTU - Trường ĐH Công nghệ Thông tin & Truyền thông
+    if (q.includes('ictu') || q.includes('công nghệ thông tin và truyền thông') || q.includes('cntt & tt') || q.includes('cntt và tt')) {
         return "🎓 **ICTU là Trường Đại học Công nghệ Thông tin & Truyền thông** (thuộc Đại học Thái Nguyên).\n\n" +
-               "Đây là trường đại học công lập trọng điểm hàng đầu tại khu vực Trung du và Miền núi phía Bắc về đào tạo Công nghệ Thông tin, Kỹ thuật Phần mềm và Trí tuệ Nhân tạo.\n\n" +
-               "📌 Dự án **Hệ Thống Website & AI Chatbot Nha Khoa Quốc Tế Premier** là đề án ứng dụng thực tiễn được nghiên cứu và phát triển bởi sinh viên ICTU, tích hợp công nghệ AI hỗ trợ tư vấn 24/7, sàng lọc thị giác hình ảnh và quản trị nha khoa số!";
+               "• **Vị thế:** Đây là trường đại học công lập trọng điểm hàng đầu tại khu vực Trung du và Miền núi phía Bắc về đào tạo Công nghệ Thông tin, Kỹ thuật Phần mềm, Trí tuệ Nhân tạo & Khoa học Dữ liệu.\n" +
+               "• **Đề án nghiên cứu:** Dự án **Hệ Thống Website & AI Chatbot Nha Khoa Quốc Tế Premier** là đề án ứng dụng thực tiễn được nghiên cứu và phát triển bởi nhóm sinh viên ICTU, tích hợp công nghệ AI hỗ trợ tư vấn 24/7, sàng lọc thị giác hình ảnh và quản trị nha khoa số!";
     }
 
-    // 2. CHÀO HỎI
+    // TUMP - Trường ĐH Y Dược Thái Nguyên
+    if (q.includes('tump') || q.includes('y dược thái nguyên') || q.includes('y thai nguyen') || q.includes('đại học y dược')) {
+        return "🏥 **TUMP là Trường Đại học Y - Dược** (thuộc Đại học Thái Nguyên).\n\n" +
+               "Đây là cái nôi đào tạo Bác sĩ Đa khoa, Bác sĩ Răng Hàm Mặt, Dược sĩ và nhân lực y tế uy tín hàng đầu khu vực phía Bắc. Đội ngũ bác sĩ tại Premier Dental luôn cập nhật liên tục các nghiên cứu y khoa lâm sàng và tiêu chuẩn điều trị chuẩn hóa từ các trường đại học y khoa danh tiếng.";
+    }
+
+    // TUEBA - Trường ĐH Kinh tế & QTKD
+    if (q.includes('tueba') || q.includes('kinh tế và quản trị kinh doanh') || q.includes('kinh tế & qtkd')) {
+        return "🎓 **TUEBA là Trường Đại học Kinh tế & Quản trị Kinh doanh** (thuộc Đại học Thái Nguyên) - đơn vị đào tạo hàng đầu về quản trị, kinh tế, tài chính - ngân hàng và marketing tại khu vực phía Bắc.";
+    }
+
+    // TNU - Đại học Thái Nguyên nói chung hoặc câu hỏi "trường nào"
+    if (q.includes('tnu') || (q.includes('trường nào') && !q.includes('răng'))) {
+        return "🎓 **Hệ thống Đại học Thái Nguyên (TNU)** bao gồm các trường đại học thành viên trọng điểm:\n\n" +
+               "1. **ICTU:** Trường ĐH Công nghệ Thông tin & Truyền thông *(nơi sinh viên nghiên cứu đề án Nha Khoa AI này)*.\n" +
+               "2. **TNUT:** Trường ĐH Kỹ thuật Công nghiệp (đào tạo kỹ sư cơ khí, điện, tự động hóa từ 1965).\n" +
+               "3. **TUMP:** Trường ĐH Y - Dược (đào tạo Bác sĩ Đa khoa, Răng Hàm Mặt, Dược sĩ).\n" +
+               "4. **TUE:** Trường ĐH Sư phạm Thái Nguyên.\n" +
+               "5. **TUEBA:** Trường ĐH Kinh tế & Quản trị Kinh doanh.\n" +
+               "6. **TUAF & TNUS:** Trường ĐH Nông Lâm & Trường ĐH Khoa học.\n\n" +
+               "👉 Bạn đang tìm hiểu cụ thể về trường nào hoặc cần em hỗ trợ tư vấn dịch vụ nha khoa nào ạ?";
+    }
+
+    // =========================================================================
+    // 2. CHÀO HỎI & BẮT ĐẦU TƯ VẤN
+    // =========================================================================
     if (["chào", "xin chào", "hi", "hello", "alo", "bạn ơi", "cho tôi hỏi", "tư vấn"].some(w => q === w || q.startsWith(w + ' '))) {
-        return "👋 **Xin chào bạn! Tôi là Trợ Lý AI của Nha Khoa Quốc Tế Premier Clinic.**\n\n" +
-               "Tôi có thể hỗ trợ bạn:\n" +
-               "• 🦷 **Tư vấn dịch vụ nha khoa:** Niềng răng, Trồng răng Implant, Bọc răng sứ, Nhổ răng khôn, Trám răng, Lấy tủy...\n" +
-               "• 💰 **Bảng giá niêm yết CSDL:** Xem chi phí chi tiết từng dịch vụ\n" +
-               "• 👨‍⚕️ **Đội ngũ Bác sĩ:** Thông tin bác sĩ chuyên khoa phụ trách\n" +
-               "• 📍 **Địa chỉ & Giờ làm việc:** 123 Nguyễn Văn Cừ, P.4, Q.5, TP.HCM\n" +
-               "• 💳 **Chính sách:** Trả góp 0% lãi suất, bảo hành trọn đời Implant\n" +
-               "• 📅 **Đặt lịch khám:** Miễn phí 100% khám & chụp X-quang 3D\n\n" +
-               "Bạn đang quan tâm dịch vụ nào hoặc cần tư vấn vấn đề gì về răng miệng ạ?";
+        return "👋 **Xin chào bạn! Tôi là Chuyên gia Tư vấn Nha khoa AI của Phòng khám Nha Khoa Quốc Tế Premier.**\n\n" +
+               "Tôi được trang bị toàn bộ tri thức y khoa nha khoa chuyên sâu và dữ liệu hệ thống phòng khám, luôn sẵn sàng giải đáp MỌI thắc mắc của bạn:\n" +
+               "• 🦷 **Bệnh học & Triệu chứng:** Đau nhức, sâu răng, viêm tủy, viêm nha chu, răng khôn, mòn men, ê buốt...\n" +
+               "• 🔬 **Dịch vụ chuyên sâu:** Niềng răng mắc cài/Invisalign, Cấy ghép Implant, Bọc răng sứ, Dán Veneer, Nhổ răng Piezotome...\n" +
+               "• 💰 **Bảng giá minh bạch & Trả góp 0%:** Báo giá chính xác từng ca điều trị.\n" +
+               "• 👨‍⚕️ **Đội ngũ Bác sĩ:** Trực tiếp thăm khám và lên phác đồ 1:1.\n\n" +
+               "Bạn đang gặp triệu chứng gì hoặc quan tâm dịch vụ nào, hãy chia sẻ cụ thể để em tư vấn thấu đáo nhé!";
     }
 
-    // 3. ĐỊA CHỈ PHÒNG KHÁM / VỊ TRÍ
+    // =========================================================================
+    // 3. THÔNG TIN PHÒNG KHÁM (ĐỊA CHỈ, GIỜ LÀM VIỆC, LIÊN HỆ, HOTLINE)
+    // =========================================================================
     if (["địa chỉ", "ở đâu", "chỗ nào", "nơi nào", "vị trí", "đường nào", "chi nhánh", "chỉ đường", "map"].some(k => q.includes(k))) {
         return "📍 **ĐỊA CHỈ PHÒNG KHÁM NHA KHOA QUỐC TẾ PREMIER:**\n\n" +
-               "• **Địa chỉ chính:** 123 Nguyễn Văn Cừ, Phường 4, Quận 5, TP. Hồ Chí Minh\n" +
-               "• **Thời gian làm việc:**\n" +
+               "• **Trụ sở chính:** 123 Nguyễn Văn Cừ, Phường 4, Quận 5, TP. Hồ Chí Minh\n" +
+               "• **Thời gian phục vụ:**\n" +
                "  + Thứ 2 - Thứ 7: 08:00 - 20:00 (làm việc thông trưa)\n" +
                "  + Chủ Nhật: 08:00 - 17:30\n" +
                "• **Tổng đài CSKH & Đặt lịch:** **1900 6868** (Miễn phí cước gọi)\n" +
                "• **Hotline Cấp cứu 24/7:** **0900.123.456**\n\n" +
-               "🎁 **Ưu đãi:** Đặt hẹn trước qua website hoặc AI Chatbot được **MIỄN PHÍ 100% chi phí khám lâm sàng & chụp phim X-quang 3D CT ConeBeam**!";
+               "🎁 **Đặc quyền:** Đặt lịch trước qua Website hoặc Chatbot được **MIỄN PHÍ 100% gói Khám tổng quát & Chụp phim X-quang CT ConeBeam 3D**!";
     }
 
-    // 4. GIỜ LÀM VIỆC / LỊCH MỞ CỬA
     if (["mấy giờ", "giờ làm", "mở cửa", "đóng cửa", "thời gian làm", "chủ nhật", "thứ 7"].some(k => q.includes(k))) {
-        return "⏰ **THỜI GIAN LÀM VIỆC TẠI NHA KHOA QUỐC TẾ PREMIER:**\n\n" +
-               "• **Thứ 2 đến Thứ 7:** 08:00 - 20:00 (Phòng khám làm việc thông trưa)\n" +
+        return "⏰ **KHUNG GIỜ PHỤC VỤ TẠI NHA KHOA QUỐC TẾ PREMIER:**\n\n" +
+               "• **Thứ 2 đến Thứ 7:** 08:00 - 20:00 (Phòng khám mở cửa liên tục suốt trưa)\n" +
                "• **Chủ Nhật:** 08:00 - 17:30\n" +
-               "• **Trực cấp cứu răng hàm mặt:** 24/7 qua Hotline **0900.123.456**\n\n" +
-               "Bạn có thể bấm nút **Đặt Lịch Khám** phía trên để giữ khung giờ ưu tiên không cần chờ đợi nhé!";
+               "• **Hotline Trực Cấp Cứu 24/7:** **0900.123.456** luôn sẵn sàng tiếp nhận các ca chấn thương răng hàm mặt hoặc đau nhức cấp tính.\n\n" +
+               "👉 Bạn có thể bấm nút **Đặt Lịch Khám** phía trên để được xếp phòng ưu tiên không cần chờ đợi!";
     }
 
-    // 5. ĐỘI NGŨ BÁC SĨ CHUYÊN KHOA
+    // =========================================================================
+    // 4. ĐỘI NGŨ BÁC SĨ CHUYÊN KHOA
+    // =========================================================================
     if (["bác sĩ", "chuyên gia", "bác sỹ", "đội ngũ", "ai khám", "học vị", "kinh nghiệm"].some(k => q.includes(k))) {
-        return "👨‍⚕️ **ĐỘI NGŨ BÁC SĨ CHUYÊN KHOA NHA KHOA QUỐC TẾ PREMIER:**\n\n" +
-               "1. **ThS. BS. Nguyễn Văn An**: Trưởng khoa Răng Hàm Mặt Tổng Quát (12 năm kinh nghiệm, tu nghiệp Pháp).\n" +
-               "2. **BS. CKI. Trần Thị Mai**: Chuyên gia Chỉnh nha & Niềng răng Invisalign Hoa Kỳ (8 năm kinh nghiệm).\n" +
-               "3. **ThS. BS. Lê Hoàng Nam**: Chuyên gia Cấy ghép Implant Nha khoa Thụy Sĩ (15 năm kinh nghiệm, >2.000 ca thành công).\n" +
-               "4. **BS. Phạm Thùy Linh**: Chuyên gia Răng sứ Thẩm mỹ & Thiết kế nụ cười Dán sứ Veneer Emax (7 năm kinh nghiệm).\n" +
-               "5. **BS. CKI. Đỗ Minh Đức**: Chuyên gia Phẫu thuật Tiểu phẫu & Nhổ răng khôn sóng Piezotome (10 năm kinh nghiệm).\n\n" +
-               "👉 Bạn muốn đặt lịch khám trực tiếp với Bác sĩ nào, hãy nhắn lại để em hỗ trợ nhé!";
+        return "👨‍⚕️ **ĐỘI NGŨ BÁC SĨ CHUYÊN GIA NHA KHOA QUỐC TẾ PREMIER:**\n\n" +
+               "1. **ThS. BS. Nguyễn Văn An**: Trưởng khoa Răng Hàm Mặt Tổng Quát (12 năm kinh nghiệm, tu nghiệp chuyên sâu tại Pháp).\n" +
+               "2. **BS. CKI. Trần Thị Mai**: Chuyên gia Chỉnh nha & Niềng răng Invisalign Hoa Kỳ (8 năm kinh nghiệm, điều trị hơn 1.500 ca).\n" +
+               "3. **ThS. BS. Lê Hoàng Nam**: Chuyên gia Cấy ghép Implant Nha khoa Thụy Sĩ (15 năm kinh nghiệm, tỷ lệ thành công 99.8%).\n" +
+               "4. **BS. Phạm Thùy Linh**: Chuyên gia Phục hình Thẩm mỹ & Thiết kế nụ cười Dán sứ Veneer Emax (7 năm kinh nghiệm).\n" +
+               "5. **BS. CKI. Đỗ Minh Đức**: Chuyên gia Tiểu phẫu & Nhổ răng khôn sóng siêu âm Piezotome không đau (10 năm kinh nghiệm).\n\n" +
+               "👉 Bạn muốn đặt lịch thăm khám trực tiếp cùng Bác sĩ nào, hãy nhắn lại để em hỗ trợ nhé!";
     }
 
-    // 6. NHỔ RĂNG / RĂNG KHÔN
+    // =========================================================================
+    // 5. CÁC DỊCH VỤ NỘI BỘ NHA KHOA PREMIER
+    // =========================================================================
+    // NHỔ RĂNG KHÔN / TIỂU PHẪU
     if (q.includes('nhổ răng') || q.includes('răng khôn') || q.includes('piezotome')) {
         return "🦷 **DỊCH VỤ NHỔ RĂNG KHÔNG ĐAU CÔNG NGHỆ PIEZOTOME:**\n\n" +
-               "• **Chi phí niêm yết:**\n" +
-               "  + Nhổ răng một chân / Răng sữa / Răng thường: 500.000 VNĐ / răng\n" +
-               "  + Nhổ răng khôn hàm trên: 1.000.000 - 1.500.000 VNĐ / răng\n" +
-               "  + Nhổ răng khôn mọc lệch / mọc ngầm hàm dưới: 1.800.000 - 2.500.000 VNĐ / răng\n" +
-               "• **Công nghệ:** Sóng siêu âm Piezotome bóc tách dây chằng êm ái, bảo tồn 100% xương hàm, không dùng búa đục.\n" +
-               "• **Hỗ trợ lành thương:** Ứng dụng màng huyết tương giàu tiểu cầu PRF giúp cầm máu tức thì, giảm sưng đau gấp 3 lần.\n" +
-               "• **Bác sĩ phụ trách:** BS. CKI Đỗ Minh Đức (Chuyên gia phẫu thuật miệng).\n" +
-               "🎁 **Miễn phí 100% chụp phim CT 3D** xác định vị trí dây thần kinh trước khi nhổ!";
+               "• **Cơ chế & Công nghệ:** Sử dụng năng lượng sóng siêu âm biến tần Piezotome tác động chọn lọc làm đứt các dây chằng quanh chân răng nhẹ nhàng. Tuyệt đối không dùng búa đục gõ thô bạo, bảo tồn 100% xương ổ răng và mô mềm xung quanh.\n" +
+               "• **Ứng dụng Màng PRF:** Ghép màng huyết tương giàu tiểu cầu tự thân PRF vào ổ răng giúp cầm máu ngay lập tức và kích thích lành thương nhanh gấp 3 lần.\n" +
+               "• **Bảng giá niêm yết tại phòng khám:**\n" +
+               "  + Nhổ răng sữa / Răng một chân thường: 500.000 VNĐ / răng\n" +
+               "  + Nhổ răng khôn hàm trên (mọc thẳng/nghiêng nhẹ): 1.000.000 - 1.500.000 VNĐ / răng\n" +
+               "  + Nhổ răng khôn hàm dưới mọc lệch, mọc ngầm, đâm ngang: 1.800.000 - 2.500.000 VNĐ / răng\n" +
+               "• **Bác sĩ phụ trách:** BS. CKI Đỗ Minh Đức (hơn 3.000 ca răng khôn an toàn).\n" +
+               "🎁 **Miễn phí 100% chụp phim CT ConeBeam 3D** khảo sát vị trí ống thần kinh trước khi nhổ!";
     }
 
-    // 7. NIỀNG RĂNG / CHỈNH NHA
+    // NIỀNG RĂNG / CHỈNH NHA
     if (q.includes('niềng răng') || q.includes('chỉnh nha') || q.includes('invisalign') || q.includes('mắc cài')) {
         return "✨ **DỊCH VỤ NIỀNG RĂNG CHỈNH NHA KỸ THUẬT SỐ:**\n\n" +
-               "• **Bảng giá niêm yết:**\n" +
-               "  + Niềng răng mắc cài kim loại: Từ 20.000.000 - 30.000.000 VNĐ / liệu trình\n" +
-               "  + Niềng răng mắc cài sứ tự buộc: Từ 35.000.000 - 45.000.000 VNĐ\n" +
-               "  + Niềng răng trong suốt Invisalign Hoa Kỳ: Từ 45.000.000 - 90.000.000 VNĐ\n" +
-               "• **Công nghệ:** Quét dấu hàm 3D iTero Element 5D xem trước kết quả sau niềng ClinCheck.\n" +
+               "• **Giải pháp áp dụng:**\n" +
+               "  + Niềng răng mắc cài kim loại thông minh: 20.000.000 - 30.000.000 VNĐ / liệu trình trọn gói\n" +
+               "  + Niềng răng mắc cài sứ thẩm mỹ tự buộc: 35.000.000 - 45.000.000 VNĐ\n" +
+               "  + Niềng răng trong suốt Invisalign Hoa Kỳ: 45.000.000 - 90.000.000 VNĐ (tháo lắp tiện lợi, vô hình khi giao tiếp)\n" +
+               "• **Công nghệ 3D iTero Element 5D:** Quét mẫu hàm trong 60 giây và mô phỏng trước nụ cười tương lai (ClinCheck).\n" +
                "• **Chính sách:** Hỗ trợ **TRẢ GÓP 0% LÃI SUẤT** chỉ từ 1.000.000đ/tháng, thanh toán trước 30%.\n" +
-               "• **Bác sĩ chuyên trách:** BS. CKI Trần Thị Mai (Chứng chỉ Invisalign Quốc Tế).";
+               "• **Bác sĩ:** BS. CKI Trần Thị Mai (Chứng nhận Invisalign Quốc Tế).";
     }
 
-    // 8. CẤY GHÉP IMPLANT / TRỒNG RĂNG
+    // CẤY GHÉP IMPLANT / TRỒNG RĂNG
     if (q.includes('implant') || q.includes('trồng răng') || q.includes('cấy ghép') || q.includes('mất răng')) {
         return "🌟 **DỊCH VỤ CẤY GHÉP IMPLANT NHA KHOA THỤY SĨ & HÀN QUỐC:**\n\n" +
-               "• **Bảng giá niêm yết trụ chính hãng:**\n" +
+               "• **Bản chất y khoa:** Trụ Titanium tinh khiết đóng vai trò như chân răng thật cấy trực tiếp vào xương hàm, gắn mão sứ bên trên. Ngăn ngừa vĩnh viễn hiện tượng tiêu xương hàm và hóp má lão hóa do mất răng.\n" +
+               "• **Bảng giá trụ chính hãng niêm yết:**\n" +
                "  + Trụ Implant Osstem / Dentium (Hàn Quốc): 12.000.000 - 15.000.000 VNĐ / trụ\n" +
                "  + Trụ Implant Straumann / Nobel Biocare (Thụy Sĩ / Mỹ): 25.000.000 - 32.000.000 VNĐ / trụ\n" +
-               "• **Ưu điểm:** Khôi phục 100% lực ăn nhai tự nhiên, ngăn ngừa tiêu xương hàm và hóp má.\n" +
-               "• **Bảo hành:** Cấp thẻ bảo hành **TRỌN ĐỜI** chính hãng có mã QR Code định danh.\n" +
-               "• **Thực hiện:** ThS. BS Lê Hoàng Nam trực tiếp phẫu thuật với máng định vị 3D không đau chỉ 15 phút.\n" +
-               "🎁 Tặng kèm mão răng sứ và miễn phí chụp phim CT 3D khi cấy trụ!";
+               "• **Chế độ bảo hành:** Cấp thẻ bảo hành **TRỌN ĐỜI** có mã QR Code toàn cầu.\n" +
+               "• **Thực hiện:** ThS. BS Lê Hoàng Nam trực tiếp phẫu thuật qua máng định vị 3D không đau chỉ 15 phút.\n" +
+               "🎁 Tặng kèm mão sứ và miễn phí chụp phim CT 3D khi cấy ghép!";
     }
 
-    // 9. BỌC RĂNG SỨ / DÁN VENEER
+    // BỌC RĂNG SỨ / DÁN VENEER
     if (q.includes('bọc sứ') || q.includes('răng sứ') || q.includes('veneer') || q.includes('dán sứ')) {
-        return "💎 **DỊCH VỤ PHỤC HÌNH RĂNG SỨ & DÁN SỨ VENEER THẨM MỸ:**\n\n" +
-               "• **Bọc răng sứ toàn phần:**\n" +
-               "  + Răng sứ Zirconia / Cercon HT: 2.000.000 - 3.500.000 VNĐ / răng (BH 10 năm)\n" +
-               "  + Răng sứ Lava Plus (Hoa Kỳ): 5.000.000 VNĐ / răng (BH 15 năm)\n" +
-               "• **Dán sứ Veneer Emax bảo tồn men răng:** 4.000.000 - 6.500.000 VNĐ / răng (Chỉ mài siêu mỏng 0.2 - 0.5mm)\n" +
-               "• **Bác sĩ:** BS. Phạm Thùy Linh (Chuyên gia Smile Design tạo form răng tự nhiên).\n" +
-               "🎁 Hỗ trợ trả góp 0% cho hóa đơn từ 10 triệu đồng!";
+        return "💎 **DỊCH VỤ PHỤC HÌNH RĂNG SỨ & DÁN SỨ VENEER EMAX:**\n\n" +
+               "• **Bọc răng sứ toàn phần:** Khắc phục răng gãy vỡ, sâu lớn hoặc xỉn màu nặng. Răng sứ Zirconia / Cercon HT: 2.000.000 - 3.500.000 VNĐ / răng (Bảo hành 10 năm); Răng sứ Lava Plus Hoa Kỳ: 5.000.000 VNĐ (Bảo hành 15 năm).\n" +
+               "• **Dán sứ Veneer Emax bảo tồn men răng:** 4.000.000 - 6.500.000 VNĐ / răng. Chỉ xử lý bề mặt siêu mỏng 0.2 - 0.5mm, không mài nhỏ răng thật, thẩm mỹ tự nhiên trong bóng chuẩn sao.\n" +
+               "• **Bác sĩ phụ trách:** BS. Phạm Thùy Linh (Chuyên gia Smile Design).\n" +
+               "🎁 Hỗ trợ trả góp 0% lãi suất cho khách hàng làm từ 4 răng sứ trở lên!";
     }
 
-    // 10. TẨY TRẮNG RĂNG
+    // TẨY TRẮNG RĂNG
     if (q.includes('tẩy trắng') || q.includes('trắng răng')) {
         return "✨ **DỊCH VỤ TẨY TRẮNG RĂNG LASER WHITENING:**\n\n" +
-               "• **Chi phí:** 1.500.000 VNĐ / gói toàn diện tại phòng khám\n" +
-               "• **Thời gian:** 45 - 60 phút là xong\n" +
-               "• **Công nghệ:** Ánh sáng lạnh Laser kích hoạt gel trắng răng nhập khẩu Hoa Kỳ, bật 2 - 4 tone màu mà không gây ê buốt men răng.\n" +
-               "• Tặng kèm bộ gel duy trì độ trắng bóng tại nhà!";
+               "• **Cơ chế:** Năng lượng ánh sáng Laser kích hoạt các phân tử Hydrogen Peroxide phóng thích oxy nguyên chất bẻ gãy chuỗi protein màu bám trong men răng.\n" +
+               "• **Chi phí:** 1.500.000 VNĐ / gói toàn diện tại ghế nha (thực hiện 45 phút, nâng 2 - 4 tông màu không ê buốt).\n" +
+               "• **Tặng kèm:** Bộ gel duy trì trắng sáng tại nhà.";
     }
 
-    // 11. TRÁM RĂNG / HÀN RĂNG
+    // TRÁM RĂNG
     if (q.includes('trám răng') || q.includes('hàn răng') || q.includes('sâu răng')) {
-        return "🦷 **DỊCH VỤ TRÁM RĂNG THẨM MỸ COMPOSITE 3M:**\n\n" +
-               "• **Chi phí:** 350.000 - 500.000 VNĐ / răng\n" +
-               "• **Vật liệu:** Composite hạt độn nano 3M (Hoa Kỳ) trùng màu răng thật, chịu lực nhai tốt.\n" +
-               "• **Bảo hành:** 2 năm không bong tróc.";
+        return "🦷 **DỊCH VỤ TRÁM RĂNG THẨM MỸ COMPOSITE 3M NANO:**\n\n" +
+               "• **Cơ chế:** Nạo sạch mô ngà sâu nhiễm khuẩn và lấp đầy xoang sâu bằng vật liệu hạt độn nano Composite 3M (Mỹ), quang trùng hợp bằng đèn LED đông cứng tức thì.\n" +
+               "• **Chi phí:** 350.000 - 500.000 VNĐ / răng.\n" +
+               "• **Bảo hành:** 2 năm không bong tróc, màu sắc tệp 100% với men răng thật.";
     }
 
-    // 12. LẤY TỦY / CHỮA TỦY
+    // ĐIỀU TRỊ TỦY
     if (q.includes('tủy') || q.includes('lấy tủy') || q.includes('chữa tủy')) {
-        return "⚡ **DỊCH VỤ ĐIỀU TRỊ NỘI NHA LẤY TỦY RĂNG CÔNG NGHỆ RECIPROC:**\n\n" +
-               "• **Chi phí:** 800.000 - 1.200.000 VNĐ / răng (tùy vị trí răng 1 chân hay nhiều chân)\n" +
-               "• **Ưu điểm:** Máy định vị chóp thông minh làm sạch triệt để ổ viêm tủy trong 1 lần hẹn, hết đau buốt ngay sau điều trị.";
+        return "⚡ **ĐIỀU TRỊ NỘI NHA LẤY TỦY RĂNG RECIPROC SIÊU ÂM:**\n\n" +
+               "• **Bản chất:** Loại bỏ mô tủy bị viêm hoại tử, bơm rửa sát trùng hệ thống ống tủy và trám bít kín khít bằng Gutta-Percha.\n" +
+               "• **Chi phí:** 800.000 - 1.200.000 VNĐ / răng (tùy vị trí răng 1 chân cửa hay nhiều chân hàm).\n" +
+               "• **Ưu điểm:** Máy định vị chóp thông minh làm sạch triệt để, cắt đứt cơn đau nhức chỉ trong 1 lần hẹn.";
     }
 
-    // 13. CẠO VÔI RĂNG / CAO RĂNG
+    // CẠO VÔI RĂNG
     if (q.includes('cạo vôi') || q.includes('cao răng') || q.includes('đánh bóng')) {
         return "🌿 **CẠO VÔI RĂNG & ĐÁNH BÓNG SÓNG SIÊU ÂM:**\n\n" +
-               "• **Chi phí:** 250.000 VNĐ / 2 hàm\n" +
-               "• **Ưu điểm:** Đầu rung siêu âm êm ái đánh bay mảng bám vôi răng sâu dưới nướu, ngăn ngừa viêm nha chu và khử mùi hôi miệng.";
+               "• **Chi phí:** 250.000 VNĐ / 2 hàm.\n" +
+               "• **Cơ chế:** Đầu tip siêu âm tạo dao động vi thể bóc tách mảng bám vôi răng dưới nướu mà không tổn hại men răng, ngăn ngừa viêm nướu, tụt lợi và khử mùi hôi miệng.";
     }
 
-    // 14. BẢNG GIÁ TỔNG QUAN
-    if (["bảng giá", "giá", "chi phí", "bao nhiêu", "tiền", "nhiêu"].some(k => q.includes(k))) {
-        return "💰 **BẢNG GIÁ DỊCH VỤ NIÊM YẾT CHÍNH THỨC:**\n\n" +
-               "• Khám răng & Chụp X-quang 3D: **Miễn phí (0đ)**\n" +
+    // BẢNG GIÁ TỔNG HỢP
+    if (["bảng giá", "giá", "chi phí", "bao nhiêu", "tiền"].some(k => q.includes(k))) {
+        return "💰 **BẢNG GIÁ DỊCH VỤ NIÊM YẾT CHÍNH THỨC NHA KHOA PREMIER:**\n\n" +
+               "• Khám răng tổng quát & Chụp X-quang 3D: **Miễn phí (0đ)**\n" +
                "• Cạo vôi răng & Đánh bóng siêu âm: **250.000đ**\n" +
-               "• Trám răng thẩm mỹ Composite: **350.000đ / răng**\n" +
+               "• Trám răng Composite 3M: **350.000đ / răng**\n" +
                "• Nhổ răng thường / Răng khôn: **500.000 - 2.500.000đ**\n" +
-               "• Lấy tủy răng công nghệ vi sóng: **800.000đ / răng**\n" +
+               "• Lấy tủy răng công nghệ Reciproc: **800.000đ / răng**\n" +
                "• Tẩy trắng răng Laser Whitening: **1.500.000đ / lần**\n" +
                "• Bọc răng sứ Cercon / Zirconia: **2.000.000 - 3.500.000đ / răng**\n" +
                "• Dán sứ Veneer Emax: **4.000.000đ / răng**\n" +
-               "• Niềng răng Chỉnh nha: **Từ 20.000.000đ (Trả góp 0%)**\n" +
+               "• Niềng răng Chỉnh nha (Mắc cài / Invisalign): **Từ 20.000.000đ (Trả góp 0%)**\n" +
                "• Cấy ghép Implant Thụy Sĩ: **Từ 12.000.000đ / trụ (BH trọn đời)**\n\n" +
-               "👉 Bạn đang quan tâm dịch vụ nào, hãy nhắn lại để em báo giá chi tiết nhé!";
+               "👉 Bạn cần tư vấn chi phí cụ thể cho dịch vụ nào, hãy nhắn lại để em hỗ trợ nhé!";
     }
 
-    // 15. CHÍNH SÁCH BẢO HÀNH & TRẢ GÓP
-    if (["bảo hành", "trả góp", "thanh toán", "thẻ tín dụng", "0%"].some(k => q.includes(k))) {
-        return "💳 **CHÍNH SÁCH ƯU ĐÃI & BẢO HÀNH CHÍNH HÃNG:**\n\n" +
-               "1. **Chương trình Trả Góp 0% Lãi Suất:**\n" +
-               "   • Áp dụng cho Niềng răng và Cấy ghép Implant.\n" +
-               "   • Chỉ cần thanh toán trước 30%, phần còn lại chia đều trong 6 - 12 tháng qua thẻ tín dụng hơn 25 ngân hàng đối tác.\n" +
-               "2. **Chế Độ Bảo Hành:**\n" +
-               "   • Trụ Implant: Bảo hành **TRỌN ĐỜI** chính hãng (Straumann, Osstem).\n" +
-               "   • Răng sứ thẩm mỹ: Bảo hành **10 - 15 năm** (Cercon HT, Emax, Lava).\n" +
-               "   • Trám răng Composite: Bảo hành 2 năm.\n" +
-               "3. **Ưu đãi online:** Miễn phí 100% khám lâm sàng và chụp phim X-quang 3D toàn cảnh khi đặt hẹn trước!";
+    // =========================================================================
+    // 6. KIẾN THỨC Y KHOA NỀN TẢNG & CÂU HỎI NGOÀI DANH MỤC
+    // =========================================================================
+    // SƠ CỨU GÃY RĂNG / RƠI RĂNG / MẺ RĂNG
+    if (q.includes('gãy răng') || q.includes('mẻ răng') || q.includes('rơi răng') || q.includes('rụng răng') || q.includes('chấn thương')) {
+        return "🚨 **HƯỚNG DẪN XỬ LÝ CẤP CỨU GÃY / RƠI RĂNG (QUY TẮC VÀNG 60 PHÚT):**\n\n" +
+               "1. **Bản chất:** Khi răng bị bật ra khỏi ổ, các tế bào màng nha chu quanh chân răng vẫn còn sống trong một khoảng thời gian ngắn nếu được bảo quản đúng môi trường sinh lý.\n" +
+               "2. **Các bước sơ cứu khẩn cấp tại nhà:**\n" +
+               "   • Tìm lại chiếc răng, **chỉ cầm vào thân răng**, tuyệt đối KHÔNG chạm hoặc chà xát vào phần chân răng.\n" +
+               "   • Rửa nhẹ qua nước muối sinh lý hoặc sữa tươi tiệt trùng trong 10 giây nếu bị dính bẩn (không dùng xà phòng, cồn).\n" +
+               "   • **Môi trường bảo quản tối ưu:** Ngâm răng trong **sữa tươi không đường** hoặc nước muối sinh lý 0.9% (hoặc ngậm dưới lưỡi của bệnh nhân).\n" +
+               "   • Di chuyển ngay đến phòng khám nha khoa gần nhất trong **vòng 30 - 60 phút** để bác sĩ cấy lại vào ổ răng.\n" +
+               "3. **Trường hợp mẻ răng nhỏ:** Bác sĩ có thể trám Composite phục hồi (350k) hoặc làm mặt dán Veneer để khôi phục thẩm mỹ hoàn hảo.";
     }
 
-    // 16. TRIỆU CHỨNG ĐAU NHỨC / Ê BUỐT
-    if (["đau", "nhức", "buốt", "sưng", "chảy máu", "mủ", "hôi miệng"].some(k => q.includes(k))) {
-        return "⚠️ **LỜI KHUYÊN TỪ BÁC SĨ NHA KHOA PREMIER:**\n\n" +
-               "Triệu chứng đau nhức, sưng nướu hoặc ê buốt có thể là dấu hiệu cảnh báo của viêm tủy, sâu răng ăn sâu vào ngà hoặc răng khôn đang mọc lệch chèn ép xương hàm.\n\n" +
-               "👉 Bạn không nên tự ý dùng thuốc giảm đau kéo dài tại nhà. Hãy đến phòng khám để được bác sĩ kiểm tra và **chụp phim 3D CT ConeBeam hoàn toàn MIỄN PHÍ** để xác định chính xác nguyên nhân và xử lý dứt điểm nhé!";
+    // THUỐC NHA KHOA / GIẢM ĐAU / KHÁNG SINH
+    if (q.includes('thuốc') || q.includes('kháng sinh') || q.includes('giảm đau') || q.includes('uống gì')) {
+        return "💊 **TƯ VẤN DƯỢC HỌC & CẨM NANG THUỐC NHA KHOA:**\n\n" +
+               "1. **Giảm đau - Hạ sốt thông thường:**\n" +
+               "   • **Paracetamol (500mg):** Uống 1 viên mỗi 4 - 6 giờ khi đau nhức nhẹ (không quá 4g/ngày).\n" +
+               "   • **Ibuprofen (400mg):** Giảm đau kèm kháng viêm tốt trong đau răng, sưng nướu (uống sau khi ăn no, thận trọng nếu có bệnh lý dạ dày).\n" +
+               "2. **Kháng sinh nha khoa (Cần có chỉ định bác sĩ):**\n" +
+               "   • **Amoxicillin** hoặc phối hợp **Spiramycin + Metronidazole (như Rodogyl / Dorogyne):** Thường được kê đơn trong các trường hợp nhiễm trùng răng miệng, áp xe quanh chóp, viêm tấy mủ do vi khuẩn kỵ khí.\n" +
+               "3. **Vệ sinh sát khuẩn tại chỗ:**\n" +
+               "   • Súc miệng dung dịch **Chlorhexidine Gluconate 0.12%** 2 lần/ngày giúp kiểm soát vi khuẩn và giảm viêm nướu hiệu quả.\n\n" +
+               "⚠️ **Lưu ý quan trọng:** Không tự ý lạm dụng thuốc kháng sinh tại nhà vì thuốc chỉ kiểm soát triệu chứng tạm thời chứ không giải quyết được ổ nhiễm trùng trong răng. Cần đến gặp nha sĩ để làm sạch ổ viêm dứt điểm!";
     }
 
-    // 17. ĐẶT LỊCH HẸN
+    // PHẪU THUẬT HÀM HÔ MÓM / NGOÀI DANH MỤC
+    if (q.includes('phẫu thuật hàm') || q.includes('hô móm') || q.includes('cắt hàm') || q.includes('xương hàm')) {
+        return "🏥 **KIẾN THỨC CHUYÊN KHOA PHẪU THUẬT HÀM HÔ MÓM (ORTHOGNATHIC SURGERY):**\n\n" +
+               "1. **Bản chất:** Khi tình trạng hô hoặc móm xuất phát từ sự phát triển bất cân xứng của xương hàm (chứ không đơn thuần do răng), niềng răng thông thường không thể giải quyết triệt để mà cần phẫu thuật chỉnh hình xương hàm.\n" +
+               "2. **Quy trình phối hợp:** Thường kết hợp niềng răng trước phẫu thuật để đưa các răng về đúng trục, sau đó bác sĩ phẫu thuật cắt và dịch chuyển xương hàm (BSSO, Le Fort 1) về đúng khớp cắn chuẩn.\n" +
+               "3. **Mức giá thị trường tham khảo:** Dao động phổ biến từ **60.000.000 - 120.000.000 VNĐ** (tùy phẫu thuật 1 hàm hay 2 hàm).\n" +
+               "👉 Tại Premier Dental, Bác sĩ Chuyên khoa sẽ chụp phim 3D Cephalo khảo sát xương hàm để tư vấn bạn có thể chỉnh nha thông thường hay bắt buộc phẫu thuật.";
+    }
+
+    // ĐÍNH KIM CƯƠNG / ĐÍNH ĐÁ LÊN RĂNG
+    if (q.includes('đính đá') || q.includes('đính kim cương') || q.includes('gắn đá')) {
+        return "💎 **DỊCH VỤ ĐÍNH ĐÁ / KIM CƯƠNG LÊN RĂNG THẨM MỸ:**\n\n" +
+               "• **Quy trình:** Bác sĩ sử dụng keo dán sinh học nha khoa chuyên dụng gắn trực tiếp viên đá/kim cương lên bề mặt men răng (công nghệ hiện đại không cần khoan lỗ trên răng, hoàn toàn bảo tồn men răng).\n" +
+               "• **Mức giá thị trường tham khảo:**\n" +
+               "  + Công đính đá (khách tự mang đá): 300.000 - 500.000 VNĐ\n" +
+               "  + Trọn gói cả đá nhân tạo nha khoa cao cấp: 800.000 - 1.500.000 VNĐ\n" +
+               "• Độ bám dính chắc chắn, không gây cộm hay vướng víu khi ăn nhai.";
+    }
+
+    // HÀM THÁO LẮP / PHỤC HÌNH THÁO LẮP
+    if (q.includes('hàm tháo lắp') || q.includes('hàm giả') || q.includes('răng giả tháo lắp')) {
+        return "🦷 **DỊCH VỤ PHỤC HÌNH RĂNG GIẢ HÀM THÁO LẮP:**\n\n" +
+               "1. **Bản chất:** Giải pháp phục hồi răng đã mất cho người cao tuổi hoặc người chưa đủ điều kiện cấy ghép Implant, có thể tháo ra vệ sinh hàng ngày.\n" +
+               "2. **Các loại hàm phổ biến & Mức giá thị trường:**\n" +
+               "   • Hàm tháo lắp bán phần / toàn phần nền nhựa cứng: 2.000.000 - 3.500.000 VNĐ / hàm\n" +
+               "   • Hàm khung kim loại Titan (nhẹ, bền, chắc chắn): 4.000.000 - 6.000.000 VNĐ / hàm\n" +
+               "   • Hàm nhựa dẻo Biosoft (ôm khít nướu, không đau cấn): 3.500.000 - 5.000.000 VNĐ / hàm\n" +
+               "3. **Lời khuyên bác sĩ:** Nếu xương hàm còn tốt, cấy ghép Implant vẫn là giải pháp vượt trội gấp nhiều lần vì không gây tiêu xương tụt nướu.";
+    }
+
+    // TRIỆU CHỨNG ĐAU NHỨC / SƯNG / CHẢY MÁU
+    if (["đau", "nhức", "buốt", "sưng", "chảy máu", "mủ", "hôi miệng", "viêm lợi"].some(k => q.includes(k))) {
+        return "⚠️ **CHẨN ĐOÁN LÂM SÀNG SƠ BỘ & HƯỚNG XỬ LÝ:**\n\n" +
+               "1. **Nguyên nhân khả dĩ theo triệu chứng:**\n" +
+               "   • **Đau buốt nhói từng cơn khi ăn đồ nóng/lạnh:** Dấu hiệu điển hình của viêm tủy răng do sâu răng ăn sâu vào buồng tủy.\n" +
+               "   • **Nướu sưng đỏ, dễ chảy máu khi đánh răng:** Viêm nướu hoặc viêm nha chu do tích tụ mảng bám vôi răng lâu ngày.\n" +
+               "   • **Đau nhức góc hàm, há miệng khó, sốt:** Thường do răng khôn mọc lệch gây viêm lợi trùm hoặc chèn ép răng số 7 bên cạnh.\n" +
+               "2. **Cách xử lý tại nhà:**\n" +
+               "   • Súc miệng nước muối ấm pha loãng 3 - 4 lần/ngày.\n" +
+               "   • Có thể uống tạm 1 viên Paracetamol 500mg để giảm đau tạm thời.\n" +
+               "   • Tránh nhai mạnh vào bên răng đau, không chườm nóng lên má.\n" +
+               "👉 Bạn hãy đến ngay phòng khám để được bác sĩ **chụp phim CT 3D miễn phí** và xử lý triệt để nguyên nhân nhé!";
+    }
+
+    // ĐẶT LỊCH HẸN
     if (["đặt lịch", "hẹn khám", "đăng ký", "khám bệnh", "đặt hẹn"].some(k => q.includes(k))) {
-        return "📅 **HƯỚNG DẪN ĐẶT LỊCH KHÁM ƯU TIÊN:**\n\n" +
-               "Bạn có thể:\n" +
-               "1. Bấm trực tiếp vào nút **'Đặt Lịch Khám'** màu xanh ở góc trên màn hình để chọn dịch vụ, bác sĩ và khung giờ mong muốn.\n" +
-               "2. Hoặc để lại [Họ Tên + Số Điện Thoại + Ngày Muốn Khám] ngay trong tin nhắn này để nhân viên phòng khám liên hệ xác nhận trong 5 phút.\n" +
-               "3. Hoặc gọi Hotline trực tiếp: **1900 6868** (Hotline 24/7: **0900.123.456**).";
+        return "📅 **HƯỚNG DẪN ĐẶT LỊCH KHÁM ƯU TIÊN 0Đ:**\n\n" +
+               "1. Bấm trực tiếp nút **'Đặt Lịch Khám'** màu xanh ở góc trên màn hình.\n" +
+               "2. Hoặc để lại [Họ Tên + Số Điện Thoại + Ngày Muốn Khám] ngay tại khung chat này.\n" +
+               "3. Hoặc gọi Hotline trực tiếp: **1900 6868** (Hotline Cấp cứu: **0900.123.456**).\n\n" +
+               "🎁 **Ưu đãi hôm nay:** Miễn phí 100% chi phí khám lâm sàng và chụp phim X-quang 3D CT ConeBeam!";
     }
 
-    // MẶC ĐỊNH
-    return "Dạ chào bạn! Tôi là Trợ Lý AI của **Nha Khoa Quốc Tế Premier**.\n\n" +
-           "Tôi luôn sẵn sàng giải đáp thắc mắc về:\n" +
-           "• Các dịch vụ điều trị & thẩm mỹ răng miệng (Niềng răng, Implant, Răng sứ, Nhổ răng...)\n" +
-           "• Bảng giá niêm yết và chính sách trả góp 0%\n" +
-           "• Lịch trực và hồ sơ đội ngũ Bác sĩ chuyên khoa\n" +
-           "• Địa chỉ phòng khám (123 Nguyễn Văn Cừ, Q.5, TP.HCM) và đặt lịch khám 0đ.\n\n" +
-           "Bạn cần em hỗ trợ giải đáp thông tin nào ạ?";
+    // =========================================================================
+    // 7. PHẢN HỒI NỀN TẢNG LINH HOẠT CHO MỌI CÂU HỎI KHÁC
+    // =========================================================================
+    return "Dạ chào bạn! Tôi là Chuyên gia Tư vấn AI của **Nha Khoa Quốc Tế Premier**.\n\n" +
+           "Với câu hỏi của bạn: *\"" + query + "\"*, tôi luôn sẵn sàng hỗ trợ bạn toàn diện:\n" +
+           "• 🦷 **Tư vấn bệnh lý & Phác đồ điều trị:** Niềng răng, Implant, Răng sứ, Trám răng, Lấy tủy, Nhổ răng Piezotome...\n" +
+           "• 💰 **Bảng giá & Chi phí thị trường:** Cung cấp mức giá niêm yết minh bạch hoặc khoảng giá trung bình ngành nha khoa hiện đại.\n" +
+           "• 📍 **Địa chỉ & Đặt lịch:** 123 Nguyễn Văn Cừ, Q.5, TP.HCM (Hotline: 1900 6868) - Miễn phí 100% chụp phim 3D.\n\n" +
+           "Bạn có thể chia sẻ cụ thể hơn tình trạng hoặc nhu cầu của mình để em giải đáp chi tiết nhất nhé!";
 }
 
 function appendFallbackChatResponse(query) {
