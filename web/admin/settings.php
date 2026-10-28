@@ -5,8 +5,6 @@ if (!headers_sent()) {
 }
 require_once __DIR__ . '/auth.php';
 checkAdminAuth();
-header('Location: dashboard.php');
-exit;
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../config/settings.php';
 
