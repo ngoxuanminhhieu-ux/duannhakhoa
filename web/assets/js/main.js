@@ -481,7 +481,24 @@ document.addEventListener('DOMContentLoaded', function () {
       .catch(err => {
         const loadingElement = document.getElementById(loadingId);
         if (loadingElement) loadingElement.remove();
-        appendMessage('bot', '⚠️ Không thể kết nối đến máy chủ AI. Bạn có thể gọi trực tiếp Hotline <strong>1900 6868</strong> để được hỗ trợ tức thì.');
+
+        const q = message.toLowerCase();
+        let fallbackReply = '';
+        if (q.includes('nhổ răng') || q.includes('răng khôn')) {
+          fallbackReply = '🦷 **TƯ VẤN DỊCH VỤ NHỔ RĂNG / RĂNG KHÔN:**<br>• Chi phí niêm yết: Từ 500.000đ (răng thường) - 1.500.000đ (răng khôn).<br>• Công nghệ: Sóng siêu âm Piezotome không đau, không rạch rộng, màng PRF kích thích lành thương nhanh.<br>• Bác sĩ phụ trách: BS. CKI Đỗ Minh Đức (Chuyên gia phẫu thuật miệng).<br>🎁 Đặt lịch online được **MIỄN PHÍ 100% chụp phim 3D ConeBeam**!';
+        } else if (q.includes('niềng răng') || q.includes('chỉnh nha') || q.includes('invisalign')) {
+          fallbackReply = '✨ **DỊCH VỤ NIỀNG RĂNG CHỈNH NHA:**<br>• Niềng răng mắc cài / Invisalign: Từ 20.000.000đ.<br>• Trả góp 0% lãi suất chỉ từ 1 triệu/tháng.<br>• Bác sĩ: BS. CKI Trần Thị Mai (Chuyên gia Invisalign).';
+        } else if (q.includes('implant') || q.includes('trồng răng')) {
+          fallbackReply = '🌟 **DỊCH VỤ CẤY GHÉP IMPLANT:**<br>• Trụ Implant Thụy Sĩ/Hàn Quốc: Từ 12.000.000đ.<br>• Bảo hành trọn đời chính hãng.<br>• Bác sĩ: ThS. BS Lê Hoàng Nam.';
+        } else if (q.includes('giá') || q.includes('chi phí') || q.includes('bao nhiêu')) {
+          fallbackReply = '💰 **BẢNG GIÁ DỊCH VỤ NIÊM YẾT:**<br>• Khám & Chụp X-quang 3D: Miễn phí (0đ)<br>• Cạo vôi răng siêu âm: 250.000đ<br>• Trám răng Composite: 350.000đ<br>• Nhổ răng Piezotome: Từ 500.000đ<br>• Tẩy trắng Laser: 1.500.000đ<br>• Bọc sứ Cercon: Từ 2.000.000đ<br>• Trồng Implant: Từ 12.000.000đ';
+        }
+
+        if (fallbackReply) {
+          appendMessage('bot', fallbackReply);
+        } else {
+          appendMessage('bot', '⚠️ Tín hiệu mạng đến máy chủ AI gián đoạn tạm thời. Bạn có thể gọi trực tiếp Hotline <strong>1900 6868</strong> (0900.123.456) hoặc bấm "Đặt lịch khám" để được hỗ trợ tức thì.');
+        }
       });
     }
 

@@ -565,3 +565,52 @@ function get_service_detail_by_id($id) {
     $all = get_all_services_details();
     return $all[(int)$id] ?? null;
 }
+
+/**
+ * Định dạng chi tiết dịch vụ cho phản hồi AI Chatbot
+ * @param int $id
+ * @return string
+ */
+function formatServiceAiDetail($id) {
+    $svc = get_service_detail_by_id($id);
+    if (!$svc) {
+        return "Xin lỗi bạn, hiện tại thông tin chi tiết về dịch vụ này đang được cập nhật. Bạn vui lòng liên hệ hotline 1900 6868 để được bác sĩ tư vấn trực tiếp nhé!";
+    }
+
+    $out = "🦷 **TƯ VẤN DỊCH VỤ: " . mb_strtoupper($svc['name'], 'UTF-8') . "**\n\n";
+    $out .= "• **Phân loại:** " . $svc['category'] . "\n";
+    $out .= "• **Chi phí niêm yết:** Từ **" . $svc['price_formatted'] . "**\n";
+    $out .= "• **Thời gian thực hiện:** " . $svc['duration'] . "\n";
+    $out .= "• **Mức độ đau / Cảm giác:** " . $svc['pain_level'] . "\n";
+    $out .= "• **Chính sách bảo hành:** " . $svc['warranty'] . "\n";
+    $out .= "• **Công nghệ áp dụng:** " . $svc['technology'] . "\n\n";
+
+    if (!empty($svc['how_it_works'])) {
+        $out .= "🔬 **Phương pháp & Kỹ thuật thực hiện:**\n" . $svc['how_it_works'] . "\n\n";
+    }
+
+    if (!empty($svc['effects']) && is_array($svc['effects'])) {
+        $out .= "✨ **Lợi ích & Hiệu quả mang lại:**\n";
+        foreach ($svc['effects'] as $eff) {
+            $out .= "• " . $eff . "\n";
+        }
+        $out .= "\n";
+    }
+
+    if (!empty($svc['steps']) && is_array($svc['steps'])) {
+        $out .= "📋 **Quy trình điều trị chuẩn y khoa:**\n";
+        foreach ($svc['steps'] as $st) {
+            $out .= $st['step'] . ". **" . $st['title'] . "**: " . $st['desc'] . "\n";
+        }
+        $out .= "\n";
+    }
+
+    if (!empty($svc['doctor_specialist'])) {
+        $out .= "👨‍⚕️ **Bác sĩ phụ trách:** " . $svc['doctor_specialist'] . "\n\n";
+    }
+
+    $out .= "🎁 **Ưu đãi đặc biệt:** Khi đặt hẹn trước qua website hoặc AI Chatbot, bạn sẽ được **MIỄN PHÍ 100% chi phí khám lâm sàng & chụp phim X-quang 3D**, hỗ trợ trả góp 0% lãi suất.\n";
+    $out .= "👉 Bạn có muốn đặt lịch hẹn khám cùng Bác sĩ chuyên khoa ngay hôm nay không ạ?";
+
+    return $out;
+}

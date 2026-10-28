@@ -168,7 +168,8 @@ function requestGeminiAI($model, $apiKey, $systemPrompt, $userMessage, $temp, $t
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
     curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 25);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 3);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 6);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
 
     $response = curl_exec($ch);
@@ -205,7 +206,8 @@ function requestGeminiAI($model, $apiKey, $systemPrompt, $userMessage, $temp, $t
         curl_setopt($chRetry, CURLOPT_POST, true);
         curl_setopt($chRetry, CURLOPT_POSTFIELDS, $retryPayload);
         curl_setopt($chRetry, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
-        curl_setopt($chRetry, CURLOPT_TIMEOUT, 25);
+        curl_setopt($chRetry, CURLOPT_CONNECTTIMEOUT, 2);
+        curl_setopt($chRetry, CURLOPT_TIMEOUT, 5);
         curl_setopt($chRetry, CURLOPT_SSL_VERIFYPEER, true);
 
         $responseRetry = curl_exec($chRetry);
@@ -226,23 +228,25 @@ function requestGeminiAI($model, $apiKey, $systemPrompt, $userMessage, $temp, $t
 
 // 5. GỌI GEMINI API
 if ($aiEnabled && !empty($geminiApiKey) && strlen($geminiApiKey) > 10) {
-    $reply = requestGeminiAI($geminiModel, $geminiApiKey, $systemPrompt, $userMessage, $geminiTemp, $geminiTokens);
-    if (!empty($reply)) {
-        $aiResponse   = $reply;
-        $isApiSuccess = true;
-    } else {
-        // Fallback sang các model khả dụng khác
-        $fallbackModels = ['gemini-3.8-flash', 'gemini-3.6-flash', 'gemini-flash-latest'];
-        foreach ($fallbackModels as $fbModel) {
-            if ($fbModel !== $geminiModel) {
-                $replyFallback = requestGeminiAI($fbModel, $geminiApiKey, $systemPrompt, $userMessage, $geminiTemp, $geminiTokens);
-                if (!empty($replyFallback)) {
-                    $aiResponse   = $replyFallback;
-                    $isApiSuccess = true;
-                    break;
-                }
-            }
+    try {
+        $reply = requestGeminiAI($geminiModel, $geminiApiKey, $systemPrompt, $userMessage, $geminiTemp, $geminiTokens);
+        if (!empty($reply)) {
+            $aiResponse   = $reply;
+            $isApiSuccess = true;
         }
+    } catch (\Throwable $e) {
+        $isApiSuccess = false;
+    }
+}
+
+// Đảm bảo hàm formatServiceAiDetail luôn tồn tại
+if (!function_exists('formatServiceAiDetail')) {
+    function formatServiceAiDetail($id) {
+        $svc = function_exists('get_service_detail_by_id') ? get_service_detail_by_id($id) : null;
+        if ($svc) {
+            return "🦷 **" . $svc['name'] . "**\n• **Giá niêm yết:** Từ " . $svc['price_formatted'] . "\n• **Quy trình:** " . $svc['tagline'] . "\n• **Bảo hành:** " . $svc['warranty'] . "\n👉 Vui lòng liên hệ hotline 1900 6868 hoặc đặt lịch khám miễn phí!";
+        }
+        return "Dịch vụ nha khoa chuyên sâu chất lượng cao tại Nha Khoa Quốc Tế Premier. Đặt lịch online được miễn phí 100% khám và chụp X-quang 3D!";
     }
 }
 
