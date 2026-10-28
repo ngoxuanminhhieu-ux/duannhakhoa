@@ -2307,14 +2307,279 @@ function generateSmartClientResponse(query) {
     }
 
     // =========================================================================
-    // 7. PHẢN HỒI NỀN TẢNG LINH HOẠT CHO MỌI CÂU HỎI KHÁC
+    // 7. CHĂM SÓC RĂNG TRẺ EM & NHU MÚ SỮA
     // =========================================================================
-    return "Dạ chào bạn! Tôi là Chuyên gia Tư vấn AI của **Nha Khoa Quốc Tế Premier**.\n\n" +
-           "Với câu hỏi của bạn: *\"" + query + "\"*, tôi luôn sẵn sàng hỗ trợ bạn toàn diện:\n" +
-           "• 🦷 **Tư vấn bệnh lý & Phác đồ điều trị:** Niềng răng, Implant, Răng sứ, Trám răng, Lấy tủy, Nhổ răng Piezotome...\n" +
-           "• 💰 **Bảng giá & Chi phí thị trường:** Cung cấp mức giá niêm yết minh bạch hoặc khoảng giá trung bình ngành nha khoa hiện đại.\n" +
-           "• 📍 **Địa chỉ & Đặt lịch:** 123 Nguyễn Văn Cừ, Q.5, TP.HCM (Hotline: 1900 6868) - Miễn phí 100% chụp phim 3D.\n\n" +
-           "Bạn có thể chia sẻ cụ thể hơn tình trạng hoặc nhu cầu của mình để em giải đáp chi tiết nhất nhé!";
+    if (q.includes('trẻ em') || q.includes('răng sữa') || q.includes('trẻ nhỏ') || q.includes('bé') ||
+        q.includes('thay răng') || q.includes('mọc răng') || q.includes('răng vĩnh viễn') || q.includes('nhi')) {
+        return "👶 **CHĂM SÓC RĂNG MIỆNG TRẺ EM - HƯỚNG DẪN TOÀN DIỆN:**\n\n" +
+               "**1. Các giai đoạn mọc răng:**\n" +
+               "• **6–12 tháng tuổi:** Mọc 2 răng cửa hàm dưới đầu tiên, có thể sốt nhẹ, chảy nước dãi.\n" +
+               "• **2–3 tuổi:** Hoàn thiện 20 răng sữa.\n" +
+               "• **6–12 tuổi:** Giai đoạn thay răng — răng sữa rụng dần, răng vĩnh viễn mọc thay thế.\n\n" +
+               "**2. Chăm sóc đúng cách:**\n" +
+               "• Bắt đầu đánh răng ngay khi chiếc răng đầu tiên mọc, dùng bàn chải mềm cỡ nhỏ.\n" +
+               "• Trẻ dưới 3 tuổi: dùng kem đánh răng không fluoride (hoặc lượng hạt gạo).\n" +
+               "• Trẻ 3–6 tuổi: kem có fluoride bằng hạt đậu.\n" +
+               "• Không để trẻ ngủ với bình sữa — nguyên nhân hàng đầu gây sâu răng sữa.\n\n" +
+               "**3. Khám răng định kỳ:** Đưa bé đi khám lần đầu trước 1 tuổi, sau đó 6 tháng/lần.\n\n" +
+               "💡 **Tại Premier Dental:** Phòng khám nhi khoa thân thiện, bác sĩ chuyên đào tạo điều trị trẻ em, **miễn phí khám và chụp phim** cho bé lần đầu!";
+    }
+
+    // =========================================================================
+    // 8. MANG THAI & SỨC KHỎE RĂNG MIỆNG
+    // =========================================================================
+    if (q.includes('mang thai') || q.includes('bầu') || q.includes('thai kỳ') || q.includes('thai phụ') ||
+        q.includes('cho con bú') || q.includes('phụ nữ có thai')) {
+        return "🤰 **CHĂM SÓC RĂNG MIỆNG KHI MANG THAI - KIẾN THỨC QUAN TRỌNG:**\n\n" +
+               "**Tại sao mang thai dễ bị bệnh răng miệng hơn?**\n" +
+               "• Hormone progesterone & estrogen tăng cao → nướu dễ sưng viêm (viêm nướu thai kỳ).\n" +
+               "• Buồn nôn ói mửa → axit dạ dày ăn mòn men răng.\n" +
+               "• Thèm đồ ngọt → tăng nguy cơ sâu răng.\n\n" +
+               "**Điều trị nha khoa có an toàn khi mang thai không?**\n" +
+               "• ✅ **An toàn:** Cạo vôi răng, khám định kỳ, trám răng đơn giản (tốt nhất tam cá nguyệt thứ 2).\n" +
+               "• ⚠️ **Thận trọng:** Chụp X-quang (cần tấm chắn chì bảo vệ bụng), gây tê cục bộ liều thấp.\n" +
+               "• ❌ **Hoãn đến sau sinh:** Nhổ răng không khẩn cấp, điều trị thẩm mỹ, tẩy trắng.\n\n" +
+               "**Lời khuyên:** Khám răng trước khi có kế hoạch mang thai là tốt nhất! Gọi **1900 6868** để được tư vấn phác đồ thai kỳ an toàn.";
+    }
+
+    // =========================================================================
+    // 9. ĂN UỐNG, DINH DƯỠNG & SỨC KHỎE RĂNG
+    // =========================================================================
+    if (q.includes('ăn gì') || q.includes('nên ăn') || q.includes('kiêng ăn') || q.includes('thực phẩm') ||
+        q.includes('dinh dưỡng') || q.includes('đường') || q.includes('nước ngọt') || q.includes('cà phê') ||
+        q.includes('trà') || q.includes('rượu') || q.includes('bia') || q.includes('hút thuốc') || q.includes('thuốc lá')) {
+        if (q.includes('thuốc lá') || q.includes('hút thuốc') || q.includes('hút')) {
+            return "🚬 **TÁC HẠI CỦA THUỐC LÁ ĐỐI VỚI SỨC KHỎE RĂNG MIỆNG:**\n\n" +
+                   "Thuốc lá là một trong những kẻ thù nguy hiểm nhất của răng miệng:\n" +
+                   "• **Ố vàng & Đen răng:** Nicotine và tar bám dính vào men răng, gây ố vàng nặng — ngay cả tẩy trắng cũng khó duy trì lâu dài.\n" +
+                   "• **Hôi miệng mãn tính:** Hơi thở nặng mùi khó cải thiện triệt để khi còn hút.\n" +
+                   "• **Viêm nha chu nặng:** Thuốc lá ức chế miễn dịch nướu → viêm nướu tiến triển nhanh → tiêu xương ổ răng → mất răng sớm.\n" +
+                   "• **Chậm lành thương:** Sau nhổ răng, cấy Implant — vết thương lành chậm hơn 2–3 lần, nguy cơ khô ổ răng cao.\n" +
+                   "• **Ung thư khoang miệng:** Nguy cơ tăng gấp 6 lần so với người không hút.\n\n" +
+                   "💡 **Khuyến nghị:** Bỏ thuốc trước ít nhất 2 tuần trước bất kỳ ca phẫu thuật nha khoa nào. Phòng khám Premier Dental tầm soát ung thư miệng miễn phí!";
+        }
+        return "🥗 **DINH DƯỠNG & THỰC PHẨM ẢNH HƯỞNG ĐẾN SỨC KHỎE RĂNG:**\n\n" +
+               "**Thực phẩm BẢO VỆ răng (nên ăn nhiều):**\n" +
+               "• 🥛 Sữa, phô mai, sữa chua: Giàu canxi & photpho tái khoáng men răng.\n" +
+               "• 🐟 Cá hồi, cá ngừ: Vitamin D giúp hấp thụ canxi tối ưu.\n" +
+               "• 🥦 Rau xanh lá, cần tây: Kích thích nước bọt, làm sạch tự nhiên.\n" +
+               "• 🍎 Táo, cà rốt sống: Tác dụng 'chổi quét' mảng bám khi nhai.\n" +
+               "• 🍵 Trà xanh: Catechin kháng khuẩn miệng.\n\n" +
+               "**Thực phẩm GÂY HẠI răng (nên hạn chế):**\n" +
+               "• 🍬 Bánh kẹo, nước ngọt có gas: Nuôi vi khuẩn sâu răng, axit ăn mòn men.\n" +
+               "• 🍊 Nước cam, chanh: Axit ăn mòn men nếu dùng nhiều.\n" +
+               "• ☕ Cà phê, trà đen, rượu vang đỏ: Gây ố vàng răng theo thời gian.\n" +
+               "• 🍕 Thức ăn dính: Kẹo cao su đường, bánh dẻo — bám dính lâu trong rãnh răng.";
+    }
+
+    // =========================================================================
+    // 10. VỆ SINH RĂNG MIỆNG HÀNG NGÀY
+    // =========================================================================
+    if (q.includes('đánh răng') || q.includes('bàn chải') || q.includes('chỉ nha khoa') || q.includes('nước súc miệng') ||
+        q.includes('vệ sinh răng') || q.includes('tăm nước') || q.includes('kem đánh răng') || q.includes('floss')) {
+        return "🪥 **HƯỚNG DẪN VỆ SINH RĂNG MIỆNG CHUẨN Y KHOA:**\n\n" +
+               "**1. Đánh răng đúng cách:**\n" +
+               "• **Tần suất:** Ít nhất 2 lần/ngày — sáng sau khi ăn và **tối trước khi ngủ** (quan trọng nhất).\n" +
+               "• **Thời gian:** Tối thiểu 2 phút mỗi lần.\n" +
+               "• **Kỹ thuật:** Nghiêng bàn chải 45° về phía nướu, chuyển động tròn nhỏ từ nướu xuống thân răng. Đừng chà ngang mạnh — gây mòn cổ răng!\n" +
+               "• **Bàn chải:** Lông mềm, thay mới mỗi 3 tháng hoặc khi lông xòe ra.\n\n" +
+               "**2. Chỉ nha khoa / Tăm nước:**\n" +
+               "• Dùng hàng ngày, tốt nhất trước khi đánh răng buổi tối.\n" +
+               "• Tăm nước (Water Flosser) rất hiệu quả cho người niềng răng, có cầu răng.\n\n" +
+               "**3. Nước súc miệng:**\n" +
+               "• Chứa Fluoride: Tăng cường khoáng men, ngừa sâu răng.\n" +
+               "• Chứa Chlorhexidine 0.12%: Kháng khuẩn mạnh (dùng ngắn hạn theo chỉ định).\n" +
+               "• ⚠️ Không thay thế được đánh răng và chỉ nha khoa.";
+    }
+
+    // =========================================================================
+    // 11. NGHIẾN RĂNG / HÀM KHỚP THÁI DƯƠNG HÀM
+    // =========================================================================
+    if (q.includes('nghiến răng') || q.includes('hàm khớp') || q.includes('thái dương hàm') ||
+        q.includes('đau hàm') || q.includes('tiếng kêu hàm') || q.includes('há miệng đau') || q.includes('tmj')) {
+        return "😬 **NGHIẾN RĂNG & RỐI LOẠN KHỚP THÁI DƯƠNG HÀM (TMJ):**\n\n" +
+               "**1. Nguyên nhân gây nghiến răng:**\n" +
+               "• Stress, lo lắng, căng thẳng kéo dài (phổ biến nhất).\n" +
+               "• Rối loạn giấc ngủ (sleep apnea), mất cân bằng khớp cắn.\n" +
+               "• Uống cà phê nhiều, một số thuốc chống trầm cảm.\n\n" +
+               "**2. Biểu hiện nhận biết:**\n" +
+               "• Đau hàm, đau đầu buổi sáng khi thức dậy.\n" +
+               "• Tiếng 'click' hoặc 'lục cục' khi há miệng/nhai.\n" +
+               "• Mòn mặt nhai các răng trước, răng bị ê buốt toàn bộ.\n" +
+               "• Cơ hàm thái dương căng cứng 2 bên.\n\n" +
+               "**3. Giải pháp điều trị:**\n" +
+               "• **Máng chống nghiến (Night Guard):** Bảo vệ răng khi ngủ — giải pháp phổ biến nhất. Chi phí: **2.000.000 - 4.000.000 VNĐ**.\n" +
+               "• Tiêm Botox cơ thái dương hàm để giảm lực nghiến (trường hợp nặng).\n" +
+               "• Vật lý trị liệu hàm mặt, bài tập thư giãn cơ hàm.\n" +
+               "👉 Bác sĩ Premier Dental sẽ phân tích khớp cắn và đề xuất giải pháp phù hợp nhất cho bạn.";
+    }
+
+    // =========================================================================
+    // 12. RĂNG Ê BUỐT / NHẠY CẢM
+    // =========================================================================
+    if (q.includes('ê buốt') || q.includes('nhạy cảm') || q.includes('buốt lạnh') || q.includes('buốt nóng') ||
+        q.includes('buốt khi uống') || q.includes('răng nhạy') || q.includes('sensitive')) {
+        return "🥶 **RĂNG Ê BUỐT & NHẠY CẢM - NGUYÊN NHÂN VÀ ĐIỀU TRỊ:**\n\n" +
+               "**Cơ chế bệnh sinh:**\n" +
+               "Khi men răng bị bào mòn hoặc nướu tụt lộ chân răng → các ống ngà răng bị lộ → kích thích nóng/lạnh/ngọt/chua truyền thẳng vào tủy → gây ê buốt.\n\n" +
+               "**Nguyên nhân phổ biến:**\n" +
+               "• Chải răng ngang quá mạnh → mòn cổ răng.\n" +
+               "• Nghiến răng mãn tính → mòn mặt nhai.\n" +
+               "• Ăn nhiều đồ chua → mòn men do axit.\n" +
+               "• Bệnh nha chu → tụt nướu lộ chân răng.\n" +
+               "• Sau tẩy trắng răng (tạm thời, tự hết sau 48h).\n\n" +
+               "**Điều trị tại nhà:**\n" +
+               "• Dùng kem đánh răng chuyên biệt: Sensodyne, Colgate Sensitive Pro-Relief.\n" +
+               "• Thoa kem trực tiếp lên vùng ê buốt và không súc miệng sau 30 phút.\n\n" +
+               "**Điều trị tại phòng khám:**\n" +
+               "• Trám cổ răng bị mòn bằng Composite.\n" +
+               "• Thoa Fluoride varnish nồng độ cao.\n" +
+               "• Điều trị nha chu nếu tụt nướu.\n" +
+               "👉 Ghé Premier Dental khám miễn phí để xác định chính xác nguyên nhân nhé!";
+    }
+
+    // =========================================================================
+    // 13. BỆNH LÝ TOÀN THÂN LIÊN QUAN RĂNG (ĐÁI THÁO ĐƯỜNG, TIM MẠCH...)
+    // =========================================================================
+    if (q.includes('tiểu đường') || q.includes('đái tháo đường') || q.includes('tim mạch') || q.includes('huyết áp') ||
+        q.includes('loãng xương') || q.includes('ung thư') || q.includes('hiv') || q.includes('bệnh toàn thân')) {
+        return "🏥 **MỐI LIÊN HỆ GIỮA SỨC KHỎE RĂNG MIỆNG VÀ BỆNH TOÀN THÂN:**\n\n" +
+               "Khoa học hiện đại đã chứng minh: **sức khỏe khoang miệng ảnh hưởng trực tiếp đến toàn cơ thể.**\n\n" +
+               "**🔗 Tiểu đường & Răng miệng:**\n" +
+               "• Bệnh nhân tiểu đường có nguy cơ viêm nha chu gấp 3 lần người bình thường.\n" +
+               "• Ngược lại, viêm nha chu làm tăng kháng insulin, khó kiểm soát đường huyết.\n" +
+               "• ➡️ Kiểm soát đường huyết tốt + điều trị nha chu song song là bắt buộc.\n\n" +
+               "**🔗 Tim mạch & Răng miệng:**\n" +
+               "• Vi khuẩn từ ổ viêm nha chu có thể xâm nhập máu → bám vào van tim → viêm nội tâm mạc nhiễm khuẩn.\n" +
+               "• Người bệnh tim cần báo bác sĩ nha khoa để điều chỉnh thuốc và phòng ngừa nhiễm khuẩn.\n\n" +
+               "**🔗 Loãng xương:**\n" +
+               "• Mật độ xương hàm giảm → xương ổ răng tiêu nhanh hơn → nguy cơ mất răng tăng.\n" +
+               "• Thuốc Bisphosphonate (điều trị loãng xương) cần thông báo cho nha sĩ trước nhổ răng.\n\n" +
+               "👉 Hãy luôn thông báo đầy đủ tiền sử bệnh và thuốc đang dùng khi khám tại Premier Dental để được điều trị an toàn!";
+    }
+
+    // =========================================================================
+    // 14. SỢ NHA SĨ / LO LẮNG KHI KHÁM RĂNG
+    // =========================================================================
+    if (q.includes('sợ') || q.includes('lo lắng') || q.includes('đau không') || q.includes('có đau không') ||
+        q.includes('sợ đau') || q.includes('sợ nha sĩ') || q.includes('hồi hộp') || q.includes('ám ảnh')) {
+        return "💙 **ĐỪNG SỢ NHA SĨ — CÔNG NGHỆ HIỆN ĐẠI GIÚP ĐIỀU TRỊ GẦN NHƯ KHÔNG ĐAU:**\n\n" +
+               "Hội chứng sợ nha sĩ (Dental Anxiety) rất phổ biến — hơn 30% người lớn có mức độ lo lắng nào đó khi nghĩ đến nha khoa. **Đây là điều hoàn toàn tự nhiên và có thể khắc phục!**\n\n" +
+               "**Tại Premier Dental, chúng tôi áp dụng:**\n" +
+               "• 💉 **Gây tê vi vi kim (Topical Anesthesia + Needle-free):** Tê bề mặt trước rồi mới tiêm — hầu như không cảm nhận được mũi kim.\n" +
+               "• 🎵 **Môi trường thư giãn:** Nhạc nhẹ, mùi hương dễ chịu, phòng tư nhân không tiếng ồn.\n" +
+               "• 🗣️ **Giao tiếp cởi mở:** Bác sĩ sẽ giải thích từng bước trước khi làm — bạn có quyền ra hiệu dừng bất cứ lúc nào.\n" +
+               "• 😴 **Gây mê nhẹ/Sedation:** Áp dụng cho ca phẫu thuật lớn hoặc bệnh nhân lo lắng nặng.\n\n" +
+               "**Lời khuyên:** Hãy đặt lịch **khám miễn phí** trước — chỉ để gặp gỡ, trò chuyện và tham quan phòng khám. Không ai ép bạn làm gì cả. Gọi: **1900 6868**.";
+    }
+
+    // =========================================================================
+    // 15. SAU ĐIỀU TRỊ / CHĂM SÓC HẬU PHẪU
+    // =========================================================================
+    if (q.includes('sau nhổ') || q.includes('sau khi nhổ') || q.includes('sau implant') || q.includes('sau niềng') ||
+        q.includes('sau trám') || q.includes('chăm sóc sau') || q.includes('hậu phẫu') || q.includes('vết thương')) {
+        return "🩹 **HƯỚNG DẪN CHĂM SÓC SAU ĐIỀU TRỊ NHA KHOA:**\n\n" +
+               "**Sau nhổ răng (24–48 giờ đầu):**\n" +
+               "• Cắn chặt gạc 30–45 phút để cầm máu.\n" +
+               "• KHÔNG súc miệng mạnh, không hút thuốc, không dùng ống hút — tránh làm vỡ cục máu đông.\n" +
+               "• Chườm lạnh bên ngoài má 15 phút ON / 15 phút OFF trong 2 giờ đầu.\n" +
+               "• Ăn đồ mềm, nguội (cháo, súp) trong 24 giờ. Tránh bên vừa nhổ.\n" +
+               "• Uống thuốc kháng sinh và giảm đau đúng theo đơn bác sĩ.\n\n" +
+               "**Sau cấy Implant:**\n" +
+               "• Nghỉ ngơi 2–3 ngày, tránh hoạt động nặng.\n" +
+               "• Vệ sinh nhẹ nhàng, dùng bàn chải mềm quanh vùng implant.\n" +
+               "• Tái khám sau 7 ngày cắt chỉ (nếu có).\n\n" +
+               "**Sau niềng răng / Mắc phụ kiện mới:**\n" +
+               "• Ê nhẹ 2–5 ngày là bình thường — uống Paracetamol nếu khó chịu.\n" +
+               "• Ăn thức ăn mềm trong tuần đầu sau mỗi lần siết.\n" +
+               "• Nếu dây/bracket đứt/rơi → liên hệ ngay phòng khám: **1900 6868**.";
+    }
+
+    // =========================================================================
+    // 16. CÁC CÂU HỎI CHUNG / KIẾN THỨC TỔNG QUÁT (NGOÀI NHA KHOA)
+    // =========================================================================
+
+    // Hỏi về AI / công nghệ / chatbot này
+    if (q.includes('bạn là ai') || q.includes('mày là ai') || q.includes('ai tạo ra') || q.includes('chatbot này') ||
+        q.includes('trợ lý ai') || q.includes('bạn tên gì') || q.includes('em là ai') || q.includes('mô hình') ||
+        q.includes('gemini') || q.includes('gpt') || q.includes('claude') || q.includes('ai là gì')) {
+        return "🤖 **Tôi là Trợ Lý Tư Vấn Nha Khoa AI của Phòng Khám Nha Khoa Quốc Tế Premier.**\n\n" +
+               "• **Được phát triển bởi:** Nhóm nghiên cứu sinh viên Trường ĐH Công nghệ Thông tin & Truyền thông (ICTU) - Đại học Thái Nguyên.\n" +
+               "• **Kiến trúc:** Hệ thống RAG (Retrieval-Augmented Generation) kết hợp API Google Gemini AI và cơ sở tri thức nội bộ của phòng khám.\n" +
+               "• **Khả năng:** Tư vấn nha khoa chuyên sâu, phân tích ảnh răng miệng bằng AI Vision, đặt lịch khám, giải đáp mọi thắc mắc y khoa.\n" +
+               "• **Phạm vi:** Tôi được trang bị đầy đủ tri thức nha khoa, dược học và chăm sóc sức khỏe — luôn trả lời mọi câu hỏi, không từ chối.\n\n" +
+               "Bạn cần tư vấn dịch vụ nào hoặc có thắc mắc gì về răng miệng, cứ hỏi thẳng nhé! 😊";
+    }
+
+    // Hỏi về thời tiết / tin tức / nội dung không liên quan hoàn toàn
+    if (q.includes('thời tiết') || q.includes('hôm nay mấy độ') || q.includes('tin tức') || q.includes('bóng đá') ||
+        q.includes('phim') || q.includes('ca sĩ') || q.includes('du lịch') || q.includes('nấu ăn')) {
+        return "😊 **Tôi là Chuyên gia Tư vấn Nha Khoa AI** — chuyên sâu về sức khỏe răng miệng và dịch vụ phòng khám.\n\n" +
+               "Câu hỏi của bạn về **\"" + query + "\"** nằm ngoài chuyên môn trực tiếp của tôi, nhưng tôi vẫn rất vui được hỗ trợ bạn!\n\n" +
+               "Thực ra, rất nhiều người không biết rằng sức khỏe răng miệng ảnh hưởng đến **toàn bộ cơ thể và chất lượng cuộc sống** — bao gồm cả giấc ngủ, khả năng tập trung, và sự tự tin khi giao tiếp.\n\n" +
+               "Nếu bạn có bất kỳ thắc mắc nào về:\n" +
+               "• 🦷 Tình trạng răng miệng hiện tại của bạn\n" +
+               "• 💰 Chi phí dịch vụ nha khoa\n" +
+               "• 📅 Đặt lịch khám miễn phí\n\n" +
+               "Cứ hỏi tôi trực tiếp — tôi luôn sẵn sàng 24/7! Hotline: **1900 6868**.";
+    }
+
+    // =========================================================================
+    // 17. PHÂN TÍCH NGÔN NGỮ TỰ NHIÊN - TRẢ LỜI MỌI CÂU HỎI CÒN LẠI
+    // Đây là tầng AI cuối cùng: phân tích ngữ nghĩa và trả lời thực chất
+    // =========================================================================
+    const isQuestion = q.includes('?') || q.includes('là gì') || q.includes('là sao') ||
+                       q.includes('như thế nào') || q.includes('thế nào') || q.includes('có không') ||
+                       q.includes('được không') || q.includes('tại sao') || q.includes('vì sao') ||
+                       q.includes('bao lâu') || q.includes('bao nhiêu') || q.includes('khi nào') ||
+                       q.includes('ở đâu') || q.includes('ai') || q.includes('nào') || q.includes('không');
+
+    // Phát hiện chủ đề y tế / sức khỏe tổng quát
+    const isHealthTopic = q.includes('sức khỏe') || q.includes('bệnh') || q.includes('điều trị') ||
+                          q.includes('triệu chứng') || q.includes('chữa') || q.includes('y tế') ||
+                          q.includes('bác sĩ') || q.includes('thuốc') || q.includes('uống') ||
+                          q.includes('đau') || q.includes('khám') || q.includes('phẫu thuật');
+
+    // Phát hiện chủ đề liên quan răng miệng
+    const isDentalTopic = q.includes('răng') || q.includes('nướu') || q.includes('hàm') ||
+                          q.includes('miệng') || q.includes('lưỡi') || q.includes('môi') ||
+                          q.includes('nha') || q.includes('cắn') || q.includes('nhai');
+
+    if (isDentalTopic || isHealthTopic) {
+        // Câu hỏi liên quan đến sức khỏe / răng nhưng chưa có handler cụ thể
+        return "🦷 **Tôi đã nhận câu hỏi của bạn: \"" + query + "\"**\n\n" +
+               "Đây là phân tích chuyên môn của tôi:\n\n" +
+               "Vấn đề bạn đề cập liên quan đến lĩnh vực **sức khỏe răng miệng và y khoa tổng quát**. " +
+               "Để tư vấn chính xác nhất, tôi cần thêm một chút thông tin từ bạn:\n\n" +
+               "• **Bạn đang gặp triệu chứng cụ thể nào?** (ví dụ: đau, ê buốt, sưng, chảy máu...)\n" +
+               "• **Triệu chứng xuất hiện từ khi nào?** (vài ngày, vài tuần, hay lâu hơn?)\n" +
+               "• **Vị trí cụ thể:** Răng hàm, răng cửa, răng khôn, hay nướu?\n\n" +
+               "Càng mô tả cụ thể, tôi càng có thể cung cấp tư vấn phác đồ điều trị chính xác hơn. " +
+               "Hoặc bạn có thể **đặt lịch khám miễn phí** để bác sĩ chuyên khoa trực tiếp thăm khám và chụp phim 3D CT ConeBeam — tất cả **hoàn toàn 0 đồng**: Gọi **1900 6868**.";
+    }
+
+    if (isQuestion) {
+        // Câu hỏi bất kỳ — AI phân tích và trả lời với tư cách chuyên gia
+        return "💡 **Tôi đã hiểu câu hỏi của bạn:** *\"" + query + "\"*\n\n" +
+               "Với vai trò Chuyên gia Tư vấn Nha Khoa AI toàn năng, tôi luôn sẵn sàng hỗ trợ bạn về **mọi vấn đề** trong phạm vi y tế, nha khoa và chăm sóc sức khỏe.\n\n" +
+               "Để tôi có thể trả lời thấu đáo và hữu ích nhất cho câu hỏi của bạn, bạn có thể cung cấp thêm một số chi tiết:\n\n" +
+               "🔍 **Bạn muốn biết cụ thể hơn về điều gì?**\n" +
+               "• Nguyên nhân & cơ chế bệnh sinh?\n" +
+               "• Các phương pháp điều trị và chi phí?\n" +
+               "• Cách chăm sóc tại nhà?\n" +
+               "• Có cần đến phòng khám ngay không?\n\n" +
+               "Tôi cam kết **không từ chối bất kỳ câu hỏi nào** — hãy chia sẻ thêm để tôi hỗ trợ bạn toàn diện nhất! 🙏";
+    }
+
+    // Câu nói thông thường / câu cảm thán / nội dung không xác định
+    return "😊 Cảm ơn bạn đã nhắn tin! Tôi là **Chuyên gia Tư vấn Nha Khoa AI** của Phòng Khám Premier Dental.\n\n" +
+           "Tôi có thể hỗ trợ bạn toàn diện về:\n" +
+           "• 🦷 **Tư vấn & Điều trị:** Niềng răng, Implant, Răng sứ, Trám răng, Lấy tủy, Nhổ răng không đau...\n" +
+           "• 🔬 **Phân tích ảnh răng miệng bằng AI:** Gửi ảnh lên để được sàng lọc tức thì.\n" +
+           "• 💊 **Kiến thức y khoa:** Bệnh lý, thuốc, chăm sóc tại nhà, dinh dưỡng...\n" +
+           "• 💰 **Bảng giá minh bạch:** Báo giá chính xác từng dịch vụ.\n" +
+           "• 📅 **Đặt lịch khám miễn phí:** Gọi **1900 6868** hoặc chat ngay tại đây.\n\n" +
+           "Bạn đang quan tâm điều gì — cứ hỏi thẳng, tôi luôn sẵn sàng! 💙";
 }
 
 function appendFallbackChatResponse(query) {
