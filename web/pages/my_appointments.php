@@ -13,6 +13,18 @@ $is_page      = true;
 require_once __DIR__ . '/../config/database.php';
 
 $userLoggedIn = isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true;
+if ($userLoggedIn && !empty($_SESSION['username']) && !empty($pdo)) {
+    try {
+        $stmtSync = $pdo->prepare("SELECT full_name, email, phone FROM users WHERE username = ?");
+        $stmtSync->execute([$_SESSION['username']]);
+        $uFresh = $stmtSync->fetch(PDO::FETCH_ASSOC);
+        if ($uFresh && !empty($uFresh['full_name'])) {
+            $_SESSION['full_name'] = $uFresh['full_name'];
+            if (!empty($uFresh['phone'])) $_SESSION['phone'] = $uFresh['phone'];
+            if (!empty($uFresh['email'])) $_SESSION['email'] = $uFresh['email'];
+        }
+    } catch (\Throwable $e) {}
+}
 $sessionPhone = $userLoggedIn ? ($_SESSION['phone'] ?? '') : '';
 $sessionEmail = $userLoggedIn ? ($_SESSION['email'] ?? '') : '';
 $patientId    = $userLoggedIn ? ($_SESSION['patient_id'] ?? null) : null;

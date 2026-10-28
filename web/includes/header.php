@@ -2,6 +2,25 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+require_once __DIR__ . '/../config/database.php';
+
+// Tự động đồng bộ full_name mới nhất từ CSDL vào Session (Khắc phục triệt để lỗi font của session cũ)
+if (!empty($_SESSION['logged_in']) && !empty($_SESSION['username'])) {
+    try {
+        $pdoSync = getDB();
+        if ($pdoSync) {
+            $stmtSync = $pdoSync->prepare("SELECT full_name, email, phone FROM users WHERE username = ?");
+            $stmtSync->execute([$_SESSION['username']]);
+            $userFresh = $stmtSync->fetch(PDO::FETCH_ASSOC);
+            if ($userFresh && !empty($userFresh['full_name'])) {
+                $_SESSION['full_name'] = $userFresh['full_name'];
+                if (!empty($userFresh['phone'])) $_SESSION['phone'] = $userFresh['phone'];
+                if (!empty($userFresh['email'])) $_SESSION['email'] = $userFresh['email'];
+            }
+        }
+    } catch (\Throwable $e) {}
+}
+
 if (!headers_sent()) {
     header('Content-Type: text/html; charset=UTF-8');
 }
