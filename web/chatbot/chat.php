@@ -118,12 +118,12 @@ QUY TẮC BẮT BUỘC KHI TRẢ LỜI:
 // 4. CẤU HÌNH GEMINI API
 $aiEnabled      = (get_setting('ai_enabled', '1') === '1');
 $geminiApiKey   = get_setting('gemini_api_key') ?: (getenv('GEMINI_API_KEY') ?: ($_ENV['GEMINI_API_KEY'] ?? ''));
-$geminiModel    = get_setting('gemini_model', 'gemini-3.8-flash');
+$geminiModel    = get_setting('gemini_model', 'gemini-3.6-flash');
 $geminiTemp     = (float)get_setting('gemini_temperature', '0.7');
 $geminiTokens   = (int)get_setting('gemini_max_tokens', '2048');
 
-if (in_array($geminiModel, ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-2.5-flash-lite'])) {
-    $geminiModel = 'gemini-3.8-flash';
+if (in_array($geminiModel, ['gemini-3.8-flash', 'gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-2.5-flash-lite'])) {
+    $geminiModel = 'gemini-3.6-flash';
 }
 
 $aiResponse   = '';
@@ -257,13 +257,10 @@ function requestPythonAiBackend($url, $userMessage) {
 if (empty($aiResponse)) {
     try {
         $pyReply = requestPythonAiBackend($pythonApiUrl, $userMessage);
-        // Chỉ dùng kết quả từ Python nếu nó không phải là danh sách dịch vụ dump mặc định cho câu hỏi chào hỏi/ngoài lề
+        // Chỉ dùng kết quả từ Python nếu nó không phải là danh sách dịch vụ dump mặc định (10 dịch vụ)
         if (!empty($pyReply)) {
             $isDumpList = (strpos($pyReply, 'DANH SÁCH DỊCH VỤ NHA KHOA PREMIER (10 dịch vụ') !== false);
-            $msgLowerCheck = mb_strtolower($userMessage, 'UTF-8');
-            $isGeneralQuestion = preg_match('/\b(chào|hi|hello|bạn là ai|thời tiết|ictu|thái nguyên|đau răng|ê buốt|trẻ em|mang thai|bà bầu|nghiến răng|thuốc lá|ăn gì|kiêng gì)\b/u', $msgLowerCheck);
-            
-            if (!$isDumpList || !$isGeneralQuestion) {
+            if (!$isDumpList) {
                 $aiResponse = $pyReply;
                 $isApiSuccess = true;
             }
@@ -272,7 +269,7 @@ if (empty($aiResponse)) {
 }
 
 // 5.2 Thử gọi Google Gemini API nếu có API key hợp lệ
-if (!$isApiSuccess && $aiEnabled && !empty($geminiApiKey) && strlen($geminiApiKey) > 20 && strpos($geminiApiKey, 'AIza') === 0) {
+if (!$isApiSuccess && $aiEnabled && !empty($geminiApiKey) && strlen($geminiApiKey) > 10) {
     try {
         $reply = requestGeminiAI($geminiModel, $geminiApiKey, $systemPrompt, $userMessage, $geminiTemp, $geminiTokens);
         if (!empty($reply)) {

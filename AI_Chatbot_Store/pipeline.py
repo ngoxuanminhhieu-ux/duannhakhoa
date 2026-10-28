@@ -1,6 +1,7 @@
 import json
 import os
 import re
+import datetime
 
 from dotenv import load_dotenv
 
@@ -83,7 +84,8 @@ Muốn đặt lịch khám hoặc đăng ký khám.
 
 POLICY:
 Hỏi về chính sách, bảo hành, địa chỉ, giờ làm việc,
-vô trùng hoặc các thông tin chung của phòng khám.
+GENERAL_CHAT:
+Các câu hỏi ngoài lề, kiến thức đời sống, khoa học, ngày tháng, thời gian, lịch sử, toán học, văn hóa hoặc trò chuyện tự do không liên quan đến phòng khám nha khoa.
 
 Chỉ trả về JSON đúng định dạng:
 
@@ -92,8 +94,8 @@ Chỉ trả về JSON đúng định dạng:
 Không thêm giải thích.
 """
 
-                # Use standard Gemini model
-                model_name = "gemini-3.8-flash"
+                # Use fast and high-quota Gemini model
+                model_name = "gemini-3.6-flash"
                 if hasattr(self.client, 'models'):
                     response = self.client.models.generate_content(
                         model=model_name,
@@ -112,7 +114,7 @@ Không thêm giải thích.
 
                 intent = intent_data.get(
                     "intent",
-                    "SERVICE"
+                    "GENERAL_CHAT"
                 ).upper()
 
                 valid_intents = {
@@ -121,11 +123,12 @@ Không thêm giải thích.
                     "PRICE",
                     "DOCTOR",
                     "BOOKING",
-                    "POLICY"
+                    "POLICY",
+                    "GENERAL_CHAT"
                 }
 
                 if intent not in valid_intents:
-                    intent = "SERVICE"
+                    intent = "GENERAL_CHAT"
 
                 self.logs.append(
                     f"[Step 1 - Gemini Intent Router]: "
@@ -217,7 +220,16 @@ Không thêm giải thích.
             intent = "GREETING"
 
         else:
-            intent = "SERVICE"
+            dental_keywords = [
+                "răng", "nướu", "lợi", "tủy", "implant", "niềng", "mắc cài", "invisalign",
+                "nhổ", "trám", "hàn", "sứ", "veneer", "tẩy trắng", "cạo vôi", "cao răng",
+                "khám", "bác sĩ", "bác sỹ", "khôn", "áp xe", "ê buốt", "lung lay", "sâu",
+                "chỉnh nha", "nội nha", "dịch vụ", "chi phí", "giá", "bảng giá", "tiền"
+            ]
+            if any(k in query_lower for k in dental_keywords):
+                intent = "SERVICE"
+            else:
+                intent = "GENERAL_CHAT"
 
         self.logs.append(
             f"[Step 1 - Rule Engine]: Detected intent = {intent}"
@@ -232,6 +244,46 @@ Không thêm giải thích.
         """Step 2: Python gọi trực tiếp các Tool / RAG."""
 
         query_lower = query.lower()
+
+        # =====================================================
+        # GENERAL CHAT (MỌI CÂU HỎI NGOÀI LỀ NHƯ CHATGPT / GEMINI)
+        # =====================================================
+        if intent == "GENERAL_CHAT":
+            self.logs.append(f"[Step 2 - General Chat LLM]: Tra loi cau hoi '{query}' bang Gemini LLM")
+            if self.client:
+                for m in ["gemini-3.6-flash", "gemini-3.5-flash"]:
+                    try:
+                        prompt = (
+                            "Ban la Tro ly AI Thong thai cua Nha Khoa Quoc Te Premier Clinic. "
+                            "Hay tra loi cau hoi sau cua nguoi dung mot cach chinh xac, thong thai, tu nhien, huu ich va day du (nhu ChatGPT / Gemini):\n\n"
+                            f"Cau hoi cua nguoi dung: \"{query}\"\n\n"
+                            "Yeu cau: Tra loi truc tiep bang tieng Viet chuan. Neu hoi ve nam hien tai, hay tra loi chinh xac nam 2026."
+                        )
+                        if hasattr(self.client, 'models'):
+                            resp = self.client.models.generate_content(model=m, contents=prompt)
+                        else:
+                            model = self.client.GenerativeModel(m)
+                            resp = model.generate_content(prompt)
+                        if resp and resp.text:
+                            return json.dumps({"type": "direct_reply", "message": resp.text.strip()}, ensure_ascii=False)
+                    except Exception as e:
+                        continue
+
+            # Local fallback neu khong co mang hoac loi LLM
+            if any(w in query_lower for w in ["năm nay", "năm bao", "năm nào", "hôm nay là"]):
+                current_year = datetime.datetime.now().year
+                return json.dumps({
+                    "type": "direct_reply",
+                    "message": f"Dạ năm nay là năm **{current_year}** ạ! 😊\n\nChúc bạn một năm mới an lành, nhiều niềm vui và luôn tự tin với nụ cười của mình! Bạn cần em hỗ trợ thêm thông tin gì không ạ?"
+                }, ensure_ascii=False)
+
+            return json.dumps({
+                "type": "direct_reply",
+                "message": (
+                    f"Dạ về câu hỏi *\"{query}\"*, tôi là Trợ lý AI của Nha Khoa Quốc Tế Premier. "
+                    "Tôi luôn sẵn lòng giải đáp mọi thắc mắc đời sống cũng như tư vấn chuyên sâu về sức khỏe răng miệng, thẩm mỹ nụ cười và đặt lịch khám miễn phí cùng Bác sĩ Chuyên khoa!"
+                )
+            }, ensure_ascii=False)
 
         # =====================================================
         # IDENTITY & UNIVERSITY & OUTSIDE TOPICS
@@ -480,7 +532,7 @@ CÂU HỎI KHÁCH HÀNG:
 Hãy tạo câu trả lời cuối cùng cho khách hàng.
 """
 
-                model_name = "gemini-3.8-flash"
+                model_name = "gemini-3.6-flash"
                 if hasattr(self.client, 'models'):
                     response = self.client.models.generate_content(
                         model=model_name,
