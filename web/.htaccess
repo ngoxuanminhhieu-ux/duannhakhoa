@@ -1,0 +1,10 @@
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+
+# Route cho API phân tích ảnh răng
+RewriteRule ^api/analyze-dental-image/?$ api/analyze-dental-image.php [L,QSA]
+
+# Route cho API chat
+RewriteRule ^api/chat/?$ chatbot/chat.php [L,QSA]
+</IfModule>

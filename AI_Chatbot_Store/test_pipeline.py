@@ -21,7 +21,9 @@ def run_tests():
         "Giá cạo vôi răng và trám răng bao nhiêu tiền?",
         "Bác sĩ Chỉnh nha niềng răng tại phòng khám là ai?",
         "Tôi là Nguyễn Văn A, SĐT 0912345678 muốn đặt lịch hẹn niềng răng vào sáng mai",
-        "Địa chỉ phòng khám ở đâu và làm việc đến mấy giờ?"
+        "Địa chỉ phòng khám ở đâu và làm việc đến mấy giờ?",
+        "Tôi bị đau buốt răng dữ dội lên tận đầu vào ban đêm là bị gì?",
+        "Mất răng lâu năm bị tiêu xương có trồng Implant được không?"
     ]
 
     for i, q in enumerate(test_queries, 1):

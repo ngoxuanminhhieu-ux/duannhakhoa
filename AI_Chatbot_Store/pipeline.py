@@ -93,7 +93,7 @@ Không thêm giải thích.
 """
 
                 # Use standard Gemini model
-                model_name = "gemini-2.5-flash"
+                model_name = "gemini-3.8-flash"
                 if hasattr(self.client, 'models'):
                     response = self.client.models.generate_content(
                         model=model_name,
@@ -338,14 +338,46 @@ Không thêm giải thích.
             self.logs.append(f"[Step 2 - Tool]: search_policies với query = '{query}'")
             return tools.search_policies(query=query)
 
-        else: # SERVICE & PRICE intent
+        else: # SERVICE & PRICE & CLINICAL KNOWLEDGE intent
             keyword = ""
             for kw in ["nhổ răng khôn", "niềng răng", "implant", "trám răng", "nhổ răng", "tẩy trắng", "bọc sứ", "răng sứ", "cạo vôi", "cao răng", "tủy", "trẻ em", "khám"]:
                 if kw in query_lower:
                     keyword = kw
                     break
+
+            # Kiểm tra xem câu hỏi có chứa triệu chứng hoặc kiến thức y khoa chuyên sâu không
+            clinical_terms = [
+                "đau", "nhức", "buốt", "sưng", "tủy", "chảy máu", "nha chu", "tiêu xương",
+                "viêm", "mủ", "khôn", "lệch", "ngầm", "thuốc", "kháng sinh", "kiêng",
+                "sau khi", "bao lâu", "nguy hiểm", "biến chứng", "có nên", "như thế nào",
+                "veneer", "bọc sứ", "implant", "invisalign", "cạo vôi", "men răng"
+            ]
+            has_clinical_interest = any(term in query_lower for term in clinical_terms)
+
+            if has_clinical_interest:
+                self.logs.append(f"[Step 2 - RAG BigData]: Truy vấn CSDL Vector ChromaDB cho '{query}'")
+                med_raw = tools.search_dental_knowledge(query, top_k=2)
+                try:
+                    med_data = json.loads(med_raw)
+                except Exception:
+                    med_data = {}
+
+                services_raw = tools.search_services(keyword=keyword)
+                try:
+                    services_data = json.loads(services_raw)
+                except Exception:
+                    services_data = []
+
+                combined_payload = {
+                    "query": query,
+                    "retrieved_medical_knowledge": med_data.get("retrieved_medical_knowledge", []),
+                    "services": services_data[:3]
+                }
+                return json.dumps(combined_payload, ensure_ascii=False, indent=2)
+
             self.logs.append(f"[Step 2 - Tool]: search_services với keyword = '{keyword}'")
             return tools.search_services(keyword=keyword)
+
 
     # =========================================================
     # STEP 3: GEMINI FORMAT / VALIDATION
@@ -384,7 +416,7 @@ CÂU HỎI KHÁCH HÀNG:
 Hãy tạo câu trả lời cuối cùng cho khách hàng.
 """
 
-                model_name = "gemini-2.5-flash"
+                model_name = "gemini-3.8-flash"
                 if hasattr(self.client, 'models'):
                     response = self.client.models.generate_content(
                         model=model_name,
@@ -438,6 +470,26 @@ Hãy tạo câu trả lời cuối cùng cho khách hàng.
                     f"• **Thời gian hẹn:** {data['time']} ngày {data['date']}\n\n"
                     "📞 Đội ngũ lễ tân của Nha Khoa Premier sẽ gọi điện xác nhận trong ít phút. Cảm ơn quý khách!"
                 )
+
+            elif "retrieved_medical_knowledge" in data:
+                med_list = data["retrieved_medical_knowledge"]
+                services = data.get("services", [])
+
+                answer = "🩺 **TƯ VẤN Y KHOA NHA KHOA CHUYÊN SÂU:**\n\n"
+                if med_list:
+                    for item in med_list:
+                        topic = item.get("topic", "Y khoa Nha khoa")
+                        content = item.get("clinical_knowledge", "")
+                        answer += f"📌 **Chuyên đề: {topic}**\n{content}\n\n"
+
+                if services:
+                    answer += "🏥 **DỊCH VỤ ĐIỀU TRỊ TƯƠNG ỨNG TẠI PHÒNG KHÁM PREMIER:**\n"
+                    for s in services:
+                        answer += f"• **{s['name']}**: Chi phí tham khảo **{s['price_range']}** ({s.get('warranty', 'Khám & tư vấn miễn phí')})\n"
+                    answer += "\n"
+
+                answer += "💡 *Lời khuyên Bác sĩ: Mọi triệu chứng đau nhức hoặc bất thường răng miệng cần được Bác sĩ kiểm tra lâm sàng trực tiếp kết hợp chụp X-quang 3D để lên phác đồ chuẩn xác. Quý khách vui lòng cung cấp Tên + SĐT để phòng khám hỗ trợ đặt lịch khám miễn phí!*"
+                return answer
 
             elif "retrieved_policies" in data:
                 answer = "🏥 **THÔNG TIN & CHÍNH SÁCH PHÒNG KHÁM PREMIER CLINIC:**\n\n"

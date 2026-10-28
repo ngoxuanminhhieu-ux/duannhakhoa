@@ -255,6 +255,67 @@ def search_policies(query):
 
     return json.dumps({"error": "Không tìm thấy CSDL chính sách phòng khám"}, ensure_ascii=False)
 
+_chroma_client = None
+_knowledge_collection = None
+
+def get_knowledge_collection():
+    """Khởi tạo hoặc lấy instance collection tri thức y khoa từ ChromaDB."""
+    global _chroma_client, _knowledge_collection
+    if _knowledge_collection is not None:
+        return _knowledge_collection
+    try:
+        import chromadb
+        from chromadb.utils import embedding_functions
+        if os.path.exists(VECTOR_DB_DIR):
+            _chroma_client = chromadb.PersistentClient(path=VECTOR_DB_DIR)
+            embedding_func = embedding_functions.DefaultEmbeddingFunction()
+            _knowledge_collection = _chroma_client.get_collection(
+                "dental_knowledge_bigdata",
+                embedding_function=embedding_func
+            )
+            return _knowledge_collection
+    except Exception:
+        pass
+    return None
+
+def search_dental_knowledge(query: str, top_k: int = 3):
+    """
+    Truy vấn tri thức y khoa nha khoa chuyên sâu từ CSDL Vector ChromaDB 
+    (được huấn luyện và nạp từ dữ liệu lớn y khoa lâm sàng trên mạng).
+    """
+    try:
+        col = get_knowledge_collection()
+        if col is not None:
+            results = col.query(query_texts=[query], n_results=top_k)
+            retrieved = []
+            if results and results.get("documents") and results["documents"][0]:
+                for doc, meta, dist in zip(results["documents"][0], results["metadatas"][0], results["distances"][0]):
+                    retrieved.append({
+                        "topic": meta.get("topic", "Y khoa Nha khoa"),
+                        "category": meta.get("category", "Kiến thức lâm sàng"),
+                        "relevance_distance": round(float(dist), 4),
+                        "clinical_knowledge": doc
+                    })
+                return json.dumps({"retrieved_medical_knowledge": retrieved}, ensure_ascii=False, indent=2)
+    except Exception:
+        pass
+
+    # Fallback đọc từ corpus text lớn nếu ChromaDB chưa sẵn sàng
+    bigdata_txt = os.path.join(BASE_DIR, "dental_medical_bigdata.txt")
+    if os.path.exists(bigdata_txt):
+        try:
+            with open(bigdata_txt, "r", encoding="utf-8") as f:
+                raw_text = f.read()
+            sections = raw_text.split("====================================================================")
+            matches = [s.strip() for s in sections if any(w in s.lower() for w in query.lower().split() if len(w) > 2)]
+            if matches:
+                return json.dumps({"retrieved_medical_knowledge": matches[:2]}, ensure_ascii=False, indent=2)
+        except Exception:
+            pass
+
+    return json.dumps({"retrieved_medical_knowledge": []}, ensure_ascii=False)
+
+
 TOOLS_SCHEMA = [
     {
         "type": "function",

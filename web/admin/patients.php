@@ -85,7 +85,7 @@ $patients = $stmt->fetchAll();
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,600;1,700&family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/style.css?v=<?php echo time(); ?>">
 </head>
 <body class="bg-light">
 
@@ -93,19 +93,24 @@ $patients = $stmt->fetchAll();
     <div class="row">
         <!-- Sidebar Navigation -->
         <div class="col-md-3 col-lg-2 px-0 admin-sidebar">
-            <div class="p-3 text-center border-bottom border-secondary">
-                <a href="../index.php" class="text-white text-decoration-none d-block fw-bold fs-5">
-                    <i class="fas fa-tooth text-info me-2"></i> SMILE ADMIN
+            <div class="p-3 text-center border-bottom border-secondary border-opacity-25">
+                <a href="../index.php" class="text-white text-decoration-none d-flex align-items-center justify-content-center gap-2 fw-bold fs-5">
+                    <div class="brand-logo-icon" style="width: 36px; height: 36px; font-size: 1.1rem;">
+                        <i class="fas fa-tooth"></i>
+                    </div>
+                    <span>PREMIER ADMIN</span>
                 </a>
             </div>
             <div class="p-3">
                 <small class="text-uppercase text-muted fw-bold d-block mb-3 px-2">Quản lý hệ thống</small>
                 <ul class="nav flex-column">
                     <li class="nav-item"><a class="nav-link" href="dashboard.php"><i class="fas fa-chart-line me-2"></i> Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="revenue.php"><i class="fas fa-chart-pie me-2 text-warning"></i> Doanh Thu</a></li>
                     <li class="nav-item"><a class="nav-link" href="appointments.php"><i class="far fa-calendar-check me-2"></i> Lịch Hẹn</a></li>
                     <li class="nav-item"><a class="nav-link active" href="patients.php"><i class="fas fa-user-injured me-2"></i> Bệnh Nhân</a></li>
                     <li class="nav-item"><a class="nav-link" href="doctors.php"><i class="fas fa-user-md me-2"></i> Bác Sĩ</a></li>
                     <li class="nav-item"><a class="nav-link" href="services.php"><i class="fas fa-stethoscope me-2"></i> Dịch Vụ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="ai_assistant.php"><i class="fas fa-robot text-info me-2"></i> Trợ Lý AI Admin</a></li>
                 </ul>
                 <hr class="border-secondary my-4">
                 <a href="logout.php" class="btn btn-outline-danger w-100 btn-sm"><i class="fas fa-sign-out-alt me-1"></i> Đăng xuất</a>
@@ -177,24 +182,30 @@ $patients = $stmt->fetchAll();
                             <?php if (!empty($patients)): ?>
                                 <?php foreach ($patients as $p): ?>
                                     <tr>
-                                        <td><strong>#<?php echo $p['id']; ?></strong></td>
-                                        <td class="fw-bold text-primary"><?php echo htmlspecialchars($p['full_name']); ?></td>
-                                        <td><?php echo htmlspecialchars($p['phone']); ?></td>
-                                        <td><?php echo htmlspecialchars($p['email']); ?></td>
+                                        <td class="ps-4"><strong class="text-primary">#<?php echo $p['id']; ?></strong></td>
+                                        <td class="fw-bold text-dark-navy"><?php echo htmlspecialchars($p['full_name']); ?></td>
+                                        <td>
+                                            <a href="tel:<?php echo htmlspecialchars($p['phone']); ?>" class="text-primary text-decoration-none fw-semibold small">
+                                                <i class="fas fa-phone-alt me-1"></i><?php echo htmlspecialchars($p['phone']); ?>
+                                            </a>
+                                        </td>
+                                        <td><small class="text-muted"><i class="far fa-envelope me-1"></i><?php echo htmlspecialchars($p['email']); ?></small></td>
                                         <td><?php echo $p['date_of_birth'] ? date('d/m/Y', strtotime($p['date_of_birth'])) : '-'; ?></td>
                                         <td><?php echo htmlspecialchars($p['address'] ?? '-'); ?></td>
-                                        <td><small class="text-muted"><?php echo date('d/m/Y H:i', strtotime($p['created_at'])); ?></small></td>
-                                        <td class="text-end">
-                                            <button class="btn btn-sm btn-outline-primary me-1" 
-                                                    data-bs-toggle="modal" 
-                                                    data-bs-target="#editPatientModal<?php echo $p['id']; ?>">
-                                                <i class="fas fa-edit"></i> Sửa
-                                            </button>
-                                            <form action="patients.php" method="POST" class="d-inline" onsubmit="return confirm('Bạn có chắc chắn muốn xóa bệnh nhân này?');">
-                                                <input type="hidden" name="action" value="delete">
-                                                <input type="hidden" name="id" value="<?php echo $p['id']; ?>">
-                                                <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash-alt"></i> Xóa</button>
-                                            </form>
+                                        <td><small class="text-muted"><i class="far fa-clock me-1"></i><?php echo date('d/m/Y H:i', strtotime($p['created_at'])); ?></small></td>
+                                        <td class="text-end pe-3">
+                                            <div class="btn-action-group justify-content-end">
+                                                <button type="button" class="btn-action btn-action-edit" 
+                                                        data-bs-toggle="modal" 
+                                                        data-bs-target="#editPatientModal<?php echo $p['id']; ?>">
+                                                    <i class="fas fa-edit"></i> Sửa
+                                                </button>
+                                                <form action="patients.php" method="POST" class="d-inline m-0" onsubmit="return confirm('Bạn có chắc chắn muốn xóa bệnh nhân này?');">
+                                                    <input type="hidden" name="action" value="delete">
+                                                    <input type="hidden" name="id" value="<?php echo $p['id']; ?>">
+                                                    <button type="submit" class="btn-action btn-action-delete"><i class="fas fa-trash-alt"></i> Xóa</button>
+                                                </form>
+                                            </div>
                                         </td>
                                     </tr>
 
@@ -202,7 +213,7 @@ $patients = $stmt->fetchAll();
                                     <div class="modal fade" id="editPatientModal<?php echo $p['id']; ?>" tabindex="-1">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
-                                                <form action="patients.php" method="POST">
+                                                <form action="patients.php" method="POST" class="needs-validation" novalidate>
                                                     <input type="hidden" name="action" value="edit">
                                                     <input type="hidden" name="id" value="<?php echo $p['id']; ?>">
                                                     <div class="modal-header">
@@ -211,16 +222,19 @@ $patients = $stmt->fetchAll();
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="mb-3">
-                                                            <label class="form-label fw-semibold">Họ tên bệnh nhân</label>
+                                                            <label class="form-label fw-semibold">Họ tên bệnh nhân *</label>
                                                             <input type="text" name="full_name" class="form-control" value="<?php echo htmlspecialchars($p['full_name']); ?>" required>
+                                                            <div class="invalid-feedback"><i class="fas fa-exclamation-circle me-1"></i>Vui lòng nhập họ tên bệnh nhân.</div>
                                                         </div>
                                                         <div class="mb-3">
-                                                            <label class="form-label fw-semibold">Số điện thoại</label>
+                                                            <label class="form-label fw-semibold">Số điện thoại *</label>
                                                             <input type="tel" name="phone" class="form-control" value="<?php echo htmlspecialchars($p['phone']); ?>" required>
+                                                            <div class="invalid-feedback"><i class="fas fa-exclamation-circle me-1"></i>Vui lòng nhập số điện thoại.</div>
                                                         </div>
                                                         <div class="mb-3">
-                                                            <label class="form-label fw-semibold">Email</label>
+                                                            <label class="form-label fw-semibold">Email *</label>
                                                             <input type="email" name="email" class="form-control" value="<?php echo htmlspecialchars($p['email']); ?>" required>
+                                                            <div class="invalid-feedback"><i class="fas fa-exclamation-circle me-1"></i>Vui lòng nhập địa chỉ email.</div>
                                                         </div>
                                                         <div class="mb-3">
                                                             <label class="form-label fw-semibold">Ngày sinh</label>
@@ -258,7 +272,7 @@ $patients = $stmt->fetchAll();
 <div class="modal fade" id="addPatientModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="patients.php" method="POST">
+            <form action="patients.php" method="POST" class="needs-validation" novalidate>
                 <input type="hidden" name="action" value="add">
                 <div class="modal-header">
                     <h5 class="modal-title fw-bold">Thêm Bệnh Nhân Mới</h5>
@@ -268,14 +282,17 @@ $patients = $stmt->fetchAll();
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Họ và tên bệnh nhân *</label>
                         <input type="text" name="full_name" class="form-control" placeholder="Nguyễn Văn A" required>
+                        <div class="invalid-feedback"><i class="fas fa-exclamation-circle me-1"></i>Vui lòng nhập họ và tên bệnh nhân.</div>
                     </div>
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Số điện thoại *</label>
                         <input type="tel" name="phone" class="form-control" placeholder="0912..." required>
+                        <div class="invalid-feedback"><i class="fas fa-exclamation-circle me-1"></i>Vui lòng nhập số điện thoại.</div>
                     </div>
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Email *</label>
                         <input type="email" name="email" class="form-control" placeholder="example@email.com" required>
+                        <div class="invalid-feedback"><i class="fas fa-exclamation-circle me-1"></i>Vui lòng nhập địa chỉ email.</div>
                     </div>
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Ngày sinh</label>
@@ -296,5 +313,96 @@ $patients = $stmt->fetchAll();
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+(function() {
+    function validateField(input) {
+        if (!input.hasAttribute('required')) return true;
+        var val = (input.value || '').trim();
+        var parent = input.closest('.mb-3') || input.parentElement;
+        var feedback = parent ? parent.querySelector('.invalid-feedback') : null;
+        
+        var isInvalid = false;
+        if (!val) {
+            isInvalid = true;
+        }
+
+        if (isInvalid) {
+            input.classList.add('is-invalid');
+            if (feedback) {
+                feedback.style.setProperty('display', 'block', 'important');
+                feedback.style.color = '#dc2626';
+            }
+            return false;
+        } else {
+            input.classList.remove('is-invalid');
+            if (feedback) {
+                feedback.style.setProperty('display', 'none', 'important');
+            }
+            return true;
+        }
+    }
+
+    document.addEventListener('click', function(e) {
+        var btn = e.target.closest('button[type="submit"], input[type="submit"]');
+        if (!btn) return;
+        var form = btn.closest('form');
+        if (!form) return;
+
+        var isValid = true;
+        var requiredInputs = form.querySelectorAll('input[required], select[required], textarea[required]');
+        requiredInputs.forEach(function(inp) {
+            if (!validateField(inp)) {
+                isValid = false;
+            }
+        });
+
+        if (!isValid) {
+            e.preventDefault();
+            e.stopPropagation();
+            form.classList.add('was-validated');
+            var firstErr = form.querySelector('.is-invalid');
+            if (firstErr) {
+                firstErr.focus();
+            }
+        }
+    }, true);
+
+    document.addEventListener('submit', function(e) {
+        var form = e.target;
+        var isValid = true;
+        var requiredInputs = form.querySelectorAll('input[required], select[required], textarea[required]');
+        requiredInputs.forEach(function(inp) {
+            if (!validateField(inp)) {
+                isValid = false;
+            }
+        });
+
+        if (!isValid) {
+            e.preventDefault();
+            e.stopPropagation();
+            form.classList.add('was-validated');
+            var firstErr = form.querySelector('.is-invalid');
+            if (firstErr) {
+                firstErr.focus();
+            }
+        }
+    }, true);
+
+    document.addEventListener('input', function(e) {
+        var inp = e.target;
+        if (inp.hasAttribute && inp.hasAttribute('required')) {
+            validateField(inp);
+        }
+    }, true);
+
+    document.addEventListener('blur', function(e) {
+        var inp = e.target;
+        if (inp.hasAttribute && inp.hasAttribute('required')) {
+            validateField(inp);
+        }
+    }, true);
+})();
+</script>
+<?php include __DIR__ . '/chatbot_widget.php'; ?>
 </body>
 </html>

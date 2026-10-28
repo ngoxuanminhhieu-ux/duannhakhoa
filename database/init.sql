@@ -83,6 +83,29 @@ CREATE TABLE `chatbot_messages` (
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- 7. Table: system_settings
+CREATE TABLE IF NOT EXISTS `system_settings` (
+    `setting_key` VARCHAR(100) PRIMARY KEY,
+    `setting_value` TEXT,
+    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 8. Table: users (Dành cho cả Khách hàng và Admin)
+CREATE TABLE IF NOT EXISTS `users` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `username` VARCHAR(50) NOT NULL UNIQUE,
+    `password` VARCHAR(255) NOT NULL,
+    `full_name` VARCHAR(100) NOT NULL,
+    `email` VARCHAR(100) DEFAULT NULL,
+    `phone` VARCHAR(20) DEFAULT NULL,
+    `role` ENUM('admin', 'user') DEFAULT 'user',
+    `patient_id` INT DEFAULT NULL,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX `idx_users_role` (`role`),
+    INDEX `idx_users_username` (`username`),
+    INDEX `idx_users_phone` (`phone`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- ==========================================
 -- SAMPLE DATA INSERTION
 -- ==========================================
@@ -90,15 +113,19 @@ CREATE TABLE `chatbot_messages` (
 -- Admin account (Password is 'admin123' hashed with bcrypt)
 INSERT INTO `admins` (`username`, `password`, `full_name`) VALUES
 ('admin', '$2y$10$qW.8pB9F044uW/75s2QWVeJj/3vA.s6tU6jL2lT3z1F/zS7uS8.m2', 'Quản trị viên Hệ thống');
+
+-- Unified users table admin record
+INSERT INTO `users` (`username`, `password`, `full_name`, `email`, `phone`, `role`) VALUES
+('admin', '$2y$10$qW.8pB9F044uW/75s2QWVeJj/3vA.s6tU6jL2lT3z1F/zS7uS8.m2', 'Quản trị viên Hệ thống', 'admin@nhakhoasmile.vn', '0912345678', 'admin');
 -- Note: 'admin123' bcrypt hash generated above.
 
 -- Sample Doctors (5 Doctors)
 INSERT INTO `doctors` (`full_name`, `specialty`, `experience`, `description`, `image`) VALUES
-('ThS. BS. Nguyễn Văn An', 'Răng Hàm Mặt Tổng Quát', '12 năm kinh nghiệm', 'Tốt nghiệp Đại học Y Dược TP.HCM, chứng chỉ Chuyên khoa Răng Hàm Mặt quốc tế. Chuyên gia tư vấn tổng thể và lập kế hoạch điều trị toàn diện.', 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=400&auto=format&fit=crop&q=80'),
-('BS. CKI. Trần Thị Mai', 'Chỉnh Hình Răng (Niềng Răng)', '8 năm kinh nghiệm', 'Chuyên gia nắn chỉnh răng không mắc cài Invisalign & niềng răng mắc cài kim loại/sứ thẩm mỹ. Đã điều trị thành công hơn 1.000 ca nha khoa.', 'https://images.unsplash.com/photo-1594824813566-88855ce78347?w=400&auto=format&fit=crop&q=80'),
-('ThS. BS. Lê Hoàng Nam', 'Cấy Ghép Implant Nha Khoa', '15 năm kinh nghiệm', 'Tu nghiệp cấy ghép nha khoa tại Thụy Sĩ. Thực hiện hàng ngàn ca cấy ghép Implant đơn lẻ và toàn hàm không đau, lành thương nhanh.', 'https://images.unsplash.com/photo-1537368910025-700350fe46c7?w=400&auto=format&fit=crop&q=80'),
-('BS. Phạm Thùy Linh', 'Nha Khoa Thẩm Mỹ & Phục Hình Sứ', '7 năm kinh nghiệm', 'Chuyên sâu thiết kế nụ cười Smile Design, dán sứ Veneer và bọc răng sứ thẩm mỹ bảo tồn răng thật tối đa.', 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&auto=format&fit=crop&q=80'),
-('BS. CKI. Đỗ Minh Đức', 'Phẫu Thuật Tiểu Phẫu & Nhổ Răng Khôn', '10 năm kinh nghiệm', 'Kỹ thuật nhổ răng khôn bằng máy Piezotome không đau, an toàn tuyệt đối. Chuyên sâu xử lý các ca răng lệch, mọc ngầm phức tạp.', 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&auto=format&fit=crop&q=80');
+('ThS. BS. Nguyễn Văn An', 'Răng Hàm Mặt Tổng Quát', '12 năm kinh nghiệm', 'Tốt nghiệp Đại học Y Dược TP.HCM, chứng chỉ Chuyên khoa Răng Hàm Mặt quốc tế. Chuyên gia tư vấn tổng thể và lập kế hoạch điều trị toàn diện.', 'assets/images/dr-nguyen-an.jpg'),
+('BS. CKI. Trần Thị Mai', 'Chỉnh Hình Răng (Niềng Răng)', '8 năm kinh nghiệm', 'Chuyên gia nắn chỉnh răng không mắc cài Invisalign & niềng răng mắc cài kim loại/sứ thẩm mỹ. Đã điều trị thành công hơn 1.000 ca nha khoa.', 'assets/images/dr-tran-mai.jpg'),
+('ThS. BS. Lê Hoàng Nam', 'Cấy Ghép Implant Nha Khoa', '15 năm kinh nghiệm', 'Tu nghiệp cấy ghép nha khoa tại Thụy Sĩ. Thực hiện hàng ngàn ca cấy ghép Implant đơn lẻ và toàn hàm không đau, lành thương nhanh.', 'assets/images/dr-le-hoang-nam.jpg'),
+('BS. Phạm Thùy Linh', 'Nha Khoa Thẩm Mỹ & Phục Hình Sứ', '7 năm kinh nghiệm', 'Chuyên sâu thiết kế nụ cười Smile Design, dán sứ Veneer và bọc răng sứ thẩm mỹ bảo tồn răng thật tối đa.', 'assets/images/dr-pham-thuy-linh.jpg'),
+('BS. CKI. Đỗ Minh Đức', 'Phẫu Thuật Tiểu Phẫu & Nhổ Răng Khôn', '10 năm kinh nghiệm', 'Kỹ thuật nhổ răng khôn bằng máy Piezotome không đau, an toàn tuyệt đối. Chuyên sâu xử lý các ca răng lệch, mọc ngầm phức tạp.', 'assets/images/dr-do-minh-duc.jpg');
 
 -- Sample Services (8 Services)
 INSERT INTO `services` (`name`, `description`, `price`, `image`) VALUES

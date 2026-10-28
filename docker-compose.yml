@@ -16,7 +16,7 @@ services:
       - DB_NAME=dental_clinic
       - DB_USER=dental_user
       - DB_PASSWORD=dental_password
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
     depends_on:
       - db
     networks:

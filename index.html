@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nha Khoa Quốc Tế Premier - Chăm Sóc Nụ Cười Công Nghệ Cao AI</title>
-    <meta name="description" content="Nha Khoa Quốc Tế Premier - Hệ thống nha khoa công nghệ cao hàng đầu Việt Nam tích hợp Trợ lý AI Assistant. Khám răng, Niềng răng, Implant, Răng sứ thẩm mỹ.">
+    <title>Nha Khoa Quốc Tế Premier - Chăm Sóc Nụ Cười, Kiến Tạo Tự Tin</title>
+    <meta name="description" content="Nha Khoa Quốc Tế Premier - Hệ thống nha khoa công nghệ cao hàng đầu. Bác sĩ chuyên khoa Răng Hàm Mặt giàu kinh nghiệm. Niềng răng, Cấy ghép Implant, Răng sứ thẩm mỹ chuẩn quốc tế, không đau.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,600;1,700&family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -18,8 +18,8 @@
         <div class="top-bar">
             <div class="container top-bar-inner">
                 <div class="top-info">
-                    <span><i class="fa-solid fa-location-dot"></i> 123 Nguyễn Văn Cừ, Q.5, TP.HCM</span>
-                    <span><i class="fa-solid fa-clock"></i> 08:00 - 20:00 (Tất cả các ngày)</span>
+                    <span><i class="fa-solid fa-location-dot"></i> 123 Nguyễn Văn Cừ, Phường 4, Quận 5, TP. Hồ Chí Minh</span>
+                    <span><i class="fa-solid fa-clock"></i> 08:00 - 20:00 (Tất cả các ngày trong tuần)</span>
                 </div>
                 <div class="top-contact">
                     <a href="tel:19006868"><i class="fa-solid fa-phone-volume"></i> Hotline: <strong>1900 6868</strong></a>
@@ -49,9 +49,15 @@
                 </div>
 
                 <div class="nav-actions">
-                    <button class="btn btn-primary" onclick="openBookingModal()">
-                        <i class="fa-solid fa-calendar-check"></i> Đặt Lịch Ngay
+                    <button class="btn btn-primary" onclick="openBookingModal()" style="padding: 9px 18px; font-size: 0.88rem;">
+                        <i class="fa-solid fa-calendar-check"></i> Đặt Lịch Khám
                     </button>
+                    <a href="web/login.php?tab=login" class="btn-nav-login">
+                        Đăng nhập
+                    </a>
+                    <a href="web/login.php?tab=register" class="btn-nav-register">
+                        Đăng ký
+                    </a>
                     <button class="mobile-toggle" onclick="toggleMobileMenu()">
                         <i class="fa-solid fa-bars" id="menuIcon"></i>
                     </button>
@@ -59,6 +65,22 @@
             </div>
         </nav>
     </header>
+
+    <!-- FLOATING CONTACT BAR (QUICK ACTIONS) -->
+    <div class="floating-contact-bar">
+        <a href="tel:19006868" class="float-action-item float-hotline" title="Gọi Hotline 1900 6868">
+            <i class="fa-solid fa-phone-volume"></i>
+            <span class="float-tooltip">Hotline: 1900 6868</span>
+        </a>
+        <a href="https://zalo.me" target="_blank" class="float-action-item float-zalo" title="Chat qua Zalo">
+            <i class="fa-solid fa-comment-dots"></i>
+            <span class="float-tooltip">Tư vấn Zalo 24/7</span>
+        </a>
+        <button class="float-action-item float-booking" onclick="openBookingModal()" title="Đặt Lịch Khám 0đ">
+            <i class="fa-solid fa-calendar-days"></i>
+            <span class="float-tooltip">Đặt lịch khám miễn phí</span>
+        </button>
+    </div>
 
     <!-- MAIN PAGE CONTAINER -->
     <main class="main-content">
@@ -69,13 +91,20 @@
             <div class="hero">
                 <div class="container hero-inner">
                     <div class="hero-content">
-                        <div class="badge-tag"><i class="fa-solid fa-wand-magic-sparkles"></i> Ứng Dụng Công Nghệ AI 3D Hiện Đại</div>
-                        <h1 class="hero-title">Nụ Cười Rạng Rỡ <br><span class="highlight-text">Cuộc Sống Thăng Hoa</span></h1>
-                        <p class="hero-desc">Hệ thống Nha Khoa Quốc Tế Premier Clinic cung cấp giải pháp bọc răng sứ, niềng răng, cấy ghép Implant và thẩm mỹ nụ cười chuẩn Châu Âu với sự trợ giúp của AI Assistant.</p>
+                        <div class="badge-tag">
+                            <i class="fa-solid fa-certificate"></i> Hệ Thống Nha Khoa Quốc Tế Đạt Chuẩn Sở Y Tế
+                        </div>
+                        <h1 class="hero-title">
+                            Kiến Tạo Nụ Cười Việt <br>
+                            <span class="highlight-text">Thẩm Mỹ & Không Đau</span>
+                        </h1>
+                        <p class="hero-desc">
+                            Nha Khoa Quốc Tế Premier quy tụ đội ngũ Bác sĩ - Chuyên gia hàng đầu Răng Hàm Mặt, tiên phong ứng dụng công nghệ 3D CT ConeBeam, máy Scan răng iTero 5D và quy trình điều trị vô trùng tuyệt đối tiêu chuẩn Châu Âu.
+                        </p>
                         
                         <div class="hero-buttons">
                             <button class="btn btn-primary btn-lg" onclick="openBookingModal()">
-                                <i class="fa-solid fa-calendar-days"></i> Đặt Lịch Khám Miễn Phí
+                                <i class="fa-solid fa-calendar-check"></i> Đặt Lịch Khám Miễn Phí
                             </button>
                             <button class="btn btn-outline btn-lg" onclick="openChatbot()">
                                 <i class="fa-solid fa-robot"></i> Tư Vấn Cùng AI Assistant
@@ -84,12 +113,16 @@
 
                         <div class="hero-features">
                             <div class="feature-item">
-                                <i class="fa-solid fa-shield-halved"></i>
-                                <span>Bảo hành trọn đời</span>
+                                <i class="fa-solid fa-graduation-cap"></i>
+                                <span>100% BS Chuyên Khoa RHM</span>
                             </div>
                             <div class="feature-item">
-                                <i class="fa-solid fa-microscope"></i>
-                                <span>Chụp X-quang 3D Miễn Phí</span>
+                                <i class="fa-solid fa-shield-halved"></i>
+                                <span>Bảo hành chính hãng lâu dài</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fa-solid fa-circle-dollar-to-slot"></i>
+                                <span>Khám & Chụp phim 3D 0đ</span>
                             </div>
                             <div class="feature-item">
                                 <i class="fa-solid fa-credit-card"></i>
@@ -99,19 +132,19 @@
                     </div>
 
                     <div class="hero-image-wrapper">
-                        <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=800&auto=format&fit=crop&q=80" alt="Nha Khoa Premier" class="hero-img">
+                        <img src="assets/images/hero-dentist-smile.jpg" alt="Bác sĩ Nha Khoa Quốc Tế Premier và nụ cười rạng rỡ của khách hàng" class="hero-img">
                         <div class="hero-card float-card-1">
                             <div class="icon-circle"><i class="fa-solid fa-star"></i></div>
                             <div>
-                                <strong>4.9 / 5.0 Rating</strong>
-                                <span>Hơn 25.000 Khách Hàng Hài Lòng</span>
+                                <strong>4.9 / 5.0 ⭐ Rating</strong>
+                                <span>Hơn 50.000 Khách Hàng Hài Lòng</span>
                             </div>
                         </div>
                         <div class="hero-card float-card-2">
-                            <div class="icon-circle green"><i class="fa-solid fa-user-doctor"></i></div>
+                            <div class="icon-circle"><i class="fa-solid fa-user-doctor"></i></div>
                             <div>
-                                <strong>100% Bác Sĩ CKI & Thạc Sĩ</strong>
-                                <span>Tu nghiệp tại Pháp, Đức, Mỹ</span>
+                                <strong>Đội Ngũ Bác Sĩ Răng Hàm Mặt</strong>
+                                <span>Hơn 12 Năm Kinh Nghiệm Lâm Sàng</span>
                             </div>
                         </div>
                     </div>
@@ -123,19 +156,53 @@
                 <div class="container stats-inner">
                     <div class="stat-box">
                         <h2 class="stat-number">15+</h2>
-                        <p class="stat-label">Năm Kinh Nghiệm</p>
+                        <p class="stat-label">Năm Phát Triển Bền Vững</p>
                     </div>
                     <div class="stat-box">
-                        <h2 class="stat-number">25.000+</h2>
-                        <p class="stat-label">Nụ Cười Được Kiến Tạo</p>
+                        <h2 class="stat-number">50.000+</h2>
+                        <p class="stat-label">Nụ Cười Được Tái Sinh</p>
                     </div>
                     <div class="stat-box">
                         <h2 class="stat-number">100%</h2>
-                        <p class="stat-label">Vô Trùng Chuẩn ISO Class B</p>
+                        <p class="stat-label">Bác Sĩ Răng Hàm Mặt Chuyên Sâu</p>
                     </div>
                     <div class="stat-box">
                         <h2 class="stat-number">99.8%</h2>
-                        <p class="stat-label">Tỷ Lệ Hài Lòng</p>
+                        <p class="stat-label">Khách Hàng Hài Lòng Tuyệt Đối</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4 Cam Kết Vàng Nha Khoa Premier -->
+            <div class="section-padding bg-light">
+                <div class="container">
+                    <div class="section-header text-center">
+                        <span class="sub-badge">4 CAM KẾT VÀNG NHA KHOA PREMIER</span>
+                        <h2 class="section-title">Tại Sao Hơn 50.000 Khách Hàng Tin Chọn Chúng Tôi?</h2>
+                        <p class="section-subtitle">Tiêu chuẩn điều trị y khoa nghiêm ngặt, minh bạch và an toàn tuyệt đối là kim chỉ nam trong mọi hoạt động.</p>
+                    </div>
+
+                    <div class="commitments-grid">
+                        <div class="commitment-card">
+                            <div class="commitment-icon"><i class="fa-solid fa-user-doctor"></i></div>
+                            <h3>Bác Sĩ Chuyên Khoa Giàu Kinh Nghiệm</h3>
+                            <p>Đội ngũ bác sĩ tu nghiệp chuyên sâu trong và ngoài nước, trực tiếp thăm khám, hội chẩn và điều trị 1-1 cho từng khách hàng.</p>
+                        </div>
+                        <div class="commitment-card">
+                            <div class="commitment-icon"><i class="fa-solid fa-microchip"></i></div>
+                            <h3>Công Nghệ Châu Âu Hiện Đại</h3>
+                            <p>Trang bị máy chụp phim 3D CT ConeBeam, máy quét dấu răng iTero 5D và máy nhổ răng siêu âm Piezotome không đau.</p>
+                        </div>
+                        <div class="commitment-card">
+                            <div class="commitment-icon"><i class="fa-solid fa-shield-virus"></i></div>
+                            <h3>Vô Trùng Chuẩn Y Khoa Quốc Tế</h3>
+                            <p>Hệ thống phòng vô trùng khép kín tiêu chuẩn Class B, mỗi bệnh nhân 1 bộ dụng cụ tiệt trùng riêng biệt.</p>
+                        </div>
+                        <div class="commitment-card">
+                            <div class="commitment-icon"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+                            <h3>Chi Phí Minh Bạch 100%</h3>
+                            <p>Báo giá trọn gói một lần trước khi làm, cam kết không phát sinh, hỗ trợ trả góp lãi suất 0% linh hoạt.</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -144,9 +211,9 @@
             <div class="section-padding">
                 <div class="container">
                     <div class="section-header text-center">
-                        <span class="sub-badge">DỊCH VỤ NỔI BẬT</span>
-                        <h2 class="section-title">Giải Pháp Chăm Sóc Răng Miệng Toàn Diện</h2>
-                        <p class="section-subtitle">Ứng dụng trang thiết bị y khoa hiện đại hàng đầu thế giới mang lại hiệu quả điều trị vượt trội.</p>
+                        <span class="sub-badge">DỊCH VỤ TRỌNG TÂM</span>
+                        <h2 class="section-title">Giải Pháp Điều Trị & Thẩm Mỹ Răng Toàn Diện</h2>
+                        <p class="section-subtitle">Chuyên sâu 3 nhóm dịch vụ mũi nhọn: Nha khoa Thẩm mỹ, Niềng răng Chỉnh nha và Cấy ghép Implant.</p>
                     </div>
 
                     <div class="services-grid" id="home-services-grid">
@@ -154,47 +221,130 @@
                     </div>
 
                     <div class="text-center margin-top-lg">
-                        <button class="btn btn-outline" onclick="switchNav('services')">Xem Tất Cả Dịch Vụ <i class="fa-solid fa-arrow-right"></i></button>
+                        <button class="btn btn-outline" onclick="switchNav('services')">
+                            Xem Toàn Bộ Danh Mục Dịch Vụ <i class="fa-solid fa-arrow-right"></i>
+                        </button>
                     </div>
                 </div>
             </div>
 
-            <!-- Why Choose Us / Technology -->
-            <div class="bg-light section-padding">
+            <!-- Smile Transformation & Real Patient Smiles Showcase -->
+            <div class="section-padding bg-light">
+                <div class="container">
+                    <div class="section-header text-center">
+                        <span class="sub-badge"><i class="fa-solid fa-wand-magic-sparkles"></i> KẾT QUẢ KHÁCH HÀNG THỰC TẾ</span>
+                        <h2 class="section-title">Hành Trình Kiến Tạo Nụ Cười Rạng Rỡ</h2>
+                        <p class="section-subtitle">Hơn 50.000 nụ cười tỏa sáng tự tin đã được tái sinh tại Nha Khoa Quốc Tế Premier với công nghệ nha khoa kỹ thuật số hiện đại không đau.</p>
+                    </div>
+
+                    <div class="smile-grid">
+                        <div class="smile-card">
+                            <div class="smile-thumb">
+                                <img src="assets/images/smile-woman.jpg" alt="Kết quả bọc răng sứ thẩm mỹ Emax" loading="lazy">
+                                <span class="smile-badge"><i class="fa-solid fa-certificate"></i> Dán Sứ Veneer Emax</span>
+                            </div>
+                            <div class="smile-body">
+                                <div class="smile-stars">
+                                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                    <span style="font-weight:700; color:var(--dark); margin-left:6px;">5.0 / 5.0</span>
+                                </div>
+                                <h3 class="smile-title">Răng Đều Đẹp, Trắng Sáng Tự Nhiên</h3>
+                                <p class="smile-quote">"Trước đây tôi rất tự ti vì hàm răng xỉn màu và thưa kẽ. Nhờ BS Mai thiết kế nụ cười và dán sứ Veneer siêu mỏng, hàm răng trắng trong tự nhiên, ai cũng khen cười duyên hơn hẳn!"</p>
+                                <div class="smile-patient-info">
+                                    <div>
+                                        <span class="patient-name">Chị Mai Phương</span>
+                                        <span style="font-size:0.8rem; color:var(--muted); display:block;">26 tuổi - TP. Hồ Chí Minh</span>
+                                    </div>
+                                    <span class="patient-tag">Dán Sứ Veneer</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="smile-card">
+                            <div class="smile-thumb">
+                                <img src="assets/images/smile-man.jpg" alt="Kết quả niềng răng trong suốt Invisalign" loading="lazy">
+                                <span class="smile-badge"><i class="fa-solid fa-certificate"></i> Niềng Răng Invisalign</span>
+                            </div>
+                            <div class="smile-body">
+                                <div class="smile-stars">
+                                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                    <span style="font-weight:700; color:var(--dark); margin-left:6px;">5.0 / 5.0</span>
+                                </div>
+                                <h3 class="smile-title">Khớp Cắn Chuẩn, Tự Tin Giao Tiếp</h3>
+                                <p class="smile-quote">"Niềng răng máng trong suốt Invisalign tại Premier thực sự vượt mong đợi. Không vướng víu mắc cài, ăn uống thoải mái, sau 18 tháng các răng đều tăm tắp đúng chuẩn tỷ lệ vàng."</p>
+                                <div class="smile-patient-info">
+                                    <div>
+                                        <span class="patient-name">Anh Tuấn Kiệt</span>
+                                        <span style="font-size:0.8rem; color:var(--muted); display:block;">29 tuổi - Doanh nhân</span>
+                                    </div>
+                                    <span class="patient-tag">Niềng Răng 3D</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="smile-card">
+                            <div class="smile-thumb">
+                                <img src="assets/images/doctor-consult.jpg" alt="Tư vấn và thiết kế nụ cười 3D Smile Design" loading="lazy">
+                                <span class="smile-badge"><i class="fa-solid fa-certificate"></i> 3D Smile Design</span>
+                            </div>
+                            <div class="smile-body">
+                                <div class="smile-stars">
+                                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                    <span style="font-weight:700; color:var(--dark); margin-left:6px;">5.0 / 5.0</span>
+                                </div>
+                                <h3 class="smile-title">Mô Phỏng Thấy Trước Nụ Cười</h3>
+                                <p class="smile-quote">"Điều tôi ưng ý nhất là được bác sĩ quét dấu răng bằng máy 3D iTero 5D và xem trước kết quả hàm răng tương lai chỉ sau 5 phút. Quy trình rất chuyên nghiệp, êm ái và minh bạch."</p>
+                                <div class="smile-patient-info">
+                                    <div>
+                                        <span class="patient-name">Chị Thu Thảo</span>
+                                        <span style="font-size:0.8rem; color:var(--muted); display:block;">32 tuổi - Giảng viên</span>
+                                    </div>
+                                    <span class="patient-tag">3D Smile Design</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technology & Why Choose Us -->
+            <div class="section-padding">
                 <div class="container">
                     <div class="tech-grid">
                         <div class="tech-content">
-                            <span class="sub-badge">CÔNG NGHỆ ĐỘT PHÁ</span>
-                            <h2 class="section-title">Nha Khoa Kỹ Thuật Số Tích Hợp Trí Tuệ Nhân Tạo</h2>
-                            <p class="desc-text">Nha Khoa Premier tiên phong ứng dụng trí tuệ nhân tạo (AI) trong phân tích phim X-quang Panorama và mô phỏng nụ cười Smile Design 3D, giúp khách hàng thấy trước kết quả chỉ sau 5 phút.</p>
+                            <span class="sub-badge">TRANG THIẾT BỊ ĐẲNG CẤP</span>
+                            <h2 class="section-title">Nha Khoa Kỹ Thuật Số & Trí Tuệ Nhân Tạo AI</h2>
+                            <p class="desc-text">
+                                Nha Khoa Quốc Tế Premier đầu tư đồng bộ hệ thống máy móc nhập khẩu nguyên chiếc từ Đức, Mỹ, Thụy Sĩ kết hợp công nghệ AI giúp chẩn đoán hình ảnh chính xác từng milimet và mô phỏng trước nụ cười tương lai chỉ sau 5 phút.
+                            </p>
 
                             <div class="tech-list">
                                 <div class="tech-item">
                                     <div class="tech-icon"><i class="fa-solid fa-camera"></i></div>
                                     <div>
                                         <h4>Máy Scan Răng 3D iTero Element 5D</h4>
-                                        <p>Lấy dấu răng kỹ thuật số không gây buồn nôn, dự đoán dịch chuyển răng niềng chính xác 99.9%.</p>
+                                        <p>Lấy dấu răng kỹ thuật số không gây buồn nôn, thấy trước nụ cười tương lai và dự đoán dịch chuyển răng niềng chính xác 99.9%.</p>
                                     </div>
                                 </div>
                                 <div class="tech-item">
                                     <div class="tech-icon"><i class="fa-solid fa-bolt"></i></div>
                                     <div>
                                         <h4>Máy Nhổ Răng Siêu Âm Piezotome</h4>
-                                        <p>Bóc tách mô mềm êm ái, nhổ răng khôn mọc ngầm không đau, lành thương nhanh gấp 2 lần.</p>
+                                        <p>Bóc tách mô mềm êm ái bằng sóng siêu âm cao tần, nhổ răng khôn mọc ngầm không đau, không sưng, lành thương nhanh gấp 2 lần.</p>
                                     </div>
                                 </div>
                                 <div class="tech-item">
                                     <div class="tech-icon"><i class="fa-solid fa-sun"></i></div>
                                     <div>
-                                        <h4>Tẩy Trắng Răng Laser Flash Công Nghệ Đức</h4>
-                                        <p>Bật 3 - 5 tông răng chỉ trong 45 phút, bảo vệ men răng tuyệt đối, không ê buốt.</p>
+                                        <h4>Tẩy Trắng Răng Laser Whitening Công Nghệ Đức</h4>
+                                        <p>Bật 3 - 5 tông răng sáng bóng chỉ trong 45 phút, bảo vệ men răng tuyệt đối, hoàn toàn không ê buốt.</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="tech-img-box">
-                            <img src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=800&auto=format&fit=crop&q=80" alt="Công nghệ nha khoa" class="rounded-img shadow-lg">
+                            <img src="assets/images/dental-tech-scanner.jpg" alt="Bác sĩ sử dụng máy Scan răng 3D kỹ thuật số tại Nha Khoa Quốc Tế Premier" class="rounded-img shadow-lg">
                         </div>
                     </div>
                 </div>
@@ -204,9 +354,9 @@
             <div class="section-padding">
                 <div class="container">
                     <div class="section-header text-center">
-                        <span class="sub-badge">ĐỘI NGŨ Y BÁC SĨ</span>
-                        <h2 class="section-title">Chuyên Gia Hàng Đầu Răng Hàm Mặt</h2>
-                        <p class="section-subtitle">Đội ngũ bác sĩ thạc sĩ, CKI giàu kinh nghiệm, tâm huyết và luôn coi bệnh nhân như người thân.</p>
+                        <span class="sub-badge">ĐỘI NGŨ CHUYÊN GIA</span>
+                        <h2 class="section-title">Bác Sĩ Chuyên Khoa Răng Hàm Mặt</h2>
+                        <p class="section-subtitle">Đội ngũ bác sĩ giàu kinh nghiệm, tận tâm, tu nghiệp chuyên sâu tại các trung tâm nha khoa hàng đầu thế giới.</p>
                     </div>
 
                     <div class="doctors-grid" id="home-doctors-grid">
@@ -226,41 +376,41 @@
                     <div class="faq-container">
                         <div class="faq-item">
                             <div class="faq-question" onclick="toggleFaq(this)">
-                                <span>1. Đặt lịch khám online có mất phí không?</span>
+                                <span>1. Đặt lịch khám online tại Nha Khoa Quốc Tế Premier có mất phí không?</span>
                                 <i class="fa-solid fa-chevron-down"></i>
                             </div>
                             <div class="faq-answer">
-                                <p>Hoàn toàn MIỄN PHÍ. Khách hàng đặt lịch hẹn online sẽ được miễn phí 100% chi phí thăm khám lâm sàng và chụp phim X-quang Panorama toàn cảnh.</p>
+                                <p>Hoàn toàn MIỄN PHÍ. Khách hàng đặt lịch hẹn online sẽ được miễn phí 100% chi phí thăm khám lâm sàng cùng Bác sĩ chuyên khoa và chụp phim X-quang 3D CT ConeBeam toàn cảnh.</p>
                             </div>
                         </div>
 
                         <div class="faq-item">
                             <div class="faq-question" onclick="toggleFaq(this)">
-                                <span>2. Niềng răng hoặc Cấy ghép Implant có đau không?</span>
+                                <span>2. Nhổ răng khôn hoặc Cấy ghép Implant có đau không?</span>
                                 <i class="fa-solid fa-chevron-down"></i>
                             </div>
                             <div class="faq-answer">
-                                <p>Với công nghệ sóng siêu âm Piezotome và kỹ thuật gây tê cục bộ không đau chuẩn Châu Âu, quy trình diễn ra nhẹ nhàng, êm ái, hạn chế tối đa xâm lấn.</p>
+                                <p>Với máy phẫu thuật sóng siêu âm Piezotome và kỹ thuật gây tê cục bộ vi điểm chuẩn Châu Âu, quy trình diễn ra nhẹ nhàng, êm ái, bảo toàn tối đa xương ổ răng và không gây đau đớn.</p>
                             </div>
                         </div>
 
                         <div class="faq-item">
                             <div class="faq-question" onclick="toggleFaq(this)">
-                                <span>3. Phòng khám có hỗ trợ trả góp 0% lãi suất không?</span>
+                                <span>3. Nha Khoa Quốc Tế Premier có chính sách trả góp 0% không?</span>
                                 <i class="fa-solid fa-chevron-down"></i>
                             </div>
                             <div class="faq-answer">
-                                <p>Có! Premier Clinic hỗ trợ trả góp 0% lãi suất cho các dịch vụ Niềng răng và Cấy ghép Implant thông qua thẻ tín dụng hơn 25 ngân hàng. Chỉ cần trả trước từ 30%.</p>
+                                <p>Có! Chúng tôi liên kết cùng hơn 25 ngân hàng hỗ trợ trả góp 0% lãi suất cho các dịch vụ Niềng răng và Cấy ghép Implant. Khách hàng chỉ cần thanh toán trước từ 30%.</p>
                             </div>
                         </div>
 
                         <div class="faq-item">
                             <div class="faq-question" onclick="toggleFaq(this)">
-                                <span>4. Bọc răng sứ được bảo hành trong bao lâu?</span>
+                                <span>4. Răng sứ thẩm mỹ được bảo hành trong bao lâu?</span>
                                 <i class="fa-solid fa-chevron-down"></i>
                             </div>
                             <div class="faq-answer">
-                                <p>Răng toàn sứ Cercon HT, Emax, Lava Ultimate được bảo hành chính hãng bằng thẻ QR Code điện tử từ 10 đến 15 năm đối với tất cả các trường hợp sứt vỡ do kỹ thuật.</p>
+                                <p>Các dòng răng toàn sứ chính hãng cao cấp (Cercon HT, Emax, Lava Plus...) được cấp thẻ bảo hành điện tử chính hãng từ 10 năm đến trọn đời với mã QR Code tra cứu trên toàn cầu.</p>
                             </div>
                         </div>
                     </div>
@@ -272,41 +422,394 @@
         <section id="about-section" class="page-section">
             <div class="page-header">
                 <div class="container">
-                    <h1>Giới Thiệu Về Nha Khoa Premier</h1>
-                    <p>Hành trình 15 năm kiến tạo hơn 25.000 nụ cười tự tin và rạng rỡ</p>
+                    <div style="font-size: 0.85rem; font-weight: 600; color: #bae6fd; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px;">
+                        <a href="#home" onclick="switchNav('home')" style="color: #bae6fd; text-decoration: none;">Trang Chủ</a> &nbsp;/&nbsp; <span style="color: #ffffff;">Giới Thiệu Phòng Khám</span>
+                    </div>
+                    <h1>Hệ Thống Nha Khoa Quốc Tế Premier</h1>
+                    <p>Hơn 15 năm kiến tạo nụ cười hoàn mỹ – Tiên phong công nghệ kỹ thuật số không đau chuẩn y khoa Quốc Tế</p>
                 </div>
             </div>
 
             <div class="section-padding">
                 <div class="container">
+
+                    <!-- Key Metrics Strip -->
+                    <div class="about-stats-grid">
+                        <div class="about-stat-card">
+                            <div class="stat-icon"><i class="fa-solid fa-award"></i></div>
+                            <h3>15+</h3>
+                            <p>Năm Đồng Hành</p>
+                            <small>Thương hiệu y khoa uy tín từ 2011</small>
+                        </div>
+                        <div class="about-stat-card">
+                            <div class="stat-icon"><i class="fa-solid fa-face-smile-beam"></i></div>
+                            <h3>50.000+</h3>
+                            <p>Nụ Cười Tái Sinh</p>
+                            <small>Hài lòng tuyệt đối về thẩm mỹ & khớp cắn</small>
+                        </div>
+                        <div class="about-stat-card">
+                            <div class="stat-icon"><i class="fa-solid fa-user-doctor"></i></div>
+                            <h3>100%</h3>
+                            <p>Bác Sĩ CKI & Thạc Sĩ</p>
+                            <small>Đại học Y Dược, tu nghiệp Pháp - Hoa Kỳ</small>
+                        </div>
+                        <div class="about-stat-card">
+                            <div class="stat-icon"><i class="fa-solid fa-shield-heart"></i></div>
+                            <h3>0 VNĐ</h3>
+                            <p>Khám & Chụp Phim 3D</p>
+                            <small>Minh bạch chi phí 100% trước điều trị</small>
+                        </div>
+                    </div>
+
+                    <!-- Story & Heritage Section -->
                     <div class="about-grid">
                         <div class="about-text">
-                            <span class="sub-badge">VỀ CHÚNG TÔI</span>
-                            <h2>Tiêu Chuẩn Nha Khoa Quốc Tế Hàng Đầu TP. Hồ Chí Minh</h2>
-                            <p>Được thành lập từ năm 2011, **Nha Khoa Quốc Tế Premier Clinic** tự hào là địa chỉ nha khoa uy tín, đáp ứng các tiêu chuẩn khắt khe nhất của Bộ Y tế và Liên minh Châu Âu (EU).</p>
-                            <p>Chúng tôi đầu tư đồng bộ hệ thống phòng điều trị vô trùng Class B, máy chụp CT Cone Beam 3D, máy nhổ răng siêu âm Piezotome và máy scan răng iTero Element 5D.</p>
+                            <span class="sub-badge"><i class="fa-solid fa-tooth"></i> VỀ CHÚNG TÔI</span>
+                            <h2>Hệ Thống Nha Khoa Uy Tín Hàng Đầu Đạt Chuẩn Sở Y Tế</h2>
+                            <p>Được thành lập từ năm 2011, <strong>Nha Khoa Quốc Tế Premier (Premier Dental Clinic)</strong> tự hào là một trong những trung tâm điều trị và phục hình thẩm mỹ nụ cười hàng đầu Việt Nam được Sở Y Tế TP.HCM cấp giấy phép hoạt động chính quy số <strong>08925/HCM-GPHĐ</strong>.</p>
+                            <p>Chúng tôi thấu hiểu rằng nha khoa không đơn thuần chỉ là điều trị bệnh lý răng miệng mà còn là hành trình phục hồi sự tự tin, sức khỏe tiêu hóa và nét đẹp thẩm mỹ cho từng khách hàng. Với phương châm <em>"Bảo tồn tối đa răng thật – Điều trị nhẹ nhàng, không đau đớn"</em>, Premier Dental luôn đặt lợi ích và sự an tâm của khách hàng làm trọng tâm trong mọi phác đồ.</p>
+                            <p>Tại Premier, 100% Bác sĩ trực tiếp điều trị đều tốt nghiệp chuyên khoa Răng Hàm Mặt, có trên 10 năm kinh nghiệm lâm sàng và liên tục tu nghiệp tại các trung tâm đào tạo nha khoa danh tiếng ở Đức, Thụy Sĩ và Hoa Kỳ.</p>
 
                             <div class="values-box">
                                 <div class="val-card">
                                     <i class="fa-solid fa-heart-pulse"></i>
-                                    <h4>Tận Tâm</h4>
-                                    <p>Luôn đặt lợi ích và sức khỏe của bệnh nhân lên hàng đầu.</p>
+                                    <h4>Tận Tâm Như Người Thân</h4>
+                                    <p>Lắng nghe thấu đáo, giải thích cặn kẽ và đồng hành suốt vòng đời nụ cười.</p>
                                 </div>
                                 <div class="val-card">
                                     <i class="fa-solid fa-shield-virus"></i>
-                                    <h4>Vô Trùng tuyệt đối</h4>
-                                    <p>100% dụng cụ hấp tiệt trùng riêng biệt từng bệnh nhân.</p>
+                                    <h4>Vô Trùng Tuyệt Đối Class B</h4>
+                                    <p>Quy trình hấp sấy khép kín Melag (CHLB Đức), mỗi bệnh nhân 1 bộ dụng cụ riêng.</p>
                                 </div>
                                 <div class="val-card">
                                     <i class="fa-solid fa-scale-balanced"></i>
-                                    <h4>Minh Bạch</h4>
-                                    <p>Báo giá rõ ràng, không phát sinh chi phí ngoài hợp đồng.</p>
+                                    <h4>Minh Bạch Chi Phí 100%</h4>
+                                    <p>Báo giá trọn gói trước khi làm, cam kết không phát sinh, bảo hành văn bản.</p>
                                 </div>
                             </div>
                         </div>
 
                         <div class="about-img-group">
-                            <img src="https://images.unsplash.com/photo-1629909615184-74f495363b67?w=800&auto=format&fit=crop&q=80" alt="Cơ sở vật chất nha khoa" class="rounded-img shadow">
+                            <img src="assets/images/doctor-consult.jpg" alt="Bác sĩ chuyên khoa tư vấn kế hoạch điều trị nụ cười tại Nha Khoa Quốc Tế Premier" class="rounded-img shadow">
+                        </div>
+                    </div>
+
+                    <!-- Three Pillars: Vision - Mission - Philosophy -->
+                    <div class="margin-top-lg">
+                        <div class="section-header text-center">
+                            <span class="sub-badge"><i class="fa-solid fa-compass"></i> KIM CHỈ NAM HOẠT ĐỘNG</span>
+                            <h2 class="section-title">Tầm Nhìn, Sứ Mệnh & Triết Lý Y Đức</h2>
+                            <p class="section-subtitle">Định hình tiêu chuẩn điều trị nha khoa hiện đại, nhân văn và trường tồn</p>
+                        </div>
+
+                        <div class="pillars-grid">
+                            <div class="pillar-card">
+                                <div class="pillar-icon-box"><i class="fa-solid fa-eye"></i></div>
+                                <h3>Tầm Nhìn Chiến Lược</h3>
+                                <p>Trở thành hệ thống nha khoa kỹ thuật số điều trị <strong>không đau – thẩm mỹ – an toàn</strong> hàng đầu khu vực, là địa chỉ tin cậy của hàng triệu gia đình Việt và kiều bào trên toàn thế giới khi tìm kiếm giải pháp nụ cười hoàn mỹ.</p>
+                            </div>
+                            <div class="pillar-card highlight">
+                                <div class="pillar-icon-box"><i class="fa-solid fa-hand-holding-heart"></i></div>
+                                <h3>Sứ Mệnh Phụng Sự</h3>
+                                <p>Xóa bỏ nỗi sợ hãi nha khoa bằng công nghệ y khoa tiên tiến nhất. Mang đến dịch vụ chăm sóc răng miệng tiêu chuẩn Châu Âu với mức chi phí hợp lý, minh bạch và chính sách hỗ trợ tài chính tốt nhất cho mọi khách hàng.</p>
+                            </div>
+                            <div class="pillar-card">
+                                <div class="pillar-icon-box"><i class="fa-solid fa-stethoscope"></i></div>
+                                <h3>Triết Lý Điều Trị & Y Đức</h3>
+                                <p><strong>"Bảo tồn tối đa răng thật – Đúng người, đúng bệnh"</strong>. Đội ngũ bác sĩ tuân thủ nghiêm ngặt chuẩn mực y đức: chẩn đoán 1-1 trung thực, phác đồ điều trị cá nhân hóa và tuyệt đối không xâm lấn quá mức chỉ định.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Advanced Technologies & Facilities -->
+                    <div class="margin-top-lg">
+                        <div class="section-header text-center">
+                            <span class="sub-badge"><i class="fa-solid fa-microchip"></i> TRANG THIẾT BỊ ĐẲNG CẤP</span>
+                            <h2 class="section-title">Công Nghệ Kỹ Thuật Số Đột Phá Chuẩn Châu Âu</h2>
+                            <p class="section-subtitle">Đồng bộ 100% trang thiết bị nhập khẩu chính hãng từ Đức, Thụy Sĩ, Ý và Hoa Kỳ</p>
+                        </div>
+
+                        <div class="about-tech-grid">
+                            <div class="about-tech-card">
+                                <div class="about-tech-header">
+                                    <div class="about-tech-icon"><i class="fa-solid fa-x-ray"></i></div>
+                                    <h4>Máy Chụp Phim 3D CT Cone Beam</h4>
+                                </div>
+                                <p>Khảo sát toàn diện cấu trúc xương hàm, hệ thống dây thần kinh và xoang hàm theo không gian 3 chiều với độ phân giải siêu nét, giảm tới 90% lượng tia xạ so với máy X-quang truyền thống.</p>
+                                <div class="tech-badge-list">
+                                    <span class="tech-badge-item">Chụp 10s siêu nhanh</span>
+                                    <span class="tech-badge-item">Độ chính xác milimet</span>
+                                    <span class="tech-badge-item">An toàn tuyệt đối</span>
+                                </div>
+                            </div>
+
+                            <div class="about-tech-card">
+                                <div class="about-tech-header">
+                                    <div class="about-tech-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                                    <h4>Máy Quét Dấu Răng 3D iTero 5D</h4>
+                                </div>
+                                <p>Ứng dụng công nghệ quét quang học kỹ thuật số thế hệ mới, thay thế hoàn toàn lấy dấu thạch cao truyền thống. Mô phỏng phác đồ niềng răng và thấy trước nụ cười tương lai chỉ sau 60 giây.</p>
+                                <div class="tech-badge-list">
+                                    <span class="tech-badge-item">Quét dấu quang học 60s</span>
+                                    <span class="tech-badge-item">Tích hợp NIRI phát hiện sâu răng</span>
+                                    <span class="tech-badge-item">Xem trước nụ cười</span>
+                                </div>
+                            </div>
+
+                            <div class="about-tech-card">
+                                <div class="about-tech-header">
+                                    <div class="about-tech-icon"><i class="fa-solid fa-wave-square"></i></div>
+                                    <h4>Máy Nhổ Răng Siêu Âm Piezotome</h4>
+                                </div>
+                                <p>Sử dụng bước sóng siêu âm chọn lọc để phân tách răng khôn mà không làm tổn thương màng xương và mạch máu xung quanh. Quá trình nhổ êm ái, hạn chế tối đa chảy máu và lành thương siêu tốc.</p>
+                                <div class="tech-badge-list">
+                                    <span class="tech-badge-item">Không đau – Không sưng</span>
+                                    <span class="tech-badge-item">Bảo tồn mô mềm</span>
+                                    <span class="tech-badge-item">Hồi phục sau 24h</span>
+                                </div>
+                            </div>
+
+                            <div class="about-tech-card">
+                                <div class="about-tech-header">
+                                    <div class="about-tech-icon"><i class="fa-solid fa-shield-virus"></i></div>
+                                    <h4>Vô Trùng Trung Tâm Melag (Đức)</h4>
+                                </div>
+                                <p>Hệ thống phòng vô trùng 1 chiều khép kín đạt tiêu chuẩn ISO Class B Châu Âu. Mọi dụng cụ đều được sấy tiệt trùng chân không ở 134°C, dán tem chỉ thị màu và niêm phong riêng cho từng bệnh nhân.</p>
+                                <div class="tech-badge-list">
+                                    <span class="tech-badge-item">Chuẩn vô trùng Class B</span>
+                                    <span class="tech-badge-item">Lò hấp Melag CHLB Đức</span>
+                                    <span class="tech-badge-item">Chống lây nhiễm chéo 100%</span>
+                                </div>
+                            </div>
+
+                            <div class="about-tech-card">
+                                <div class="about-tech-header">
+                                    <div class="about-tech-icon"><i class="fa-solid fa-laptop-medical"></i></div>
+                                    <h4>Thiết Kế Nụ Cười Kỹ Thuật Số DSD</h4>
+                                    <p>Phần mềm Digital Smile Design phân tích các tỷ lệ vàng khuôn mặt, cung cười và nhân trắc học của từng bệnh nhân. Giúp thiết kế dáng răng thẩm mỹ tự nhiên, hài hòa và trường tồn với thời gian.</p>
+                                    <div class="tech-badge-list">
+                                        <span class="tech-badge-item">Tỷ lệ vàng nhân trắc học</span>
+                                        <span class="tech-badge-item">Khách hàng duyệt dáng răng trước</span>
+                                        <span class="tech-badge-item">Tự nhiên & sang trọng</span>
+                                    </div>
+                            </div>
+
+                            <div class="about-tech-card">
+                                <div class="about-tech-header">
+                                    <div class="about-tech-icon"><i class="fa-solid fa-chair"></i></div>
+                                    <h4>Ghế Nha Khoa Thông Minh Stern Weber</h4>
+                                </div>
+                                <p>Dòng ghế phẫu thuật cao cấp nhập khẩu nguyên chiếc từ Italia với đệm êm ái nâng đỡ cột sống, tích hợp màn hình HD hiển thị phim chụp trực tiếp và hệ thống tự khử khuẩn đường ống nước tự động.</p>
+                                <div class="tech-badge-list">
+                                    <span class="tech-badge-item">Nhập khẩu chính hãng Italia</span>
+                                    <span class="tech-badge-item">Tự khử trùng đường ống</span>
+                                    <span class="tech-badge-item">Trải nghiệm êm ái tối đa</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 15-Year Milestone Journey -->
+                    <div class="margin-top-lg">
+                        <div class="section-header text-center">
+                            <span class="sub-badge"><i class="fa-solid fa-clock-rotate-left"></i> CHẶNG ĐƯỜNG PHÁT TRIỂN</span>
+                            <h2 class="section-title">Hành Trình 15 Năm Khẳng Định Vị Thế</h2>
+                            <p class="section-subtitle">Từng bước kiến tạo hệ sinh thái nha khoa thông minh, chuyên nghiệp và uy tín</p>
+                        </div>
+
+                        <div class="milestones-strip">
+                            <div class="milestone-box">
+                                <span class="milestone-year">2011</span>
+                                <h4>Khởi Nguồn Đam Mê</h4>
+                                <p>Thành lập phòng khám đầu tiên tại Quận 5, TP.HCM với 5 ghế điều trị hiện đại, tập trung vào điều trị nha khoa tổng quát không đau.</p>
+                            </div>
+                            <div class="milestone-box">
+                                <span class="milestone-year">2016</span>
+                                <h4>Chuẩn Hóa Y Khoa</h4>
+                                <p>Đạt chứng nhận vô trùng ISO Class B quốc tế; mở rộng Trung tâm chuyên sâu Cấy ghép Implant và Chỉnh nha niềng răng công nghệ cao.</p>
+                            </div>
+                            <div class="milestone-box">
+                                <span class="milestone-year">2020</span>
+                                <h4>Số Hóa Toàn Diện</h4>
+                                <p>Trang bị đồng bộ hệ thống chụp CT Cone Beam 3D và máy scan iTero 5D; cán mốc phục vụ hơn 30.000 bệnh nhân trên toàn quốc.</p>
+                            </div>
+                            <div class="milestone-box">
+                                <span class="milestone-year">2024 - 2026</span>
+                                <h4>Kỷ Nguyên Kỹ Thuật Số & AI</h4>
+                                <p>Phát triển chuỗi cơ sở chuẩn 5 sao tại các quận trung tâm; tích hợp Trợ lý Trí tuệ Nhân tạo AI tư vấn 24/7 và đạt mốc 50.000 nụ cười rạng rỡ.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 5-Step Treatment Procedure -->
+                    <div class="margin-top-lg">
+                        <div class="section-header text-center">
+                            <span class="sub-badge"><i class="fa-solid fa-clipboard-check"></i> TIÊU CHUẨN ĐIỀU TRỊ</span>
+                            <h2 class="section-title">Quy Trình Khám & Điều Trị 5 Bước Chuẩn Y Khoa</h2>
+                            <p class="section-subtitle">Khép kín, an toàn tuyệt đối, nhanh chóng và minh bạch từ lúc tiếp đón đến sau điều trị</p>
+                        </div>
+
+                        <div class="about-steps-grid">
+                            <div class="step-flow-card">
+                                <div class="step-number">01</div>
+                                <h4>Tiếp Đón & Chụp 3D</h4>
+                                <p>Lễ tân đón tiếp chu đáo, miễn phí chụp phim CT Cone Beam 3D và khám tổng quát 0đ.</p>
+                            </div>
+                            <div class="step-flow-card">
+                                <div class="step-number">02</div>
+                                <h4>Hội Chẩn & Lên Phác Đồ</h4>
+                                <p>Bác sĩ chuyên khoa đọc phim, phân tích khớp cắn và lập phác đồ điều trị cá nhân hóa 1-1.</p>
+                            </div>
+                            <div class="step-flow-card">
+                                <div class="step-number">03</div>
+                                <h4>Minh Bạch Chi Phí</h4>
+                                <p>Báo giá trọn gói văn bản, ký cam kết hiệu quả điều trị và hợp đồng bảo hành chính hãng.</p>
+                            </div>
+                            <div class="step-flow-card">
+                                <div class="step-number">04</div>
+                                <h4>Thực Hiện Nhẹ Nhàng</h4>
+                                <p>Tiến hành điều trị trong phòng thủ thuật vô trùng tuyệt đối với công nghệ gây tê không đau.</p>
+                            </div>
+                            <div class="step-flow-card">
+                                <div class="step-number">05</div>
+                                <h4>Cấp Thẻ Bảo Hành</h4>
+                                <p>Kích hoạt thẻ bảo hành điện tử chính hãng, dặn dò chăm sóc và hẹn lịch tái khám định kỳ.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Legal & Quality Guarantee Banner -->
+                    <div class="about-legal-banner">
+                        <div class="about-legal-inner">
+                            <div class="about-legal-text">
+                                <h3><i class="fa-solid fa-stamp text-warning"></i> Giấy Phép Hoạt Động & Cam Kết Pháp Lý</h3>
+                                <p>Nha Khoa Quốc Tế Premier hoạt động hoàn toàn chính quy dưới sự kiểm duyệt và cấp phép của <strong>Sở Y Tế TP. Hồ Chí Minh</strong> (Giấy phép số <strong>08925/HCM-GPHĐ</strong>). Chúng tôi cam kết 100% phôi sứ và trụ Implant sử dụng đều có tem phụ, mã QR Code truy xuất xuất xứ toàn cầu từ Thụy Sĩ, Mỹ, Đức và Hàn Quốc.</p>
+                                <div class="legal-badges-row">
+                                    <span class="legal-badge"><i class="fa-solid fa-certificate"></i> Giấy phép SYT: 08925/HCM-GPHĐ</span>
+                                    <span class="legal-badge"><i class="fa-solid fa-shield-halved"></i> Bảo hành Implant Trọn Đời</span>
+                                    <span class="legal-badge"><i class="fa-solid fa-teeth"></i> Sứ Emax/Cercon bảo hành 10 - 15 năm</span>
+                                    <span class="legal-badge"><i class="fa-solid fa-credit-card"></i> Trả góp 0% liên kết 25+ ngân hàng</span>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <button class="btn btn-primary btn-lg" onclick="openBookingModal()" style="padding: 14px 28px; box-shadow: 0 6px 20px rgba(2, 132, 199, 0.4);">
+                                    <i class="fa-solid fa-calendar-check"></i> Đặt Lịch Khám & Chụp Phim 0đ
+                                </button>
+                                <div style="margin-top: 12px; font-size: 0.82rem; color: #bae6fd;">
+                                    <i class="fa-solid fa-phone-volume"></i> Hotline Cấp Cứu & CSKH: <strong style="color: #ffffff;">1900 6868</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- CLINIC MAPS & LOCATIONS SECTION -->
+            <div class="about-map-section" id="aboutMapSection">
+                <div class="container">
+                    <div class="section-header text-center">
+                        <span class="sub-badge"><i class="fa-solid fa-map-location-dot"></i> HỆ THỐNG CƠ SỞ & BẢN ĐỒ</span>
+                        <h2 class="section-title">Vị Trí Nha Khoa & Bản Đồ Chỉ Đường Trực Tiếp</h2>
+                        <p class="section-subtitle">Vị trí đắc địa tại mặt tiền các trục đường huyết mạch TP.HCM, bãi đậu ô tô rộng rãi và bảo vệ túc trực 24/7</p>
+                    </div>
+
+                    <!-- Branch Selector Tabs -->
+                    <div class="branch-nav-tabs">
+                        <button class="branch-nav-btn active" data-branch="cs1" onclick="switchAboutBranch('cs1')">
+                            <i class="fa-solid fa-hospital"></i> Cơ Sở 1: Quận 5 (Trụ Sở Chính)
+                        </button>
+                        <button class="branch-nav-btn" data-branch="cs2" onclick="switchAboutBranch('cs2')">
+                            <i class="fa-solid fa-gem"></i> Cơ Sở 2: Quận 1 (Trung Tâm Thẩm Mỹ)
+                        </button>
+                        <button class="branch-nav-btn" data-branch="cs3" onclick="switchAboutBranch('cs3')">
+                            <i class="fa-solid fa-teeth-open"></i> Cơ Sở 3: Bình Thạnh (TT Implant KTS)
+                        </button>
+                    </div>
+
+                    <!-- Map & Info Card Grid -->
+                    <div class="about-map-grid">
+                        <!-- Left: Detailed Branch Information Card -->
+                        <div class="branch-info-card">
+                            <span class="branch-header-tag" id="branchBadge">
+                                <i class="fa-solid fa-star"></i> Trụ sở chính chuẩn Quốc tế 5 sao
+                            </span>
+                            <h3 class="branch-title" id="branchTitle">Trụ Sở Chính - Premier Dental Clinic Quận 5</h3>
+
+                            <ul class="branch-detail-list">
+                                <li class="branch-detail-item">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                    <div>
+                                        <strong>Địa chỉ chính xác:</strong>
+                                        <span id="branchAddress">123 Đường Nguyễn Văn Cừ, Phường 4, Quận 5, TP. Hồ Chí Minh</span>
+                                    </div>
+                                </li>
+                                <li class="branch-detail-item">
+                                    <i class="fa-solid fa-diamond-turn-right"></i>
+                                    <div>
+                                        <strong>Hướng dẫn lộ trình:</strong>
+                                        <span id="branchDirections">Nằm ngay mặt tiền đường Nguyễn Văn Cừ, cách ngã tư Trần Hưng Đạo 200m, đối diện Trường Đại học Sư Phạm TP.HCM.</span>
+                                    </div>
+                                </li>
+                                <li class="branch-detail-item">
+                                    <i class="fa-solid fa-square-parking"></i>
+                                    <div>
+                                        <strong>Bãi đỗ xe ô tô & xe máy:</strong>
+                                        <span id="branchParking">Bãi đỗ xe ô tô & xe máy rộng rãi miễn phí, bảo vệ trông giữ an toàn 24/7.</span>
+                                    </div>
+                                </li>
+                                <li class="branch-detail-item">
+                                    <i class="fa-solid fa-bus"></i>
+                                    <div>
+                                        <strong>Tuyến xe buýt thuận tiện:</strong>
+                                        <span id="branchBus">Tuyến xe buýt số 01, 11, 45, 56, 139 dừng ngay trước cửa phòng khám.</span>
+                                    </div>
+                                </li>
+                                <li class="branch-detail-item">
+                                    <i class="fa-solid fa-clock"></i>
+                                    <div>
+                                        <strong>Thời gian làm việc:</strong>
+                                        <span id="branchHours">Thứ 2 - Thứ 7: 08:00 - 20:00 (Làm việc thông trưa) | Chủ Nhật: 08:00 - 17:30</span>
+                                    </div>
+                                </li>
+                            </ul>
+
+                            <div class="branch-amenities">
+                                <div class="amenity-chip"><i class="fa-solid fa-wifi"></i> Wifi 6 Tốc Độ Cao</div>
+                                <div class="amenity-chip"><i class="fa-solid fa-mug-saucer"></i> Phòng Chờ VIP & Trà Nước</div>
+                                <div class="amenity-chip"><i class="fa-solid fa-elevator"></i> Thang Máy Y Khoa</div>
+                                <div class="amenity-chip"><i class="fa-solid fa-wheelchair"></i> Lối Đi Xe Lăn Riêng</div>
+                            </div>
+
+                            <div class="branch-action-buttons">
+                                <a id="branchDirBtn" href="https://www.google.com/maps/dir/?api=1&destination=123+Nguy%E1%BB%85n+V%C4%83n+C%E1%BB%AB,+Ph%C6%B0%E1%BB%9Dng+4,+Qu%E1%BA%ADn+5,+Th%C3%A0nh+ph%E1%BB%91+H%E1%BB%93+Ch%C3%AD+Minh" target="_blank" class="btn btn-primary" title="Mở chỉ đường Google Maps trực tiếp">
+                                    <i class="fa-solid fa-diamond-turn-right"></i> Chỉ Đường Google Maps
+                                </a>
+                                <button type="button" class="btn btn-outline" onclick="openBookingModal()" title="Đặt lịch hẹn khám tại cơ sở này">
+                                    <i class="fa-solid fa-calendar-check"></i> Đặt Lịch Khám 0đ
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Right: Interactive Google Map Embed -->
+                        <div class="branch-map-embed">
+                            <iframe 
+                                id="aboutMapIframe"
+                                title="Bản đồ định vị Nha Khoa Quốc Tế Premier"
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.669658423711!2d106.68006847570305!3d10.759917059495817!2m3!1f0!1f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f1b7c3ed289%3A0xa066518d9f042e0!2zMTIzIMSQxrDhu51uZyBOZ3V54buFbiBWxINuIEPhu6ssIFBoxrDhu51uZyA0LCBRdeG6rW4gNSwgVGjDoG5oIHBo4buRIEjhu5MgQ2jDrSBNaW5o!5e0!3m2!1svi!2s!4v1700000000000!5m2!1svi!2s" 
+                                width="100%" 
+                                height="100%" 
+                                style="border:0;" 
+                                allowfullscreen="" 
+                                loading="lazy" 
+                                referrerpolicy="no-referrer-when-downgrade">
+                            </iframe>
+                            <div class="map-toolbar">
+                                <span><i class="fa-solid fa-map-pin text-primary me-1"></i> <span id="currentBranchName">Premier Dental Clinic Quận 5</span></span>
+                                <a href="https://www.google.com/maps/dir/?api=1&destination=123+Nguy%E1%BB%85n+V%C4%83n+C%E1%BB%AB,+Ph%C6%B0%E1%BB%9Dng+4,+Qu%E1%BA%ADn+5,+Th%C3%A0nh+ph%E1%BB%91+H%E1%BB%93+Ch%C3%AD+Minh" target="_blank" rel="noopener noreferrer">
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Xem Bản Đồ Toàn Màn Hình
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -318,7 +821,7 @@
             <div class="page-header">
                 <div class="container">
                     <h1>Danh Mục Dịch Vụ Nha Khoa</h1>
-                    <p>Cung cấp đầy đủ các giải pháp điều trị và nha khoa thẩm mỹ cao cấp</p>
+                    <p>Các giải pháp điều trị bệnh lý và thẩm mỹ nụ cười công nghệ cao chuẩn y khoa</p>
                 </div>
             </div>
 
@@ -328,10 +831,10 @@
                     <div class="filter-tabs">
                         <button class="tab-btn active" onclick="filterServices('all', this)">Tất Cả Dịch Vụ</button>
                         <button class="tab-btn" onclick="filterServices('general', this)">Khám Tổng Quát</button>
-                        <button class="tab-btn" onclick="filterServices('treatment', this)">Điều Trị</button>
-                        <button class="tab-btn" onclick="filterServices('orthodontics', this)">Chỉnh Nha</button>
+                        <button class="tab-btn" onclick="filterServices('treatment', this)">Điều Trị Bệnh Lý</button>
+                        <button class="tab-btn" onclick="filterServices('orthodontics', this)">Chỉnh Nha Niềng Răng</button>
                         <button class="tab-btn" onclick="filterServices('implant', this)">Cấy Ghép Implant</button>
-                        <button class="tab-btn" onclick="filterServices('cosmetic', this)">Thẩm Mỹ Răng</button>
+                        <button class="tab-btn" onclick="filterServices('cosmetic', this)">Răng Sứ Thẩm Mỹ</button>
                     </div>
 
                     <div class="services-grid" id="full-services-grid">
@@ -345,8 +848,8 @@
         <section id="doctors-section" class="page-section">
             <div class="page-header">
                 <div class="container">
-                    <h1>Đội Ngũ Bác Sĩ Chuyên Gia</h1>
-                    <p>Hội tụ các Bác sĩ Thạc sĩ, CKI tốt nghiệp các trường Y Dược danh tiếng</p>
+                    <h1>Đội Ngũ Bác Sĩ Chuyên Khoa</h1>
+                    <p>100% Bác sĩ Chuyên Khoa Răng Hàm Mặt với nhiều năm tu nghiệp tại nước ngoài</p>
                 </div>
             </div>
 
@@ -364,20 +867,20 @@
             <div class="page-header">
                 <div class="container">
                     <h1>Bảng Giá Dịch Vụ Niêm Yết</h1>
-                    <p>Bảng giá công khai, minh bạch - Không chi phí ẩn</p>
+                    <p>Công khai, minh bạch chuẩn Nha Khoa Quốc Tế Premier - Không phát sinh chi phí phụ</p>
                 </div>
             </div>
 
             <div class="section-padding">
                 <div class="container">
                     <div class="price-search-bar">
-                        <input type="text" id="priceSearchInput" placeholder="Tìm kiếm dịch vụ (VD: Niềng răng, Implant, Tẩy trắng...)" onkeyup="searchPriceTable()">
+                        <input type="text" id="priceSearchInput" placeholder="Tìm kiếm dịch vụ (VD: Niềng răng, Implant, Răng sứ, Tẩy trắng...)" onkeyup="searchPriceTable()">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </div>
 
                     <div class="disclaimer-alert">
                         <i class="fa-solid fa-circle-info"></i>
-                        <span><strong>Lưu ý:</strong> Bảng giá dưới đây mang tính chất tham khảo. Bác sĩ sẽ thăm khám trực tiếp, chụp phim X-quang miễn phí và đưa ra chi phí chính xác trước khi điều trị.</span>
+                        <span><strong>Cam kết Premier:</strong> Chi phí dịch vụ niêm yết rõ ràng, khám & chụp phim 3D miễn phí 100%. Bác sĩ báo giá trọn gói một lần duy nhất trước khi thực hiện điều trị.</span>
                     </div>
 
                     <div id="priceTableContainer">
@@ -391,8 +894,8 @@
         <section id="contact-section" class="page-section">
             <div class="page-header">
                 <div class="container">
-                    <h1>Liên Hệ Với Chúng Tôi</h1>
-                    <p>Chúng tôi luôn sẵn sàng lắng nghe và tư vấn cho bạn 24/7</p>
+                    <h1>Liên Hệ Hệ Thống Phòng Khám</h1>
+                    <p>Đội ngũ chuyên gia luôn sẵn sàng giải đáp thắc mắc và hỗ trợ bạn 24/7</p>
                 </div>
             </div>
 
@@ -400,8 +903,8 @@
                 <div class="container">
                     <div class="contact-grid">
                         <div class="contact-info-card">
-                            <h3>Nha Khoa Quốc Tế Premier Clinic</h3>
-                            <p class="contact-subtitle">Hãy đến trực tiếp phòng khám hoặc liên hệ qua các kênh thông tin dưới đây:</p>
+                            <h3>Hệ Thống Nha Khoa Quốc Tế Premier</h3>
+                            <p class="contact-subtitle">Hãy đến trực tiếp phòng khám hoặc liên hệ qua hotline tư vấn:</p>
 
                             <div class="info-list">
                                 <div class="info-item">
@@ -414,34 +917,34 @@
                                 <div class="info-item">
                                     <div class="info-icon"><i class="fa-solid fa-phone"></i></div>
                                     <div>
-                                        <strong>Tổng đài tư vấn:</strong>
-                                        <p>1900 6868 - Hotline: 0900.123.456</p>
+                                        <strong>Đường dây nóng tư vấn:</strong>
+                                        <p>Tổng đài: 1900 6868<br>Hotline cấp cứu 24/7: 0900.123.456</p>
                                     </div>
                                 </div>
                                 <div class="info-item">
                                     <div class="info-icon"><i class="fa-solid fa-envelope"></i></div>
                                     <div>
-                                        <strong>Email hỗ trợ:</strong>
-                                        <p>contact@nhakhoapremier.vn</p>
+                                        <strong>Email & Website:</strong>
+                                        <p>contact@nhakhoapremier.vn | www.nhakhoapremier.vn</p>
                                     </div>
                                 </div>
                                 <div class="info-item">
                                     <div class="info-icon"><i class="fa-solid fa-clock"></i></div>
                                     <div>
-                                        <strong>Giờ làm việc:</strong>
-                                        <p>Thứ 2 - Thứ 7: 08:00 - 20:00<br>Chủ Nhật: 08:30 - 17:30</p>
+                                        <strong>Thời gian làm việc:</strong>
+                                        <p>Thứ 2 - Chủ Nhật: 08:00 - 20:00 (Không nghỉ trưa)</p>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Map container -->
                             <div class="map-placeholder">
-                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.669658423711!2d106.68006847570305!3d10.759917059495817!2m3!1f0!1f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f1b7c3ed289%3A0xa066518d9f042e0!2zTmd1eeG7hW4gVsSDbiBD4burLCBRdeG6rW4gNSwgVGjDoG5oIHBo4buRIEjhu5MgQ2jDrSBNaW5o!5e0!3m2!1svi!2s!4v1700000000000!5m2!1svi!2s" width="100%" height="220" style="border:0; border-radius:12px;" allowfullscreen="" loading="lazy"></iframe>
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.669658423711!2d106.68006847570305!3d10.759917059495817!2m3!1f0!1f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f1b7c3ed289%3A0xa066518d9f042e0!2zTmd1eeG7hW4gVsSDbiBD4burLCBRdeG6rW4gNSwgVGjDoG5oIHBo4buRIEjhu5MgQ2jDrSBNaW5o!5e0!3m2!1svi!2s!4v1700000000000!5m2!1svi!2s" width="100%" height="200" style="border:0; border-radius:12px;" allowfullscreen="" loading="lazy"></iframe>
                             </div>
                         </div>
 
                         <div class="contact-form-card">
-                            <h3>Gửi Thắc Mắc Cho Phòng Khám</h3>
+                            <h3>Gửi Câu Hỏi Tư Vấn Miễn Phí</h3>
                             <form id="contactForm" onsubmit="submitContactForm(event)">
                                 <div class="form-group">
                                     <label>Họ và tên *</label>
@@ -450,7 +953,7 @@
                                 <div class="form-row">
                                     <div class="form-group">
                                         <label>Số điện thoại *</label>
-                                        <input type="tel" id="c_phone" required placeholder="0912345678">
+                                        <input type="tel" id="c_phone" required placeholder="0900123456">
                                     </div>
                                     <div class="form-group">
                                         <label>Email</label>
@@ -458,15 +961,15 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label>Chủ đề thắc mắc</label>
-                                    <input type="text" id="c_subject" placeholder="Ví dụ: Tư vấn chi phí niềng răng">
+                                    <label>Chủ đề quan tâm</label>
+                                    <input type="text" id="c_subject" placeholder="Ví dụ: Tư vấn niềng răng trong suốt, bọc răng sứ...">
                                 </div>
                                 <div class="form-group">
-                                    <label>Nội dung câu hỏi *</label>
-                                    <textarea id="c_message" rows="4" required placeholder="Nhập thắc mắc chi tiết của bạn tại đây..."></textarea>
+                                    <label>Nội dung cần tư vấn *</label>
+                                    <textarea id="c_message" rows="4" required placeholder="Mô tả tình trạng răng miệng hiện tại hoặc câu hỏi của bạn..."></textarea>
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-block">
-                                    <i class="fa-solid fa-paper-plane"></i> Gửi Tin Nhắn
+                                    <i class="fa-solid fa-paper-plane"></i> Gửi Yêu Cầu Tư Vấn
                                 </button>
                                 <div id="contactAlert" class="alert-box margin-top-md"></div>
                             </form>
@@ -481,8 +984,8 @@
             <div class="page-header admin-header-bg">
                 <div class="container flex-between">
                     <div>
-                        <h1><i class="fa-solid fa-user-gear"></i> Trang Quản Trị Admin</h1>
-                        <p>Quản lý lịch hẹn bệnh nhân, danh mục dịch vụ & đội ngũ bác sĩ</p>
+                        <h1><i class="fa-solid fa-user-gear"></i> Quản Trị Nha Khoa Quốc Tế Premier</h1>
+                        <p>Quản lý hồ sơ bệnh nhân, lịch hẹn khám, dịch vụ và đội ngũ bác sĩ</p>
                     </div>
                     <button class="btn btn-light" onclick="loadAdminDashboard()"><i class="fa-solid fa-rotate"></i> Làm Mới Dữ Liệu</button>
                 </div>
@@ -500,7 +1003,7 @@
                             </div>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-icon green"><i class="fa-solid fa-calendar-check"></i></div>
+                            <div class="stat-icon blue"><i class="fa-solid fa-calendar-check"></i></div>
                             <div>
                                 <h3 id="adm_total_apps">0</h3>
                                 <p>Tổng Số Lịch Hẹn</p>
@@ -520,22 +1023,31 @@
                                 <p>Số Dịch Vụ</p>
                             </div>
                         </div>
+                        <div class="stat-card stat-card-revenue" onclick="switchAdminTab('revenue', document.querySelector('.admin-tab[data-tab=\'revenue\']'))" style="cursor:pointer;" title="Xem chi tiết doanh thu">
+                            <div class="stat-icon green" style="background:#dcfce7; color:#16a34a;"><i class="fa-solid fa-coins"></i></div>
+                            <div>
+                                <h3 id="adm_total_revenue" style="color:#16a34a;">0 ₫</h3>
+                                <p>Tổng Thực Thu</p>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Admin Table Tabs -->
                     <div class="admin-tabs">
                         <button class="admin-tab active" onclick="switchAdminTab('apps', this)">Quản Lý Lịch Hẹn</button>
+                        <button class="admin-tab" data-tab="revenue" onclick="switchAdminTab('revenue', this)"><i class="fa-solid fa-chart-pie" style="color:#f59e0b; margin-right:4px;"></i> Theo Dõi Doanh Thu</button>
                         <button class="admin-tab" onclick="switchAdminTab('services', this)">Quản Lý Dịch Vụ</button>
                         <button class="admin-tab" onclick="switchAdminTab('doctors', this)">Quản Lý Bác Sĩ</button>
                         <button class="admin-tab" onclick="switchAdminTab('contacts', this)">Tin Nhắn Khách Hàng</button>
+                        <button class="admin-tab" onclick="switchAdminTab('ai_assistant', this)"><i class="fa-solid fa-robot" style="color:var(--primary); margin-right:4px;"></i> Trợ Lý AI Admin</button>
                     </div>
 
                     <!-- Admin Apps Tab -->
                     <div id="admin-tab-apps" class="admin-tab-content active">
                         <div class="admin-table-controls">
                             <div class="filter-group">
-                                <label>Trạng thái:</label>
-                                <select id="adminStatusFilter" onchange="loadAdminAppointments()">
+                                <label style="font-weight:600; margin-right:8px;">Trạng thái:</label>
+                                <select id="adminStatusFilter" onchange="loadAdminAppointments()" style="padding:8px 12px; border-radius:6px; border:1px solid #cbd5e1;">
                                     <option value="all">Tất cả trạng thái</option>
                                     <option value="Chờ xác nhận">Chờ xác nhận</option>
                                     <option value="Đã xác nhận">Đã xác nhận</option>
@@ -565,6 +1077,131 @@
                                     <!-- Loaded via JS -->
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+
+                    <!-- Admin Revenue Analytics Tab -->
+                    <div id="admin-tab-revenue" class="admin-tab-content">
+                        <!-- Revenue KPI Cards Row -->
+                        <div class="revenue-kpi-grid">
+                            <div class="rev-kpi-item green">
+                                <div class="rev-kpi-info">
+                                    <span class="rev-kpi-label">Tổng Thực Thu (Đã Khám)</span>
+                                    <h3 class="rev-kpi-value text-success" id="rev_kpi_realized">0 ₫</h3>
+                                    <span class="rev-kpi-sub"><i class="fa-solid fa-circle-check text-success"></i> Đã hoàn tất điều trị</span>
+                                </div>
+                                <div class="rev-kpi-icon"><i class="fa-solid fa-coins"></i></div>
+                            </div>
+
+                            <div class="rev-kpi-item amber">
+                                <div class="rev-kpi-info">
+                                    <span class="rev-kpi-label">Doanh Thu Dự Kiến</span>
+                                    <h3 class="rev-kpi-value text-warning" id="rev_kpi_projected">0 ₫</h3>
+                                    <span class="rev-kpi-sub"><i class="fa-solid fa-clock text-warning"></i> Ca đã đặt lịch hẹn</span>
+                                </div>
+                                <div class="rev-kpi-icon"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+                            </div>
+
+                            <div class="rev-kpi-item blue">
+                                <div class="rev-kpi-info">
+                                    <span class="rev-kpi-label">Doanh Thu Tháng Này</span>
+                                    <h3 class="rev-kpi-value text-primary" id="rev_kpi_month">0 ₫</h3>
+                                    <span class="rev-kpi-sub"><i class="fa-solid fa-calendar-day text-primary"></i> Hôm nay: <strong id="rev_kpi_today">0 ₫</strong></span>
+                                </div>
+                                <div class="rev-kpi-icon"><i class="fa-solid fa-calendar-check"></i></div>
+                            </div>
+
+                            <div class="rev-kpi-item purple">
+                                <div class="rev-kpi-info">
+                                    <span class="rev-kpi-label">Giá Trị TB / Ca (ARPA)</span>
+                                    <h3 class="rev-kpi-value text-purple" id="rev_kpi_avg">0 ₫</h3>
+                                    <span class="rev-kpi-sub"><i class="fa-solid fa-receipt"></i> Mức chi tiêu trung bình</span>
+                                </div>
+                                <div class="rev-kpi-icon"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+                            </div>
+                        </div>
+
+                        <!-- Revenue Charts Row -->
+                        <div class="rev-analytics-row">
+                            <!-- Monthly Trend Visual Chart -->
+                            <div class="rev-chart-card">
+                                <div class="rev-card-header">
+                                    <h4><i class="fa-solid fa-chart-column text-primary"></i> Xu Hướng Doanh Thu 6 Tháng Gần Nhất</h4>
+                                    <span class="rev-tag">Biểu Đồ Tăng Trưởng</span>
+                                </div>
+                                <div class="rev-chart-body" id="revMonthlyTrendBars">
+                                    <!-- Rendered dynamically by JS -->
+                                </div>
+                            </div>
+
+                            <!-- Revenue by Service Category -->
+                            <div class="rev-chart-card">
+                                <div class="rev-card-header">
+                                    <h4><i class="fa-solid fa-teeth text-info"></i> Cơ Cấu Doanh Thu Dịch Vụ</h4>
+                                    <span class="rev-tag">Top Doanh Số</span>
+                                </div>
+                                <div class="rev-services-list" id="revServiceBreakdownList">
+                                    <!-- Rendered dynamically by JS -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Doctor Contribution Table -->
+                        <div class="rev-card-box margin-bottom-md">
+                            <div class="rev-card-header">
+                                <h4><i class="fa-solid fa-user-doctor text-warning"></i> Hiệu Suất Doanh Thu Theo Đội Ngũ Bác Sĩ</h4>
+                                <span class="rev-tag">Đóng Góp Doanh Số</span>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Bác Sĩ Phụ Trách</th>
+                                            <th>Chuyên Khoa</th>
+                                            <th style="text-align:center;">Số Ca Điều Trị</th>
+                                            <th style="text-align:right;">Doanh Thu Thực Thu</th>
+                                            <th style="text-align:right; width:160px;">Tỉ Trọng Đóng Góp</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="revDoctorTableBody">
+                                        <!-- Rendered dynamically by JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Revenue Transactions Ledger -->
+                        <div class="rev-card-box">
+                            <div class="rev-card-header" style="flex-wrap:wrap; gap:12px;">
+                                <h4><i class="fa-solid fa-receipt text-success"></i> Sổ Cái Giao Dịch & Ca Điều Trị</h4>
+                                <div class="admin-table-controls" style="margin:0;">
+                                    <select id="revStatusFilter" onchange="filterAdminRevenueLedger()" style="padding:6px 12px; border-radius:6px; border:1px solid #cbd5e1; font-size:0.85rem;">
+                                        <option value="all">Tất cả trạng thái</option>
+                                        <option value="Đã hoàn thành">Đã hoàn thành (Đã thu)</option>
+                                        <option value="Đã xác nhận">Đã xác nhận (Dự kiến)</option>
+                                        <option value="Chờ xác nhận">Chờ xác nhận</option>
+                                    </select>
+                                    <input type="text" id="revSearchInput" placeholder="Tìm tên, SĐT, dịch vụ..." onkeyup="filterAdminRevenueLedger()" style="max-width:240px; padding:6px 12px; font-size:0.85rem;">
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Mã Ca</th>
+                                            <th>Ngày Khám</th>
+                                            <th>Bệnh Nhân & SĐT</th>
+                                            <th>Dịch Vụ Điều Trị</th>
+                                            <th>Bác Sĩ Thực Hiện</th>
+                                            <th style="text-align:right;">Số Tiền</th>
+                                            <th style="text-align:center;">Trạng Thái</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="revTransactionsTableBody">
+                                        <!-- Rendered dynamically by JS -->
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
 
@@ -630,6 +1267,81 @@
                         </div>
                     </div>
 
+                    <!-- Admin AI Assistant Tab -->
+                    <div id="admin-tab-ai_assistant" class="admin-tab-content">
+                        <div class="admin-ai-panel">
+                            <!-- AI Header Bar -->
+                            <div class="admin-ai-header">
+                                <div class="admin-ai-info">
+                                    <div class="admin-ai-avatar">
+                                        <i class="fa-solid fa-robot"></i>
+                                        <span class="ai-live-dot"></span>
+                                    </div>
+                                    <div>
+                                        <div style="display:flex; align-items:center; gap:8px;">
+                                            <h4 class="admin-ai-title">Premier Executive AI Assistant</h4>
+                                            <span class="admin-ai-badge"><i class="fa-solid fa-circle"></i> Trực tuyến 24/7</span>
+                                        </div>
+                                        <p class="admin-ai-desc">Trợ lý điều hành thông minh: Thống kê chỉ số, soát lịch chờ duyệt, tra cứu bệnh nhân, soạn tin nhắn SMS/Zalo & phác đồ dặn dò y khoa.</p>
+                                    </div>
+                                </div>
+                                <div class="admin-ai-actions">
+                                    <button class="btn-clear-chat" onclick="clearAdminChat()" title="Xóa lịch sử hội thoại">
+                                        <i class="fa-solid fa-rotate-left"></i> Làm mới
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Quick Suggestion Chips -->
+                            <div class="admin-ai-chips">
+                                <button type="button" class="admin-chip" onclick="handleAdminChatChip('thống kê hôm nay')">
+                                    <i class="fa-solid fa-chart-pie"></i> Thống kê hôm nay
+                                </button>
+                                <button type="button" class="admin-chip alert-chip" onclick="handleAdminChatChip('lịch chờ duyệt')">
+                                    <i class="fa-solid fa-clock-rotate-left"></i> Lịch cần duyệt gấp
+                                </button>
+                                <button type="button" class="admin-chip" onclick="handleAdminChatChip('lịch trực bác sĩ')">
+                                    <i class="fa-solid fa-user-doctor"></i> Lịch trực bác sĩ
+                                </button>
+                                <button type="button" class="admin-chip" onclick="handleAdminChatChip('mẫu tin nhắn nhắc lịch')">
+                                    <i class="fa-solid fa-comment-sms"></i> Mẫu tin SMS / Zalo
+                                </button>
+                                <button type="button" class="admin-chip" onclick="handleAdminChatChip('dặn dò sau nhổ răng')">
+                                    <i class="fa-solid fa-tooth"></i> Dặn dò sau nhổ răng
+                                </button>
+                                <button type="button" class="admin-chip" onclick="handleAdminChatChip('dặn dò sau cấy ghép implant')">
+                                    <i class="fa-solid fa-notes-medical"></i> Dặn dò sau Implant
+                                </button>
+                            </div>
+
+                            <!-- Messages Container -->
+                            <div class="admin-ai-chat-box" id="adminAiChatBox">
+                                <div class="admin-msg admin-msg-ai">
+                                    <div class="admin-msg-avatar"><i class="fa-solid fa-robot"></i></div>
+                                    <div class="admin-msg-body">
+                                        <div class="admin-msg-header">
+                                            <strong>Trợ Lý Quản Trị AI</strong>
+                                            <span class="admin-msg-time">Vừa xong</span>
+                                        </div>
+                                        <div class="admin-msg-content">
+                                            <p>Xin chào <strong>Quản Trị Viên</strong>! Tôi là <strong>Premier Executive AI Assistant</strong>, sẵn sàng hỗ trợ điều phối vận hành phòng khám.</p>
+                                            <p>Bạn có thể chọn một trong các thao tác nhanh bên trên hoặc nhập trực tiếp câu hỏi (ví dụ: <em>"Báo cáo hôm nay", "Lịch chờ duyệt", "Tra cứu SĐT 0909...", "Mẫu tin nhắn nhắc khám"...</em>).</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Input Bar -->
+                            <div class="admin-ai-input-bar">
+                                <input type="text" id="adminAiInput" placeholder="Nhập lệnh hoặc câu hỏi cho trợ lý quản trị..." onkeypress="handleAdminChatKeyPress(event)">
+                                <button type="button" class="admin-ai-send-btn" id="adminAiSendBtn" onclick="sendAdminChatMessage()">
+                                    <i class="fa-solid fa-paper-plane"></i>
+                                    <span>Gửi</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </section>
@@ -643,51 +1355,52 @@
                 <div class="logo font-light margin-bottom-sm">
                     <div class="logo-icon"><i class="fa-solid fa-tooth"></i></div>
                     <div class="logo-text">
-                        <span class="brand-name white">PREMIER</span>
-                        <span class="brand-sub">NHA KHOA QUỐC TẾ</span>
+                        <span class="brand-name" style="color:#ffffff;">PREMIER</span>
+                        <span class="brand-sub" style="color:#38bdf8;">NHA KHOA QUỐC TẾ</span>
                     </div>
                 </div>
-                <p class="footer-desc">Hệ thống Nha Khoa Công Nghệ Cao Tích Hợp AI Assistant. Cam kết mang đến trải nghiệm khám răng an toàn, không đau, chuẩn vô trùng Châu Âu.</p>
+                <p class="footer-desc">Hệ thống Nha Khoa Quốc Tế Premier được Sở Y Tế cấp phép hoạt động. Tiên phong áp dụng công nghệ số và Trợ lý Premier AI Assistant mang đến trải nghiệm khám răng chuẩn xác, an toàn và êm ái.</p>
                 <div class="social-links">
-                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#"><i class="fa-brands fa-youtube"></i></a>
-                    <a href="#"><i class="fa-brands fa-tiktok"></i></a>
-                    <a href="#"><i class="fa-brands fa-zalo"></i></a>
+                    <a href="https://www.facebook.com" target="_blank" title="Facebook Nha Khoa Quốc Tế Premier"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="https://youtube.com" target="_blank" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="https://tiktok.com" target="_blank" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="https://zalo.me" target="_blank" title="Zalo"><i class="fa-solid fa-comment"></i></a>
                 </div>
             </div>
 
             <div class="footer-col">
-                <h4 class="footer-title">Dịch Vụ Nổi Bật</h4>
+                <h4 class="footer-title">Dịch Vụ Mũi Nhọn</h4>
                 <ul class="footer-links">
-                    <li><a href="#services" onclick="switchNav('services')">Niềng Răng Invisalign</a></li>
-                    <li><a href="#services" onclick="switchNav('services')">Cấy Ghép Implant Straumann</a></li>
-                    <li><a href="#services" onclick="switchNav('services')">Bọc Răng Sứ Cercon HT</a></li>
-                    <li><a href="#services" onclick="switchNav('services')">Nhổ Răng Khôn Piezotome</a></li>
-                    <li><a href="#services" onclick="switchNav('services')">Tẩy Trắng Răng Laser Flash</a></li>
+                    <li><a href="#services" onclick="switchNav('services')">Niềng Răng Mắc Cài & Invisalign</a></li>
+                    <li><a href="#services" onclick="switchNav('services')">Trồng Răng Implant Straumann</a></li>
+                    <li><a href="#services" onclick="switchNav('services')">Bọc Răng Sứ Emax & Cercon HT</a></li>
+                    <li><a href="#services" onclick="switchNav('services')">Dán Sứ Veneer Siêu Mỏng</a></li>
+                    <li><a href="#services" onclick="switchNav('services')">Nhổ Răng Khôn Sóng Siêu Âm</a></li>
                 </ul>
             </div>
 
             <div class="footer-col">
                 <h4 class="footer-title">Liên Kết Nhanh</h4>
                 <ul class="footer-links">
-                    <li><a href="#about" onclick="switchNav('about')">Về Phòng Khám</a></li>
-                    <li><a href="#doctors" onclick="switchNav('doctors')">Đội Ngũ Bác Sĩ</a></li>
+                    <li><a href="#about" onclick="switchNav('about')">Về Nha Khoa Premier</a></li>
+                    <li><a href="#doctors" onclick="switchNav('doctors')">Đội Ngũ Bác Sĩ Chuyên Khoa</a></li>
                     <li><a href="#prices" onclick="switchNav('prices')">Bảng Giá Công Khai</a></li>
-                    <li><a href="#contact" onclick="switchNav('contact')">Địa Chỉ & Bản Đồ</a></li>
-                    <li><a href="#admin" onclick="switchNav('admin')">Quản Trị Hệ Thống</a></li>
+                    <li><a href="#contact" onclick="switchNav('contact')">Hệ Thống Cơ Sở & Bản Đồ</a></li>
+                    <li><a href="#admin" onclick="switchNav('admin')">Cổng Quản Trị Hệ Thống</a></li>
                 </ul>
             </div>
 
             <div class="footer-col">
-                <h4 class="footer-title">Giờ Làm Việc</h4>
-                <p><i class="fa-solid fa-calendar"></i> <strong>Thứ 2 - Thứ 7:</strong> 08:00 - 20:00</p>
-                <p><i class="fa-solid fa-sun"></i> <strong>Chủ Nhật:</strong> 08:30 - 17:30</p>
-                <p class="margin-top-sm"><i class="fa-solid fa-headset"></i> <strong>Tổng Đài:</strong> 1900 6868</p>
+                <h4 class="footer-title">Thông Tin Liên Hệ</h4>
+                <p><i class="fa-solid fa-map-location-dot"></i> <strong>Địa chỉ:</strong> 123 Nguyễn Văn Cừ, Q.5, TP.HCM</p>
+                <p class="margin-top-sm"><i class="fa-solid fa-phone-volume"></i> <strong>Hotline:</strong> 1900 6868</p>
+                <p class="margin-top-sm"><i class="fa-solid fa-envelope"></i> <strong>Email:</strong> contact@nhakhoapremier.vn</p>
+                <p class="margin-top-sm"><i class="fa-solid fa-clock"></i> <strong>Giờ Mở Cửa:</strong> 08:00 - 20:00 (Hàng ngày)</p>
             </div>
         </div>
         <div class="footer-bottom">
             <div class="container text-center">
-                <p>© 2026 Nha Khoa Quốc Tế Premier Clinic. Bảo lưu mọi quyền.</p>
+                <p>© 2018 - 2026 Hệ Thống Nha Khoa Quốc Tế Premier. Giấy phép hoạt động Sở Y Tế cấp. Bảo lưu mọi quyền.</p>
             </div>
         </div>
     </footer>
@@ -697,8 +1410,8 @@
         <div class="modal-card">
             <button class="modal-close" onclick="closeBookingModal()">&times;</button>
             <div class="modal-header">
-                <h3><i class="fa-solid fa-calendar-check"></i> Đặt Lịch Khám Miễn Phí</h3>
-                <p>Điền thông tin bên dưới để được ưu tiên thăm khám và tư vấn trực tiếp cùng Bác sĩ</p>
+                <h3><i class="fa-solid fa-calendar-check" style="color:var(--primary);"></i> Đặt Lịch Khám Miễn Phí 0đ</h3>
+                <p>Khám tổng quát, tư vấn phác đồ và chụp phim 3D CT ConeBeam hoàn toàn miễn phí</p>
             </div>
             <form id="bookingForm" onsubmit="submitBookingForm(event)">
                 <div class="form-group">
@@ -707,35 +1420,37 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Số điện thoại *</label>
-                        <input type="tel" id="b_phone" required placeholder="0912345678">
+                        <label>Số điện thoại liên hệ *</label>
+                        <input type="tel" id="b_phone" required placeholder="0900123456">
                     </div>
                     <div class="form-group">
-                        <label>Email</label>
+                        <label>Email (nhận lịch xác nhận)</label>
                         <input type="email" id="b_email" placeholder="nguyenvana@gmail.com">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Dịch vụ muốn đăng ký</label>
+                        <label>Dịch vụ cần tư vấn / điều trị</label>
                         <select id="b_service">
                             <!-- Loaded via JS -->
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Bác sĩ mong muốn</label>
-                        <select id="b_doctor">
+                        <label>Bác sĩ chỉ định (tùy chọn)</label>
+                        <select id="b_doctor" onchange="showDoctorPreviewInBooking(this.value)">
                             <!-- Loaded via JS -->
                         </select>
                     </div>
                 </div>
+                <!-- Selected Doctor Preview Box inside Booking Form -->
+                <div id="bookingDoctorPreview" style="display:none; margin-bottom:18px;"></div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Ngày hẹn khám</label>
+                        <label>Ngày hẹn khám mong muốn</label>
                         <input type="date" id="b_date" required>
                     </div>
                     <div class="form-group">
-                        <label>Giờ mong muốn</label>
+                        <label>Khung giờ thuận tiện</label>
                         <select id="b_time">
                             <option value="08:30">08:30 Sáng</option>
                             <option value="09:30" selected>09:30 Sáng</option>
@@ -743,16 +1458,16 @@
                             <option value="14:00">14:00 Chiều</option>
                             <option value="15:30">15:30 Chiều</option>
                             <option value="17:00">17:00 Chiều</option>
-                            <option value="18:30">18:30 Tối</option>
+                            <option value="18:00">18:00 Tối</option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Ghi chú triệu chứng / Yêu cầu</label>
-                    <textarea id="b_notes" rows="2" placeholder="Ví dụ: Răng bị sâu đau nhức, muốn tư vấn niềng răng..."></textarea>
+                    <label>Ghi chú triệu chứng hoặc nhu cầu</label>
+                    <textarea id="b_notes" rows="2" placeholder="Ví dụ: Răng đau nhức, răng khôn mọc lệch, muốn tư vấn niềng răng trong suốt..."></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block btn-lg">
-                    <i class="fa-solid fa-check-double"></i> Xác Nhận Đặt Lịch Ngay
+                    <i class="fa-solid fa-check-double"></i> Xác Nhận Đăng Ký Lịch Khám
                 </button>
                 <div id="bookingAlert" class="alert-box margin-top-md"></div>
             </form>
@@ -769,10 +1484,20 @@
         </div>
     </div>
 
-    <!-- FLOATING CHATBOT WIDGET ("NHA KHOA AI ASSISTANT") -->
+    <!-- DOCTOR DETAIL MODAL -->
+    <div class="modal-overlay" id="doctorModal">
+        <div class="modal-card modal-lg doctor-modal-card">
+            <button class="modal-close" onclick="closeDoctorModal()">&times;</button>
+            <div id="doctorModalContent">
+                <!-- Rendered dynamically by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- FLOATING CHATBOT WIDGET ("PREMIER AI ASSISTANT") -->
     <div class="chatbot-widget" id="chatbotWidget">
         <!-- Floating Trigger Button -->
-        <button class="chatbot-trigger" onclick="toggleChatbot()" title="Nha Khoa AI Assistant 24/7">
+        <button class="chatbot-trigger" onclick="toggleChatbot()" title="Premier AI Assistant 24/7">
             <div class="trigger-pulse"></div>
             <i class="fa-solid fa-robot"></i>
             <span class="trigger-badge">1</span>
@@ -786,7 +1511,7 @@
                         <i class="fa-solid fa-tooth"></i>
                     </div>
                     <div>
-                        <h4>Nha Khoa AI Assistant</h4>
+                        <h4>Premier AI Assistant</h4>
                         <span class="online-indicator"><span class="dot"></span> Trực tuyến 24/7</span>
                     </div>
                 </div>
@@ -795,9 +1520,9 @@
 
             <!-- Preset Prompt Suggestions -->
             <div class="preset-chips">
-                <button class="chip" onclick="sendPreset('Phòng khám có những dịch vụ nào?')">🦷 Các dịch vụ</button>
-                <button class="chip" onclick="sendPreset('Bảng giá niềng răng và Implant')">💰 Bảng giá</button>
-                <button class="chip" onclick="sendPreset('Đội ngũ bác sĩ phòng khám gồm những ai?')">👨‍⚕️ Bác sĩ</button>
+                <button class="chip" onclick="sendPreset('Nha khoa Premier có những dịch vụ nào?')">🦷 Các dịch vụ</button>
+                <button class="chip" onclick="sendPreset('Bảng giá niềng răng và cấy ghép Implant')">💰 Bảng giá</button>
+                <button class="chip" onclick="sendPreset('Đội ngũ bác sĩ chuyên khoa gồm những ai?')">👨‍⚕️ Bác sĩ</button>
                 <button class="chip" onclick="sendPreset('Chính sách bảo hành và trả góp 0%')">📋 Trả góp 0%</button>
             </div>
 
@@ -805,7 +1530,7 @@
             <div class="chat-messages" id="chatMessages">
                 <div class="message-bubble assistant">
                     <div class="msg-content">
-                        Xin chào! Tôi là **Nha Khoa AI Assistant** - Trợ lý AI của phòng khám Nha Khoa Quốc Tế Premier Clinic. Tôi có thể giúp bạn tìm hiểu dịch vụ, bảng giá, bác sĩ và hỗ trợ đặt lịch khám. Bạn cần tôi hỗ trợ gì?
+                        Xin chào! Tôi là **Premier AI Assistant** - Trợ lý nha khoa thông minh của Hệ Thống Nha Khoa Quốc Tế Premier. Tôi có thể giúp bạn giải đáp thắc mắc về các dịch vụ niềng răng, Implant, răng sứ thẩm mỹ, bảng giá niêm yết và đặt lịch khám miễn phí cùng Bác sĩ Chuyên khoa. Bạn cần hỗ trợ gì?
                     </div>
                     <div class="msg-time">Vừa xong</div>
                 </div>
@@ -816,13 +1541,48 @@
                 <div class="typing-dots">
                     <span></span><span></span><span></span>
                 </div>
-                <span class="loading-text">Nha Khoa AI Assistant đang suy nghĩ...</span>
+                <span class="loading-text">Premier AI Assistant đang phản hồi...</span>
+            </div>
+
+            <!-- Audio Listening Status Indicator -->
+            <div class="chat-voice-status" id="chatVoiceStatus" style="display: none;">
+                <div class="voice-wave">
+                    <span></span><span></span><span></span><span></span><span></span>
+                </div>
+                <span class="voice-status-text" id="chatVoiceStatusText">Đang lắng nghe... Hãy nói câu hỏi của bạn</span>
+                <button type="button" class="voice-cancel-btn" onclick="stopVoiceRecognition()" title="Hủy bỏ">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Image Upload Preview Box -->
+            <div class="chat-img-preview-box" id="chatImagePreviewArea" style="display: none;">
+                <div class="preview-img-wrapper">
+                    <img src="" id="chatPreviewThumb" alt="Ảnh xem trước">
+                    <button type="button" class="btn-remove-preview" onclick="clearImageSelection()" title="Xóa ảnh này">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div class="preview-img-info">
+                    <span class="preview-img-name" id="chatPreviewName">anh_rang.jpg</span>
+                    <span class="preview-img-meta" id="chatPreviewMeta">Sẵn sàng phân tích</span>
+                </div>
+                <button type="button" class="btn-change-preview" onclick="triggerFileInput()" title="Chọn ảnh khác">
+                    <i class="fa-solid fa-rotate me-1"></i> Đổi ảnh
+                </button>
             </div>
 
             <!-- Input Box -->
             <div class="chat-input-area">
-                <input type="text" id="chatInput" placeholder="Nhập câu hỏi của bạn (VD: Niềng răng giá bao nhiêu?)..." onkeypress="handleChatKeyPress(event)">
-                <button class="send-btn" onclick="sendChatMessage()">
+                <input type="file" id="chatFileInput" accept="image/jpeg,image/png,image/webp,image/jpg" style="display: none;" onchange="handleImageFileSelect(this)">
+                <button type="button" class="tool-btn upload-btn" id="uploadChatBtn" onclick="triggerFileInput()" title="Tải ảnh răng/khoang miệng để AI phân tích">
+                    <i class="fa-solid fa-camera"></i>
+                </button>
+                <input type="text" id="chatInput" placeholder="Nhập thắc mắc hoặc gửi kèm ảnh..." onkeypress="handleChatKeyPress(event)">
+                <button type="button" class="tool-btn voice-btn" id="voiceChatBtn" onclick="toggleVoiceRecognition()" title="Hỏi đáp / Tra cứu bằng giọng nói">
+                    <i class="fa-solid fa-microphone"></i>
+                </button>
+                <button class="send-btn" onclick="sendChatMessage()" title="Gửi câu hỏi">
                     <i class="fa-solid fa-paper-plane"></i>
                 </button>
             </div>
